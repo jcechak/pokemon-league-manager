@@ -18,12 +18,15 @@ public class Stadium {
     private Long id;
 
     @NotNull
+    @Column(nullable = false)
     private Trainer leader;
 
     @NotNull
+    @Column(nullable = false)
     private String city;
 
     @NotNull
+    @Column(nullable = false)
     private PokemonType type;
 
     public Stadium() {
