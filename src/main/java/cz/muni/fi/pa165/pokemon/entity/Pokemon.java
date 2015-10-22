@@ -41,7 +41,7 @@ public class Pokemon {
     private String nickname;
 
     /**
-     * Type of a pokemon, this determines his abilities and effectivnes against
+     * Type of a pokemon, this determines his abilities and effectiveness against
      * other pokemons.
      */
     @Column

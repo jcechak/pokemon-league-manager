@@ -1,1 +1,8 @@
-/target/
+.idea
+.settings
+.project
+test-output
+.classpath
+*.iml
+*~
+target
