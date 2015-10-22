@@ -20,9 +20,10 @@ The following steps are meant for Unix shell. It is also possible to achieve som
 
         $ git checkout -b name_of_the_branch
 
-* Implement all the features, work on issues, fix all bugs, run all tests and closes all solved issues. Don't forget to commit regularly.
+* Implement all the features, work on issues, fix all bugs, run all tests and closes all solved issues. Don't forget to commit regularly and possibly push your branch if it takes a while to implement.
 
         $ git commit -m "Describe what have you done." file_to_commit1 file_to_commit2 ...
+        & git push
 
 * When you are done with implementing, merge your branch with the master branch.
 
