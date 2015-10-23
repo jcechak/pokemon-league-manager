@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.enums;
+package cz.muni.fi.pa165.pokemon.enums;
 
 /**
  * This Enum has all types of pokemon that exist.

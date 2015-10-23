@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.pokemon.entity;
 
-import cz.muni.fi.pa165.enums.PokemonType;
+import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;

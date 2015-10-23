@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.pokemon.entity;
 
-import cz.muni.fi.pa165.enums.PokemonType;
+import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
