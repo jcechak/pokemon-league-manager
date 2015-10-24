@@ -41,6 +41,12 @@ public interface StadiumDao {
     public void create(Stadium stadium);
     
     /**
+     * Updates the stadium
+     * @param stadium stadium that has to be updayed
+     */
+    public void update(Stadium stadium);
+    
+    /**
      * Deletes a stadium
      * @param stadium the stadium that has to be deleted
      */
