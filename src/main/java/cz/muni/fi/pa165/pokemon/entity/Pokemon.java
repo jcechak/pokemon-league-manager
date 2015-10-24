@@ -44,7 +44,8 @@ public class Pokemon {
      * Type of a pokemon, this determines his abilities and effectiveness against
      * other pokemons.
      */
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private PokemonType type;
 
     /**
