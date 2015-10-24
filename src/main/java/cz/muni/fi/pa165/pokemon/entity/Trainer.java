@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -65,6 +66,7 @@ public class Trainer {
     /**
      * Name of the stadium the trainer is leader of (may be null)
      */
+    @OneToOne(mappedBy="leader")
     private Stadium stadium;
 
     
