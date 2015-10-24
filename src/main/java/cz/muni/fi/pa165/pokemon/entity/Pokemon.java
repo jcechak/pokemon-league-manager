@@ -24,7 +24,7 @@ public class Pokemon {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     /**
      * Name of a pokemon (e.g. Pikachu)
