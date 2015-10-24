@@ -23,4 +23,10 @@ package cz.muni.fi.pa165.pokemon.entity;
  */
 public class Badge {
     
+    // TODO: create fully functional entity class
+    
+    public Long getId() {
+        return 0l;
+    }
+    
 }
