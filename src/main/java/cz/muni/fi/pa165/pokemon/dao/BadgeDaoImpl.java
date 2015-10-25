@@ -24,34 +24,22 @@ public class BadgeDaoImpl implements BadgeDao {
 
     @Override
     public void create(Badge badge) {
-        if (badge == null) {
-            throw new NullPointerException("Badge is null.");
-        }
         em.persist(badge);
 
     }
 
     @Override
     public void update(Badge badge) {
-        if (badge == null) {
-            throw new NullPointerException("Badge is null.");
-        }
         em.merge(badge);
     }
 
     @Override
     public void delete(Badge badge) {
-        if (badge == null) {
-            throw new NullPointerException("Badge is null.");
-        }
         em.remove(em.find(Badge.class, badge.getId()));
     }
 
     @Override
     public Badge findById(Long id) {
-        if (id == null) {
-            throw new NullPointerException("Id is null.");
-        }
         return em.find(Badge.class, id);
     }
 
@@ -64,9 +52,6 @@ public class BadgeDaoImpl implements BadgeDao {
 
     @Override
     public List<Badge> findAllWithTrainer(Trainer trainer) {
-        if (trainer == null) {
-            throw new NullPointerException("Trainer is null.");
-        }
         return em.createQuery("SELECT b FROM Badge b "
                 + "WHERE b.trainer = :t", Badge.class)
                 .setParameter("t", trainer)
@@ -75,9 +60,6 @@ public class BadgeDaoImpl implements BadgeDao {
 
     @Override
     public List<Badge> findAllWithStadium(Stadium stadium) {
-        if (stadium == null) {
-            throw new NullPointerException("Stadium is null.");
-        }
         return em.createQuery("SELECT b FROM Badge b "
                 + "WHERE b.stadium = :s", Badge.class)
                 .setParameter("s", stadium)
@@ -86,13 +68,6 @@ public class BadgeDaoImpl implements BadgeDao {
 
     @Override
     public Badge findByTrainerAndStadium(Trainer trainer, Stadium stadium) {
-        if (trainer == null) {
-            throw new NullPointerException("Trainer is null.");
-        }
-
-        if (stadium == null) {
-            throw new NullPointerException("Stadium is null.");
-        }
         try {
             return em.createQuery("SELECT b FROM Badge b "
                     + "WHERE b.trainer = :t "

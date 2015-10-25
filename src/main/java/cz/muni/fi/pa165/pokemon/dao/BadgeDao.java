@@ -15,15 +15,14 @@ public interface BadgeDao {
     /**
      * Creates a managed entity in the database.
      *
-     * @param badge to be created, must not be null object that is not already
-     * managed
+     * @param badge to be created, must not be null
      */
     void create(Badge badge);
 
     /**
      * Updates values of entity in the database.
      *
-     * @param badge to be updated, must not be null, must be already managed
+     * @param badge to be updated, must not be null
      */
     void update(Badge badge);
 
