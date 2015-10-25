@@ -1,32 +1,92 @@
-/*
- * Copyright (C) 2015 MiloS
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- */
+package cz.muni.fi.pa165.pokemon.entity;
+
+import cz.muni.fi.pa165.pokemon.enums.PokemonType;
+import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+
 package cz.muni.fi.pa165.pokemon.entity;
 
 /**
  *
- * @author
+ * @Dominika Talianova
  */
 public class Badge {
     
-    // TODO: create fully functional entity class
+    private Long id;
+    private Stadium stadium;
+    private Trainer trainer;
     
-    public Long getId() {
-        return 0l;
+    public Badge()
+    {
+      
     }
+    
+    public Long getId() 
+    {
+      return id;
+    }
+        
+    public void setId(Long id)
+    {
+      this.id = id;  
+    }
+    
+    public Stadium getStadium()
+    {
+        return stadium;
+    }
+    
+    public void setStadium(Stadium stadium)
+    {
+        this.stadium = stadium;
+    }
+    
+    public Trainer getTrainer()
+    {
+        return trainer;
+    }
+    
+    public void setTrainer(Trainer trainer)
+    {
+        this.trainer = trainer;
+    }
+    
+    @Override
+    public boolean equals(Object other)
+    {
+        if(this==other)
+        {
+            return true;
+        }
+        if(!(other instanceof Badge))
+        {
+            return false;
+        }
+        
+        otherType = Badge(other);
+        
+        return this.stadium.equals(otherType.stadium) && this.trainer.equals(otherType.trainer);
+    }
+    
+    @Override
+    public int hashCode()
+    {
+        if(id==null)
+        {
+            Long tempId = new Long (-1);
+            return tempId.hashCode();
+            
+        }
+        return id.hashCode();
+    }
+   
+    
     
 }
