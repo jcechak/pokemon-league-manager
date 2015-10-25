@@ -32,50 +32,50 @@ public interface StadiumDao {
      * @param id trainers id
      * @return the stadium with id equal to param id or null if no stadium with that id exists
      */
-    public Stadium findById(Long id);
+    Stadium findById(Long id);
     
     /**
      * Creates new stadium
      * @param stadium the stadium that has to be created
      */
-    public void create(Stadium stadium);
+    void create(Stadium stadium);
     
     /**
      * Updates the stadium
      * @param stadium stadium that has to be updayed
      */
-    public void update(Stadium stadium);
+    void update(Stadium stadium);
     
     /**
      * Deletes a stadium
      * @param stadium the stadium that has to be deleted
      */
-    public void delete(Stadium stadium);
+    void delete(Stadium stadium);
     
     /**
      * Searches for all stadiums
      * @return the list of stadiums
      */
-    public List<Stadium> findAll();
+    List<Stadium> findAll();
     
     /**
      * Searches for the stadium placed in the city
      * @param city name of the city
      * @return stadium that is in the city
      */
-    public Stadium findByCity(String city);
+    Stadium findByCity(String city);
     
     /**
      * Searches for the stadium with given leader trainer
      * @param leader the stadium leader
      * @return stadium that with given leader trainer
      */
-    public Stadium findByStadiumLeader(Trainer leader);
+    Stadium findByStadiumLeader(Trainer leader);
     
     /**
      * Searches for the stadium with given pokemon type
      * @param type the type of leaders trainer pokemon
      * @return stadium list with given pokemon type
      */
-    public List<Stadium> findByPokemonType(PokemonType type);
+    List<Stadium> findByPokemonType(PokemonType type);
 }

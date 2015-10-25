@@ -18,21 +18,21 @@ public interface BadgeDao {
      * @param badge to be created, must not be null object that is not already
      * managed
      */
-    public void create(Badge badge);
+    void create(Badge badge);
 
     /**
      * Updates values of entity in the database.
      *
      * @param badge to be updated, must not be null, must be already managed
      */
-    public void update(Badge badge);
+    void update(Badge badge);
 
     /**
      * Deletes entity form the database.
      *
      * @param badge entity to be deleted, must not be null and must be managed
      */
-    public void delete(Badge badge);
+    void delete(Badge badge);
 
     /**
      * Finds entity with the given id.
@@ -41,7 +41,7 @@ public interface BadgeDao {
      * @return @link{ cz.muni.fi.pa165.pokemon.entity.Badge badge} with the
      * given id or null if there is no entity with such id
      */
-    public Badge findById(Long id);
+    Badge findById(Long id);
 
     /**
      * Finds all badges stored in the database.
