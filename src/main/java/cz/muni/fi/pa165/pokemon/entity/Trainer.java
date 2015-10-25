@@ -53,7 +53,7 @@ public class Trainer {
      * List of trainer's pokemons
      */
     @NotNull
-    @OneToMany
+    @OneToMany(mappedBy = "trainer")
     private List<Pokemon> pokemons = new ArrayList<Pokemon>();
     
     /**

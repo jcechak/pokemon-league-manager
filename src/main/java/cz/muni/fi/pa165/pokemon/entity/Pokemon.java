@@ -7,7 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -18,7 +19,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Pokemon {
 
-     // Attributes
+    // Attributes
     /**
      * Automaticaly generated ID used as primary key
      */
@@ -41,8 +42,8 @@ public class Pokemon {
     private String nickname;
 
     /**
-     * Type of a pokemon, this determines his abilities and effectiveness against
-     * other pokemons.
+     * Type of a pokemon, this determines his abilities and effectiveness
+     * against other pokemons.
      */
     @NotNull
     @Column(nullable = false)
@@ -57,7 +58,8 @@ public class Pokemon {
     /**
      * Trainer (owner) of a pokemon
      */
-    @OneToMany
+    @ManyToOne
+    @JoinColumn(name = "trainer_id")
     private Trainer trainer;
 
     // Constructors
@@ -122,7 +124,7 @@ public class Pokemon {
         return hash;
     }
 
-     // Business equivalence on name and nickname
+    // Business equivalence on name and nickname
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
