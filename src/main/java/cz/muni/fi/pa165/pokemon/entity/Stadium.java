@@ -17,8 +17,7 @@ public class Stadium {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(nullable = false)
+    @OneToOne
     private Trainer leader;
 
     @NotNull

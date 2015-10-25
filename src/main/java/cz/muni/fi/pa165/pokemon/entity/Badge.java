@@ -10,10 +10,17 @@ import javax.validation.constraints.NotNull;
  *
  * @author 
  */
+@Entity
 public class Badge {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @ManyToOne
     private Stadium stadium;
+    
+    @ManyToOne
     private Trainer trainer;
     
     public Badge()
@@ -63,7 +70,7 @@ public class Badge {
             return false;
         }
         
-        otherType = Badge(other);
+        Badge otherType = (Badge) other;
         
         return this.stadium.equals(otherType.getStadium()) && this.trainer.equals(otherType.getTrainer());
     }

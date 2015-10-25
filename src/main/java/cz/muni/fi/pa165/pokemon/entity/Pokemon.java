@@ -59,7 +59,6 @@ public class Pokemon {
      * Trainer (owner) of a pokemon
      */
     @ManyToOne
-    @JoinColumn(name = "trainer_id")
     private Trainer trainer;
 
     // Constructors
