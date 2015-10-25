@@ -82,7 +82,7 @@ public class StadiumDaoImpl implements StadiumDao {
             throw new NullPointerException("City is null");
         }
         try{
-            return entityManager.createQuery("SELECT s FROM Stadium s where city = c", Stadium.class)
+            return entityManager.createQuery("SELECT s FROM Stadium s WHERE s.city = :c", Stadium.class)
                 .setParameter("c", city)
                 .getSingleResult();
         }catch(NoResultException noResult) {
@@ -96,7 +96,7 @@ public class StadiumDaoImpl implements StadiumDao {
             throw new NullPointerException("Trainer is null");
         }
         try{
-            return entityManager.createQuery("SELECT s FROM Stadium s where leader = l", Stadium.class)
+            return entityManager.createQuery("SELECT s FROM Stadium s WHERE s.leader = :l", Stadium.class)
                 .setParameter("l", leader)
                 .getSingleResult();
         }catch(NoResultException noResult) {
@@ -109,7 +109,7 @@ public class StadiumDaoImpl implements StadiumDao {
         if(type == null) {
             throw new NullPointerException("Type is null");
         }
-        return entityManager.createQuery("SELECT s FROM Stadium s where type = t", Stadium.class)
+        return entityManager.createQuery("SELECT s FROM Stadium s WHERE s.type = :t", Stadium.class)
                 .setParameter("t", type)
                 .getResultList();
     }
