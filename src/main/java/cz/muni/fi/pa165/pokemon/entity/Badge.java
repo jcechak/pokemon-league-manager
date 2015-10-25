@@ -1,9 +1,9 @@
 package cz.muni.fi.pa165.pokemon.entity;
 
-import cz.muni.fi.pa165.pokemon.enums.PokemonType;
+//import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import java.util.Objects;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+//import javax.persistence.*;
+//import javax.validation.constraints.NotNull;
 
 
 /**
@@ -63,7 +63,7 @@ public class Badge {
             return false;
         }
         
-        otherType = Badge(other);
+       Badge otherType = (Badge)other;
         
         return this.stadium.equals(otherType.getStadium()) && this.trainer.equals(otherType.getTrainer());
     }
