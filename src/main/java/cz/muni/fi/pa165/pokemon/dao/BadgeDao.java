@@ -48,7 +48,7 @@ public interface BadgeDao {
      * @return @link{ java.util.List list} of all badges currently in the
      * database, list is empty if there is no such badge (list is never null)
      */
-    public List<Badge> findAll();
+    List<Badge> findAll();
 
     /**
      * Finds all badges received by given trainer.
@@ -57,7 +57,7 @@ public interface BadgeDao {
      * @return @link{ java.util.List list} of all badges received by trainer,
      * list is empty if there is no such badge (list is never null)
      */
-    public List<Badge> findAllWithTrainer(Trainer trainer);
+    List<Badge> findAllWithTrainer(Trainer trainer);
 
     /**
      * Finds all badges issued in the given stadium
@@ -66,7 +66,7 @@ public interface BadgeDao {
      * @return @link{ java.util.List list} of all badges issued by stadium, list
      * is empty if there is no such badge (list is never null)
      */
-    public List<Badge> findAllWithStadium(Stadium stadium);
+    List<Badge> findAllWithStadium(Stadium stadium);
 
     /**
      * Finds badge that has been issued by given stadium to the given trainer.
@@ -76,6 +76,6 @@ public interface BadgeDao {
      * @return @link{ cz.muni.fi.pa165.pokemon.entity.Badge badge} that was
      * issued by stadium to trainer
      */
-    public Badge findByTrainerAndStadium(Trainer trainer, Stadium stadium);
+    Badge findByTrainerAndStadium(Trainer trainer, Stadium stadium);
 
 }

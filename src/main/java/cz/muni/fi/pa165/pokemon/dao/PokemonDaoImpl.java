@@ -30,11 +30,11 @@ public class PokemonDaoImpl implements PokemonDao {
 
     @Override
     public void delete(Pokemon pokemon) {
-        em.remove(pokemon);
+        em.remove(findById(pokemon.getId()));
     }
 
     @Override
     public Pokemon findById(Long id) {
-        return em.find(Pokemon.class, findById(id));
+        return em.find(Pokemon.class, id);
     }
 }

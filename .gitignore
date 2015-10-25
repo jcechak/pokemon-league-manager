@@ -6,3 +6,4 @@ test-output
 *.iml
 *~
 target
+nb-configuration.xml
