@@ -1,19 +1,28 @@
 package cz.muni.fi.pa165.pokemon.entity;
 
 //import cz.muni.fi.pa165.pokemon.enums.PokemonType;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
-//import javax.persistence.*;
-//import javax.validation.constraints.NotNull;
 
 
 /**
- *
- * @author 
+ * This class corresponds to the entity badge
+ * @author Dominika Talianova
  */
+@Entity
 public class Badge {
-    
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
+    @Column(nullable = false)
     private Stadium stadium;
+
+    @NotNull
+    @Column(nullable = false)
     private Trainer trainer;
     
     public Badge()
@@ -71,7 +80,11 @@ public class Badge {
     @Override
     public int hashCode()
     {
-        return Objects.hash(this.stadium, this.trainer);
+        int hash = 1;
+        int prime = 13;
+        hash = hash * prime + this.stadium.hashCode();
+        hash = hash * prime + this.trainer.hashCode();
+        return hash;
     }
   
 }
