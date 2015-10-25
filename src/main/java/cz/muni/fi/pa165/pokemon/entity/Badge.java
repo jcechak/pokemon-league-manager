@@ -2,20 +2,13 @@ package cz.muni.fi.pa165.pokemon.entity;
 
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-package cz.muni.fi.pa165.pokemon.entity;
 
 /**
  *
- * @Dominika Talianova
+ * @author 
  */
 public class Badge {
     
@@ -72,21 +65,13 @@ public class Badge {
         
         otherType = Badge(other);
         
-        return this.stadium.equals(otherType.stadium) && this.trainer.equals(otherType.trainer);
+        return this.stadium.equals(otherType.getStadium()) && this.trainer.equals(otherType.getTrainer());
     }
     
     @Override
     public int hashCode()
     {
-        if(id==null)
-        {
-            Long tempId = new Long (-1);
-            return tempId.hashCode();
-            
-        }
-        return id.hashCode();
+        return Objects.hash(this.stadium, this.trainer);
     }
-   
-    
-    
+  
 }
