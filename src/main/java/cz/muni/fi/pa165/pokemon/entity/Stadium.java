@@ -17,8 +17,7 @@ public class Stadium {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(nullable = false)
+    @OneToOne
     private Trainer leader;
 
     @NotNull
@@ -77,5 +76,15 @@ public class Stadium {
 
     public void setType(PokemonType type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Stadium{" +
+                "id=" + id +
+                ", leader=" + leader +
+                ", city='" + city + '\'' +
+                ", type=" + type +
+                '}';
     }
 }

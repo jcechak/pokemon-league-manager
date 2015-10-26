@@ -60,7 +60,7 @@ public class Trainer {
      * List of trainer's badges obtained by defeating gym leaders
      */
     @NotNull
-    @OneToMany
+    @OneToMany(mappedBy = "trainer")
     private List<Badge> badges = new ArrayList<Badge>();
     
     /**

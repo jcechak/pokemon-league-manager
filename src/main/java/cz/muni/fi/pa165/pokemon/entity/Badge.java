@@ -12,17 +12,15 @@ import java.util.Objects;
  */
 @Entity
 public class Badge {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    @Column(nullable = false)
+    
+    @ManyToOne
     private Stadium stadium;
-
-    @NotNull
-    @Column(nullable = false)
+    
+    @ManyToOne
     private Trainer trainer;
     
     public Badge()
@@ -49,7 +47,7 @@ public class Badge {
     {
         this.stadium = stadium;
     }
-    
+
     public Trainer getTrainer()
     {
         return trainer;
@@ -72,7 +70,7 @@ public class Badge {
             return false;
         }
         
-       Badge otherType = (Badge)other;
+        Badge otherType = (Badge) other;
         
         return this.stadium.equals(otherType.getStadium()) && this.trainer.equals(otherType.getTrainer());
     }
@@ -80,11 +78,16 @@ public class Badge {
     @Override
     public int hashCode()
     {
-        int hash = 1;
-        int prime = 13;
-        hash = hash * prime + this.stadium.hashCode();
-        hash = hash * prime + this.trainer.hashCode();
-        return hash;
+        return Objects.hash(this.stadium, this.trainer);
     }
-  
+
+    @Override
+    public String toString() {
+        return "Badge{" +
+                "id=" + id +
+                ", stadium=" + stadium +
+                ", trainer=" + trainer +
+                '}';
+    }
+
 }
