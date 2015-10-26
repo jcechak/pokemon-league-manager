@@ -77,4 +77,14 @@ public class Stadium {
     public void setType(PokemonType type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Stadium{" +
+                "id=" + id +
+                ", leader=" + leader +
+                ", city='" + city + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }

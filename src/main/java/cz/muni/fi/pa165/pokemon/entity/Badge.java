@@ -47,7 +47,7 @@ public class Badge {
     {
         this.stadium = stadium;
     }
-    
+
     public Trainer getTrainer()
     {
         return trainer;
@@ -80,5 +80,14 @@ public class Badge {
     {
         return Objects.hash(this.stadium, this.trainer);
     }
-  
+
+    @Override
+    public String toString() {
+        return "Badge{" +
+                "id=" + id +
+                ", stadium=" + stadium +
+                ", trainer=" + trainer +
+                '}';
+    }
+
 }

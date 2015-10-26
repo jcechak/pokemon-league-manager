@@ -17,7 +17,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * Tests for TrainerDaoImpl class
+ * Tests for TrainerDaoImpl class.
  *
  * @author Jaroslav Cechak
  */
