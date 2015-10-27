@@ -65,14 +65,14 @@ public class Badge {
         {
             return true;
         }
-        if(!(other instanceof Badge))
+        if(!(other instanceof Badge) || other == null)
         {
             return false;
         }
         
         Badge otherType = (Badge) other;
         
-        return this.stadium.equals(otherType.getStadium()) && this.trainer.equals(otherType.getTrainer());
+        return Objects.equals(getStadium(), otherType.getStadium()) && Objects.equals(getTrainer(), otherType.getTrainer());
     }
     
     @Override

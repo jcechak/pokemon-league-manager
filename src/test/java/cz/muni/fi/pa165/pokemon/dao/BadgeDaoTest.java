@@ -141,7 +141,7 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
         List<Badge> badges = badgeDao.findAll();
         if (badges.size() != 2) {
             Assert.fail("Returned list has " + badges.size() + " items.");
-        } else if (!badges.contains(badge1) || badges.contains(badge2)) {
+        } else if (!badges.contains(badge1) || !badges.contains(badge2)) {
             Assert.fail("List does not contain expected items.");
         }
     }

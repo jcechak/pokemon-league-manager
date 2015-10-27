@@ -152,7 +152,7 @@ public class Trainer {
         if (!Objects.equals(this.surname, other.getSurname())) {
             return false;
         }
-        if (!Objects.equals(this.dateOfBirth, other.getDateOfBirth())) {
+        if (this.dateOfBirth.compareTo(other.getDateOfBirth())!=0) {
             return false;
         }
         return true;
