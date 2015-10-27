@@ -18,7 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import java.lang.reflect.Method;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**
