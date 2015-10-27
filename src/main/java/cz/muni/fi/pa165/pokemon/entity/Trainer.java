@@ -2,7 +2,7 @@ package cz.muni.fi.pa165.pokemon.entity;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,8 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
 
 import javax.validation.constraints.NotNull;
 
@@ -46,7 +45,6 @@ public class Trainer {
      * Birth date of the trainer
      */
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfBirth;
     
     /**
