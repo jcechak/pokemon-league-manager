@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -53,7 +53,8 @@ public class Pokemon {
      * The level of pokemon's skills, this determines his strength.
      */
     @Column
-    private int level;
+    @DecimalMin(value = "0")
+    private int skillLevel;
 
     /**
      * Trainer (owner) of a pokemon
@@ -98,12 +99,12 @@ public class Pokemon {
         this.type = type;
     }
 
-    public int getLevel() {
-        return level;
+    public int getSkillLevel() {
+        return skillLevel;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setSkillLevel(int skillLevel) {
+        this.skillLevel = skillLevel;
     }
 
     public Trainer getTrainer() {
@@ -142,4 +143,15 @@ public class Pokemon {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "Pokemon{"
+                + "id=" + id
+                + ", name=" + name
+                + ", nickname=" + nickname
+                + ", type=" + type
+                + ", skillLevel=" + skillLevel
+                + ", trainer=" + trainer
+                + '}';
+    }
 }

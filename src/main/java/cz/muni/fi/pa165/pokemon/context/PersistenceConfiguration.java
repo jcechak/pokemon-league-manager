@@ -6,8 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
-import org.springframework.instrument.classloading.LoadTimeWeaver;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -16,7 +14,6 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  * This class cofigures all the beans necessary to provide persistance context
@@ -24,7 +21,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  * @author Jaroslav Cechak
  */
 @Configuration
-@EnableTransactionManagement
+@EnableTransactionManagement // same as <tx:annotation-driven/> in XML config
 @EnableJpaRepositories
 @ComponentScan(basePackages = {"cz.muni.fi.pa165.pokemon.dao"})
 public class PersistenceConfiguration {
@@ -82,18 +79,35 @@ public class PersistenceConfiguration {
         return emf;
     }
 
+    /**
+     * Creates a transaction manager that is used by spring in classes/methods
+     * annotated as @link{javax.transaction.Transactional @Transactional} which
+     * does not specify any transaction manager.
+     *
+     * @return transactio manager
+     */
     @Bean
     public JpaTransactionManager transactionManager() {
         return new JpaTransactionManager(entityManagerFactory().getObject());
     }
 
+    /* no bean validation now
     @Bean
     public LocalValidatorFactoryBean localValidatorFactoryBean() {
         return new LocalValidatorFactoryBean();
     }
 
     @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor() {
+        final MethodValidationPostProcessor methodValidationPostProcessor = new MethodValidationPostProcessor();
+        methodValidationPostProcessor.setValidator(localValidatorFactoryBean());
+
+        return methodValidationPostProcessor;
+    }
+
+    @Bean
     public LoadTimeWeaver instrumentationLoadTimeWeaver() {
         return new InstrumentationLoadTimeWeaver();
     }
+    */
 }
