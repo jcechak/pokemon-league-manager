@@ -53,7 +53,7 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
         pokemon1.setName("Squirtle");
         pokemon1.setNickname("Master blaster");
         pokemon1.setType(PokemonType.WATER);
-        pokemon1.setLevel(7);
+        pokemon1.setSkillLevel(7);
         pokemon1.setTrainer(trainer);
 
         trainer.addPokemon(pokemon1);
@@ -144,12 +144,12 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
     public void updateTest() {
         entityManager = emf.createEntityManager();
 
-        int level = pokemon1.getLevel();
-        pokemon1.setLevel(level + 1);
+        int level = pokemon1.getSkillLevel();
+        pokemon1.setSkillLevel(level + 1);
 
         pokemonDao.update(pokemon1);
         Pokemon pokemon = entityManager.find(Pokemon.class, pokemon1.getId());
-        Assert.assertEquals("Level did not get updated", level + 1, pokemon.getLevel());
+        Assert.assertEquals("Level did not get updated", level + 1, pokemon.getSkillLevel());
     }
 
     @Test
