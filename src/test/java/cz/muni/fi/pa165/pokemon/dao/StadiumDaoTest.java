@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.pokemon.dao;
 
 import javax.inject.Inject;
+
 import cz.muni.fi.pa165.pokemon.context.PersistenceConfiguration;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
@@ -23,11 +24,11 @@ import java.util.List;
 
 /**
  * This class tests StadiumDao implementation
+ *
  * @author Dominika Talianova
  */
 @ContextConfiguration(classes = PersistenceConfiguration.class)
-public class StadiumDaoTest extends AbstractTestNGSpringContextTests
-{
+public class StadiumDaoTest extends AbstractTestNGSpringContextTests {
 
     @PersistenceUnit
     private EntityManagerFactory emf;
@@ -35,23 +36,19 @@ public class StadiumDaoTest extends AbstractTestNGSpringContextTests
     private Stadium stadium1;
     private Stadium stadium2;
 
-    private Trainer trainer1;
-
     @Inject
     private StadiumDao stadiumDao;
 
     public StadiumDaoTest() {
-
     }
 
     @BeforeMethod
-    public void setUpMethod() throws Exception
-    {
+    public void setUpMethod() throws Exception {
 
-        trainer1 = new Trainer();
+        Trainer trainer1 = new Trainer();
         trainer1.setName("Ash");
         trainer1.setSurname("Ketchum");
-        trainer1.setDateOfBirth(new Date(1993,1,1));
+        trainer1.setDateOfBirth(new Date(1993, 1, 1));
 
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -75,19 +72,16 @@ public class StadiumDaoTest extends AbstractTestNGSpringContextTests
 
 
     @AfterMethod
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         Stadium persisted = em.find(Stadium.class, stadium1.getId());
-        if(persisted != null)
-        {
+        if (persisted != null) {
             em.remove(persisted);
         }
 
-        persisted = em.find(Stadium.class,stadium2.getId());
-        if(persisted != null)
-        {
+        persisted = em.find(Stadium.class, stadium2.getId());
+        if (persisted != null) {
             em.remove(persisted);
         }
         em.getTransaction().commit();
@@ -95,8 +89,7 @@ public class StadiumDaoTest extends AbstractTestNGSpringContextTests
     }
 
     @Test
-    public void testCreate() throws Exception
-    {
+    public void testCreate() throws Exception {
         EntityManager em = emf.createEntityManager();
 
         Assert.assertNotNull("Persisting stadium does not set id.", stadium1.getId());
@@ -109,30 +102,27 @@ public class StadiumDaoTest extends AbstractTestNGSpringContextTests
         Assert.assertNotNull("Persisted stadium not found.", persistedStadium2);
         Assert.assertEquals("Persisted stadium does not equal to the original.", persistedStadium2, stadium2);
 
-        try
-        {
+        try {
             stadiumDao.create(stadium2);
             Assert.fail("Created the same stadium twice.");
-        }catch (Exception ignored) {
+        } catch (Exception ignored) {
         }
     }
 
     @Test
-    public void testUpdate() throws Exception
-    {
+    public void testUpdate() throws Exception {
         EntityManager em = emf.createEntityManager();
 
         stadium1.setCity("Navel");
         stadiumDao.update(stadium1);
         Stadium persistedStadium1 = em.find(Stadium.class, stadium1.getId());
-        Assert.assertNotNull("Nothing was changed.",persistedStadium1.getCity());
-        Assert.assertEquals("Changed city does not equal with original one.", persistedStadium1.getCity(),"Navel");
+        Assert.assertNotNull("Nothing was changed.", persistedStadium1.getCity());
+        Assert.assertEquals("Changed city does not equal with original one.", persistedStadium1.getCity(), "Navel");
 
     }
 
     @Test
-    public void testDelete() throws Exception
-    {
+    public void testDelete() throws Exception {
         EntityManager em = emf.createEntityManager();
 
         stadiumDao.delete(stadium1);
@@ -142,50 +132,39 @@ public class StadiumDaoTest extends AbstractTestNGSpringContextTests
     }
 
     @Test
-    public void  testFindById() throws Exception
-    {
+    public void testFindById() throws Exception {
         Stadium foundStadium2 = stadiumDao.findById(stadium2.getId());
         Assert.assertEquals("Found stadium does not equal to the original one.", foundStadium2, stadium2);
     }
 
     @Test
-    public void  testFindByCity() throws Exception
-    {
+    public void testFindByCity() throws Exception {
         Stadium foundStadium2 = stadiumDao.findByCity(stadium2.getCity());
         Assert.assertEquals("Found stadium does not equal to the original one.", foundStadium2, stadium2);
     }
 
     @Test
-    public void testFindByStadiumLeader() throws Exception
-    {
+    public void testFindByStadiumLeader() throws Exception {
         Stadium foundStadium2 = stadiumDao.findByStadiumLeader(stadium2.getLeader());
         Assert.assertEquals("Found stadium does not equal to the original one.", foundStadium2, stadium2);
     }
 
     @Test
-    public void testFindAll() throws Exception
-    {
+    public void testFindAll() throws Exception {
         List<Stadium> foundStadiums = stadiumDao.findAll();
-        if(foundStadiums.size() != 2)
-        {
-            Assert.fail("Returned list has "+foundStadiums.size()+" items.");
-        }
-        else if (!foundStadiums.contains(stadium1) || !foundStadiums.contains(stadium2))
-        {
+        if (foundStadiums.size() != 2) {
+            Assert.fail("Returned list has " + foundStadiums.size() + " items.");
+        } else if (!foundStadiums.contains(stadium1) || !foundStadiums.contains(stadium2)) {
             Assert.fail("The list does not contain expected items.");
         }
     }
 
     @Test
-    public void testFindByPokemonType() throws Exception
-    {
+    public void testFindByPokemonType() throws Exception {
         List<Stadium> foundStadiums = stadiumDao.findByPokemonType(PokemonType.FIRE);
-        if(!foundStadiums.contains(stadium2))
-        {
+        if (!foundStadiums.contains(stadium2)) {
             Assert.fail("The list does not contain expected items.");
-        }
-        else if (foundStadiums.contains(stadium1))
-        {
+        } else if (foundStadiums.contains(stadium1)) {
             Assert.fail("The list contains an item that should not be there.");
         }
     }

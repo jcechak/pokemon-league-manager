@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 
 import java.sql.Date;
+
 import junit.framework.Assert;
 
 import javax.inject.Inject;
@@ -21,23 +22,24 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * Test PokemonDao implementation
+ * Test if implementation of PokemonDao is correct.
+ *
  * @author Milos Bartak
  */
 @ContextConfiguration(classes = PersistenceConfiguration.class)
 public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
-    
+
     @PersistenceUnit
     private EntityManagerFactory emf;
-    
+
     private EntityManager entityManager;
 
     @Inject
     private PokemonDao pokemonDao;
-    
+
     private Pokemon pokemon1;
     private Pokemon pokemon2;
-    
+
     @BeforeMethod
     public void setUpMethod() throws Exception {
         entityManager = emf.createEntityManager();
@@ -46,24 +48,23 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
         trainer.setSurname("Ketchum");
         trainer.setDateOfBirth(new Date(959595));
         trainer.setStadium(null);
-        
+
         pokemon1 = new Pokemon();
         pokemon1.setName("Squirtle");
         pokemon1.setNickname("Master blaster");
         pokemon1.setType(PokemonType.WATER);
         pokemon1.setLevel(7);
         pokemon1.setTrainer(trainer);
-        
+
         trainer.addPokemon(pokemon1);
-        
+
         entityManager.getTransaction().begin();
         entityManager.persist(trainer);
-        //entityManager.flush();
         entityManager.getTransaction().commit();
         entityManager.close();
-        
+
         pokemonDao.create(pokemon1);
-        
+
         pokemon2 = new Pokemon();
         pokemon2.setName("Onix");
         pokemon2.setNickname("nyxnyx");
@@ -71,24 +72,24 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
         pokemon2.setTrainer(trainer);
         pokemonDao.create(pokemon2);
     }
-    
+
     @AfterMethod
-    public void tearDown() throws Exception{
+    public void tearDown() throws Exception {
         entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         Pokemon pokemon = entityManager.find(Pokemon.class, pokemon1.getId());
-        if(pokemon != null) {
+        if (pokemon != null) {
             entityManager.remove(pokemon);
         }
         pokemon = entityManager.find(Pokemon.class, pokemon2.getId());
-        if(pokemon != null) {
+        if (pokemon != null) {
             entityManager.remove(pokemon);
         }
         entityManager.getTransaction().commit();
         entityManager.close();
     }
-    
-    @Test(expectedExceptions=ConstraintViolationException.class)
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void createNullTest() {
         Pokemon pokemon = new Pokemon();
         pokemon.setName(null);
@@ -96,85 +97,83 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
         pokemon.setType(PokemonType.ICE);
         pokemonDao.create(pokemon);
     }
-    
+
     @Test
     public void testCreate() {
         entityManager = emf.createEntityManager();
-        
-        Assert.assertNotNull("Persisting pokemon does not srt id.", pokemon1.getId());
-        
+
+        Assert.assertNotNull("Persisting pokemon does not work.", pokemon1.getId());
+
         Pokemon found1 = entityManager.find(Pokemon.class, pokemon1.getId());
         Pokemon found2 = entityManager.find(Pokemon.class, pokemon2.getId());
-        
-        Assert.assertNotNull("Pokemon " + 
-                pokemon1.getName() + 
+
+        Assert.assertNotNull("Pokemon " +
+                pokemon1.getName() +
                 "with id: " +
-                pokemon1.getId() + 
+                pokemon1.getId() +
                 "not found"
                 , found1);
-        
-        Assert.assertNotNull("Pokemon " + 
-                pokemon2.getName() + 
+
+        Assert.assertNotNull("Pokemon " +
+                pokemon2.getName() +
                 "with id: " +
-                pokemon2.getId() + 
+                pokemon2.getId() +
                 "not found"
                 , found2);
-        
+
         Assert.assertEquals("Persisted pokemon with id: " +
-                pokemon1.getId() + 
+                pokemon1.getId() +
                 "does not match found pokemon with id: " +
                 found1.getId()
                 , found1, pokemon1);
-        
+
         Assert.assertEquals("Persisted pokemon with id: " +
-                pokemon2.getId() + 
+                pokemon2.getId() +
                 "does not match found pokemon with id: " +
                 found2.getId()
                 , found2, pokemon2);
-        
+
         try {
             pokemonDao.create(pokemon1);
             Assert.fail("Pokemon was persisted twice");
-        }catch(Exception ex) {
-            
+        } catch (Exception ignored) {
         }
     }
-    
+
     @Test
     public void updateTest() {
         entityManager = emf.createEntityManager();
-        
-        Pokemon found1 = entityManager.find(Pokemon.class, pokemon1.getId());
-        int level = found1.getLevel();
-        found1.setLevel(level + 1);
-        
-        found1 = entityManager.find(Pokemon.class, pokemon1.getId());
-        Assert.assertEquals("Level did not get updated", level + 1, found1.getLevel());
+
+        int level = pokemon1.getLevel();
+        pokemon1.setLevel(level + 1);
+
+        pokemonDao.update(pokemon1);
+        Pokemon pokemon = entityManager.find(Pokemon.class, pokemon1.getId());
+        Assert.assertEquals("Level did not get updated", level + 1, pokemon.getLevel());
     }
-    
+
     @Test
     public void deleteTest() {
         entityManager = emf.createEntityManager();
         pokemonDao.delete(pokemon1);
-        
+
         Pokemon toBeDeleted = entityManager.find(Pokemon.class, pokemon1.getId());
-        Assert.assertEquals("Pokemon" +
-                pokemon1.getName() + 
-                "with id: " +
-                pokemon1.getId() + 
-                "was not deleted."
-                , null, toBeDeleted);
+        Assert.assertNull("Pokemon" +
+                        pokemon1.getName() +
+                        "with id: " +
+                        pokemon1.getId() +
+                        "was not deleted.",
+                toBeDeleted);
     }
-    
+
     @Test
     public void findByIdTest() {
-        entityManager = emf.createEntityManager();
-        
-        Pokemon found = entityManager.find(Pokemon.class, pokemon2.getId());
+        Pokemon found = pokemonDao.findById(pokemon2.getId());
+
         Assert.assertEquals("Pokemon found by id:" +
-                found.getId() + 
-                "does not match expected pokemon with id" + 
+                found.getId() +
+                "does not match expected pokemon with id" +
                 pokemon2.getId()
-                ,pokemon2, found);
+                , pokemon2, found);
     }
 }

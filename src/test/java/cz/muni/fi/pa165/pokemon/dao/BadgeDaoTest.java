@@ -16,11 +16,13 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import javax.transaction.Transactional;
 import java.sql.Date;
 import java.util.List;
 
 /**
  * This class tests BadgeDao implementation.
+ *
  * @author Marek Sabo
  */
 @ContextConfiguration(classes = PersistenceConfiguration.class)
@@ -42,7 +44,6 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void setUpMethod() throws Exception {
-        //trainerDao = new TrainerDaoImpl();
 
         stadium = new Stadium();
         stadium.setType(PokemonType.DRAGON);
