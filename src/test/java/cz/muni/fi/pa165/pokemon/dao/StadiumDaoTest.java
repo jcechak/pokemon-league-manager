@@ -48,7 +48,7 @@ public class StadiumDaoTest extends AbstractTestNGSpringContextTests {
         Trainer trainer1 = new Trainer();
         trainer1.setName("Ash");
         trainer1.setSurname("Ketchum");
-        trainer1.setDateOfBirth(new Date(1993, 1, 1));
+        trainer1.setDateOfBirth(Date.valueOf("1993-10-14"));
 
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();

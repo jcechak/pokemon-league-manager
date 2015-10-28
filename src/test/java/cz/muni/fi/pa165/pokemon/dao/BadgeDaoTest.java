@@ -53,7 +53,7 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
         trainer.setName("Ash");
         trainer.setSurname("Hash");
         trainer.setStadium(stadium);
-        trainer.setDateOfBirth(new Date(1993, 0, 1));
+        trainer.setDateOfBirth(Date.valueOf("1965-01-28"));
         stadium.setLeader(trainer);
 
         EntityManager em = emf.createEntityManager();

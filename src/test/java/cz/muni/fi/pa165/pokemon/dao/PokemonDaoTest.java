@@ -46,7 +46,7 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
         Trainer trainer = new Trainer();
         trainer.setName("Ash");
         trainer.setSurname("Ketchum");
-        trainer.setDateOfBirth(new Date(959595));
+        trainer.setDateOfBirth(Date.valueOf("1988-12-31"));
         trainer.setStadium(null);
 
         pokemon1 = new Pokemon();
