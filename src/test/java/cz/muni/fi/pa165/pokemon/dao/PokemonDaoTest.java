@@ -39,11 +39,12 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
 
     private Pokemon pokemon1;
     private Pokemon pokemon2;
-
+    private Trainer trainer;
+    
     @BeforeMethod
     public void setUpMethod() throws Exception {
         entityManager = emf.createEntityManager();
-        Trainer trainer = new Trainer();
+        trainer = new Trainer();
         trainer.setName("Ash");
         trainer.setSurname("Ketchum");
         trainer.setDateOfBirth(Date.valueOf("1988-12-31"));
@@ -84,6 +85,10 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
         pokemon = entityManager.find(Pokemon.class, pokemon2.getId());
         if (pokemon != null) {
             entityManager.remove(pokemon);
+        }
+        Trainer foundTrainer = entityManager.find(Trainer.class, trainer.getId());
+        if(foundTrainer != null) {
+            entityManager.remove(foundTrainer);
         }
         entityManager.getTransaction().commit();
         entityManager.close();
