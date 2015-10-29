@@ -6,7 +6,7 @@ import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import java.util.List;
 
 /**
- * Interface describing the contract of a entity managing DAO.
+ * Interface describing the contract of an entity managing DAO.
  *
  * @author Jaroslav Cechak
  */
@@ -37,7 +37,7 @@ public interface BadgeDao {
      * Finds entity with the given id.
      *
      * @param id of entity to be retrieved, must not be null.
-     * @return @link{ cz.muni.fi.pa165.pokemon.entity.Badge badge} with the
+     * @return @link{ cz.muni.fi.pa165.pokemon.entity.Badge badge } with the
      * given id or null if there is no entity with such id
      */
     Badge findById(Long id);
@@ -73,7 +73,7 @@ public interface BadgeDao {
      *
      * @param trainer that received a badge, must not be null
      * @param stadium that issued a badge, must not be null
-     * @return @link{ cz.muni.fi.pa165.pokemon.entity.Badge badge} that was
+     * @return @link{cz.muni.fi.pa165.pokemon.entity.Badge badge} that was
      * issued by stadium to trainer
      */
     Badge findByTrainerAndStadium(Trainer trainer, Stadium stadium);

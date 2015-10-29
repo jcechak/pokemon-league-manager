@@ -1,7 +1,5 @@
 package cz.muni.fi.pa165.pokemon.dao;
 
-import cz.muni.fi.pa165.pokemon.entity.Badge;
-import cz.muni.fi.pa165.pokemon.entity.Stadium;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import org.springframework.stereotype.Repository;
 
@@ -10,15 +8,9 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author Kasumi
+ * @author Dominika Talianova
  */
 @Repository
 @Transactional

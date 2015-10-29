@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.pokemon.dao;
 
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -133,8 +132,6 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
      */
     @Test
     public void testCreate() {
-        System.out.println("Testing create...");
-
         trainerDao.create(t1);
         assertNotNull(t1.getId(), "Trainer did not recieved id when persisted (probably not persisted).");
 
@@ -148,8 +145,6 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
      */
     @Test
     public void testUpdate() {
-        System.out.println("Testing update...");
-
         t2.setName("Garr");
         t2.setSurname("Oa");
         t2.setDateOfBirth(now);
@@ -165,8 +160,6 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
      */
     @Test
     public void testDelete() {
-        System.out.println("Testing delete...");
-
         trainerDao.delete(t2);
         Trainer received = em.find(Trainer.class, t2.getId());
 
@@ -178,8 +171,6 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
      */
     @Test
     public void testFindById() {
-        System.out.println("Testing findById...");
-
         Trainer received = trainerDao.findById(t2.getId());
 
         assertEquals(t2, received, "Received object is not as expected.");
@@ -191,8 +182,6 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
      */
     @Test
     public void testFindAll() {
-        System.out.println("Testing findAll...");
-
         List<Trainer> trainers = trainerDao.findAll();
 
         assertTrue(trainers.size() == 1, "There should be exctly one trainer in db.");

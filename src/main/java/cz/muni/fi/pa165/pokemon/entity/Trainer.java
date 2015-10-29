@@ -52,14 +52,14 @@ public class Trainer {
      */
     @NotNull
     @OneToMany(mappedBy = "trainer")
-    private List<Pokemon> pokemons = new ArrayList<Pokemon>();
+    private final List<Pokemon> pokemons = new ArrayList<Pokemon>();
 
     /**
      * List of trainer's badges obtained by defeating gym leaders
      */
     @NotNull
     @OneToMany(mappedBy = "trainer")
-    private List<Badge> badges = new ArrayList<Badge>();
+    private final List<Badge> badges = new ArrayList<Badge>();
 
     /**
      * Name of the stadium the trainer is leader of (may be null)
@@ -67,7 +67,6 @@ public class Trainer {
     @OneToOne(mappedBy = "leader")
     private Stadium stadium;
 
-    //Getters and setters
     public Long getId() {
         return id;
     }
@@ -133,7 +132,6 @@ public class Trainer {
         return hash;
     }
 
-    // Business equivalence on name, surname and date of birth
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

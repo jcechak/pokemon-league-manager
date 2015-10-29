@@ -19,7 +19,6 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Pokemon {
 
-    // Attributes
     /**
      * Automaticaly generated ID used as primary key
      */
@@ -62,11 +61,9 @@ public class Pokemon {
     @ManyToOne
     private Trainer trainer;
 
-    // Constructors
     public Pokemon() {
     }
 
-    // Getters and getters
     public long getId() {
         return id;
     }
@@ -115,7 +112,6 @@ public class Pokemon {
         this.trainer = trainer;
     }
 
-    // Equals and hashcode
     @Override
     public int hashCode() {
         int hash = 5;
@@ -124,7 +120,6 @@ public class Pokemon {
         return hash;
     }
 
-    // Business equivalence on name and nickname
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
