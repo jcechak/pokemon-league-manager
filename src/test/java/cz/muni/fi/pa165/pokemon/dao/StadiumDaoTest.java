@@ -36,6 +36,8 @@ public class StadiumDaoTest extends AbstractTestNGSpringContextTests {
     private Stadium stadium1;
     private Stadium stadium2;
 
+    private Trainer trainer1;
+
     @Inject
     private StadiumDao stadiumDao;
 
@@ -45,15 +47,10 @@ public class StadiumDaoTest extends AbstractTestNGSpringContextTests {
     @BeforeMethod
     public void setUpMethod() throws Exception {
 
-        Trainer trainer1 = new Trainer();
+        trainer1 = new Trainer();
         trainer1.setName("Ash");
         trainer1.setSurname("Ketchum");
         trainer1.setDateOfBirth(Date.valueOf("1993-10-14"));
-
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(trainer1);
-        em.getTransaction().commit();
 
         stadium1 = new Stadium();
         stadium1.setCity("Trovita");
@@ -66,8 +63,13 @@ public class StadiumDaoTest extends AbstractTestNGSpringContextTests {
         stadium2.setLeader(trainer1);
         trainer1.setStadium(stadium2);
 
-        stadiumDao.create(stadium1);
-        stadiumDao.create(stadium2);
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(trainer1);
+        em.persist(stadium1);
+        em.persist(stadium2);
+        em.getTransaction().commit();
+
     }
 
 
@@ -84,6 +86,12 @@ public class StadiumDaoTest extends AbstractTestNGSpringContextTests {
         if (persisted != null) {
             em.remove(persisted);
         }
+
+        Trainer persistedTrainer = em.find(Trainer.class, trainer1.getId());
+        if(persistedTrainer != null){
+            em.remove(persistedTrainer);
+        }
+
         em.getTransaction().commit();
         em.close();
     }
