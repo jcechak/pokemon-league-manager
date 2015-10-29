@@ -2,7 +2,9 @@ package cz.muni.fi.pa165.pokemon.dao;
 
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
@@ -10,6 +12,7 @@ import javax.persistence.PersistenceUnit;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.test.context.transaction.AfterTransaction;
+import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.transaction.annotation.Transactional;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
@@ -27,9 +30,9 @@ import org.testng.annotations.Test;
 @Transactional
 public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTests {
 
-    // uncomment when TrainerDao and TrainerDaoImpl is implemented
-    //@Inject
-    //private static TrainerDao trainerDao;
+    @Inject
+    private TrainerDao trainerDao;
+
     private static EntityManagerFactory emf;
 
     @PersistenceContext
@@ -58,32 +61,37 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
 
     private static void setupTrainer1() {
         now = new Date(System.currentTimeMillis());
-        
+
         t1.setName("Ash");
         t1.setSurname("Ketchum");
         t1.setDateOfBirth(now);
     }
 
     private static void setupTrainer2() {
-        
+
         t2.setName("Garry");
         t2.setSurname("Oak");
-        t2.setDateOfBirth(new Date(12345l));
+        t2.setDateOfBirth(Date.valueOf("1990-10-11"));
+        System.out.println(t2);
     }
 
     @BeforeClass
     public static void setUpClass() throws Exception {
         //trainerDao = new TrainerDaoImpl();
- 
+
         setupTrainer1();
         setupTrainer2();
 
         // load trainer t2 as a fixture for tests
         EntityManager e = emf.createEntityManager();
-        e.getTransaction().begin();
+        e.getTransaction().begin();        
         e.persist(t2);
         e.getTransaction().commit();
         e.close();
+    }
+
+    @BeforeTransaction
+    public void beforeTransaction() {
     }
 
     /**
@@ -94,16 +102,22 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
     public void afterTransaction() {
         setupTrainer1();
         setupTrainer2();
-        
+
         List<Trainer> trainers = em.createQuery("SELECT t FROM Trainer t", Trainer.class)
                 .getResultList();
-
         assertEquals(trainers.size(), 1, "Some test did not rolledback.");
+
         assertEquals(trainers.get(0), t2, "There has been a change to fixtures.");
     }
 
     @AfterClass
     public static void tearDownClass() throws Exception {
+        // cleanup database
+        EntityManager e = emf.createEntityManager();
+        e.getTransaction().begin();  
+        e.remove(e.find(Trainer.class, t2.getId()));
+        e.getTransaction().commit();
+        e.close();
     }
 
     @BeforeMethod
@@ -121,7 +135,7 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
     public void testCreate() {
         System.out.println("Testing create...");
 
-        //trainerDao.create(t1);
+        trainerDao.create(t1);
         assertNotNull(t1.getId(), "Trainer did not recieved id when persisted (probably not persisted).");
 
         Trainer received = em.find(Trainer.class, t1.getId());
@@ -140,7 +154,7 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
         t2.setSurname("Oa");
         t2.setDateOfBirth(now);
 
-        //trainerDao.update(t2);
+        trainerDao.update(t2);
         Trainer received = em.find(Trainer.class, t2.getId());
 
         assertEquals(received, t2, "Object in peristance context did not change.");
@@ -153,7 +167,7 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
     public void testDelete() {
         System.out.println("Testing delete...");
 
-        //trainerDao.delete(t2);
+        trainerDao.delete(t2);
         Trainer received = em.find(Trainer.class, t2.getId());
 
         assertNull(received, "Trainer has not been deleted from perisistance context.");
@@ -166,10 +180,10 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
     public void testFindById() {
         System.out.println("Testing findById...");
 
-        /*Trainer received = trainerDao.findById(t2.getId());
-        
-         assertEquals(t2, received, "Received object is not as expected.");
-         */
+        Trainer received = trainerDao.findById(t2.getId());
+
+        assertEquals(t2, received, "Received object is not as expected.");
+
     }
 
     /**
@@ -179,16 +193,16 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
     public void testFindAll() {
         System.out.println("Testing findAll...");
 
-        /*List<Trainer> trainers = trainerDao.findAll();
-        
-         assertTrue(trainers.size() == 1, "There should be exctly one trainer in db.");
-         assertTrue(trainers.contains(t2), "Did not found all trainers.");
-        
-         em.remove(em.find(Trainer.class, t2.getId()));
-        
-         trainers = trainerDao.findAll();
-         assertTrue(trainers.isEmpty(), "There should not be any trainer in database.");
-         */
+        List<Trainer> trainers = trainerDao.findAll();
+
+        assertTrue(trainers.size() == 1, "There should be exctly one trainer in db.");
+        assertTrue(trainers.contains(t2), "Did not found all trainers.");
+
+        em.remove(em.find(Trainer.class, t2.getId()));
+
+        trainers = trainerDao.findAll();
+        assertTrue(trainers.isEmpty(), "There should not be any trainer in database.");
+
     }
 
 }
