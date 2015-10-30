@@ -87,6 +87,9 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
         }
         Trainer foundTrainer = entityManager.find(Trainer.class, trainer.getId());
         if(foundTrainer != null) {
+            for(Pokemon p : foundTrainer.getPokemons()) {
+                entityManager.remove(p);
+            }
             entityManager.remove(foundTrainer);
         }
         entityManager.getTransaction().commit();
@@ -106,36 +109,31 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
     public void testCreate() {
         entityManager = emf.createEntityManager();
 
-        Assert.assertNotNull("Persisting pokemon does not work.", pokemon1.getId());
 
-        Pokemon found1 = entityManager.find(Pokemon.class, pokemon1.getId());
-        Pokemon found2 = entityManager.find(Pokemon.class, pokemon2.getId());
-
+        Pokemon pokemon3 = new Pokemon();
+        pokemon3.setName("Gengar");
+        pokemon3.setNickname("gangsta");
+        pokemon3.setSkillLevel(7);
+        pokemon3.setType(PokemonType.GHOST);
+        pokemon3.setTrainer(trainer);
+        pokemonDao.create(pokemon3);
+        
+        Pokemon found = entityManager.find(Pokemon.class, pokemon3.getId());
+        
         Assert.assertNotNull("Pokemon " +
-                pokemon1.getName() +
+                pokemon3.getName() +
                 "with id: " +
-                pokemon1.getId() +
+                pokemon3.getId() +
                 "not found"
-                , found1);
+                , found);
 
-        Assert.assertNotNull("Pokemon " +
-                pokemon2.getName() +
-                "with id: " +
-                pokemon2.getId() +
-                "not found"
-                , found2);
 
         Assert.assertEquals("Persisted pokemon with id: " +
-                pokemon1.getId() +
+                pokemon3.getId() +
                 "does not match found pokemon with id: " +
-                found1.getId()
-                , found1, pokemon1);
+                found.getId()
+                , found, pokemon3);
 
-        Assert.assertEquals("Persisted pokemon with id: " +
-                pokemon2.getId() +
-                "does not match found pokemon with id: " +
-                found2.getId()
-                , found2, pokemon2);
 
         try {
             pokemonDao.create(pokemon1);
