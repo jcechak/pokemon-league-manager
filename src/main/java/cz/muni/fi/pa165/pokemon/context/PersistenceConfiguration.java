@@ -37,7 +37,6 @@ public class PersistenceConfiguration {
         return edb;
     }
 
-
     /**
      * Creates entity manager factory so that it can be injected and used to
      * create entity managers in DAO classes
@@ -47,7 +46,7 @@ public class PersistenceConfiguration {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-       
+
         emf.setDataSource(embeddedDataSource());
         emf.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 
@@ -56,7 +55,7 @@ public class PersistenceConfiguration {
 
     /**
      * Creates a transaction manager that is used by spring in classes/methods
-     * annotated as @link{javax.transaction.Transactional @Transactional} which
+     * annotated as @Transactional which
      * does not specify any transaction manager.
      *
      * @return transactio manager

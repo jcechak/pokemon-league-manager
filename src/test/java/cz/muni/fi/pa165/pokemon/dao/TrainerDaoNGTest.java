@@ -48,7 +48,7 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
     /**
      * Quite an ugly hack to make Spring inject static fields. It IS definitely
      * needed to make beforeClass working. It does basically the same thing as
-     * @link{ javax.persistence.PersistenceUnit @PersistenceUnit} annotation.
+     * {@link javax.persistence.PersistenceUnit @PersistenceUnit} annotation.
      *
      * @param emf injected entity manager factory
      */
@@ -74,17 +74,31 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
         System.out.println(t2);
     }
 
+    /**
+     * Prepares fixtures for tests
+     * @throws Exception 
+     */
     @BeforeClass
     public static void setUpClass() throws Exception {
-        //trainerDao = new TrainerDaoImpl();
-
         setupTrainer1();
         setupTrainer2();
 
-        // load trainer t2 as a fixture for tests
         EntityManager e = emf.createEntityManager();
-        e.getTransaction().begin();        
+        e.getTransaction().begin();
         e.persist(t2);
+        e.getTransaction().commit();
+        e.close();
+    }
+
+    /**
+     * Cleans up databse
+     * @throws Exception 
+     */
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+        EntityManager e = emf.createEntityManager();
+        e.getTransaction().begin();
+        e.remove(e.find(Trainer.class, t2.getId()));
         e.getTransaction().commit();
         e.close();
     }
@@ -94,8 +108,8 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
     }
 
     /**
-     * Assert there has not been any change to fixtures in database and all
-     * operations have been rollback
+     * Assert there has not been any change to fixtures in the database and all
+     * operations have been rolled back
      */
     @AfterTransaction
     public void afterTransaction() {
@@ -104,19 +118,9 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
 
         List<Trainer> trainers = em.createQuery("SELECT t FROM Trainer t", Trainer.class)
                 .getResultList();
-        assertEquals(trainers.size(), 1, "Some test did not rollback.");
+        assertEquals(trainers.size(), 1, "Some test has not rolled back.");
 
         assertEquals(trainers.get(0), t2, "There has been a change to fixtures.");
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-        // cleanup database
-        EntityManager e = emf.createEntityManager();
-        e.getTransaction().begin();  
-        e.remove(e.find(Trainer.class, t2.getId()));
-        e.getTransaction().commit();
-        e.close();
     }
 
     @BeforeMethod
