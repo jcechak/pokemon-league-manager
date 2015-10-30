@@ -47,8 +47,8 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
 
     /**
      * Quite an ugly hack to make Spring inject static fields. It IS definitely
-     * needed to make beforeClass working. It does basicaly the same thing as
-     * @link{javax.persistence.PersistenceUnit @PersistenceUnit} annotation.
+     * needed to make beforeClass working. It does basically the same thing as
+     * @link{ javax.persistence.PersistenceUnit @PersistenceUnit} annotation.
      *
      * @param emf injected entity manager factory
      */
@@ -95,7 +95,7 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
 
     /**
      * Assert there has not been any change to fixtures in database and all
-     * operations have been rolledback
+     * operations have been rollback
      */
     @AfterTransaction
     public void afterTransaction() {
@@ -104,7 +104,7 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
 
         List<Trainer> trainers = em.createQuery("SELECT t FROM Trainer t", Trainer.class)
                 .getResultList();
-        assertEquals(trainers.size(), 1, "Some test did not rolledback.");
+        assertEquals(trainers.size(), 1, "Some test did not rollback.");
 
         assertEquals(trainers.get(0), t2, "There has been a change to fixtures.");
     }
@@ -133,11 +133,11 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
     @Test
     public void testCreate() {
         trainerDao.create(t1);
-        assertNotNull(t1.getId(), "Trainer did not recieved id when persisted (probably not persisted).");
+        assertNotNull(t1.getId(), "Trainer did not received id when persisted (probably not persisted).");
 
         Trainer received = em.find(Trainer.class, t1.getId());
 
-        assertEquals(received, t1, "Persisted object should equal to the one in persitance context.");
+        assertEquals(received, t1, "Persisted object should equal to the one in persistence context.");
     }
 
     /**
@@ -152,7 +152,7 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
         trainerDao.update(t2);
         Trainer received = em.find(Trainer.class, t2.getId());
 
-        assertEquals(received, t2, "Object in peristance context did not change.");
+        assertEquals(received, t2, "Object in persistence context did not change.");
     }
 
     /**
@@ -163,7 +163,7 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
         trainerDao.delete(t2);
         Trainer received = em.find(Trainer.class, t2.getId());
 
-        assertNull(received, "Trainer has not been deleted from perisistance context.");
+        assertNull(received, "Trainer has not been deleted from persistence context.");
     }
 
     /**
@@ -184,7 +184,7 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
     public void testFindAll() {
         List<Trainer> trainers = trainerDao.findAll();
 
-        assertTrue(trainers.size() == 1, "There should be exctly one trainer in db.");
+        assertTrue(trainers.size() == 1, "There should be exactly one trainer in db.");
         assertTrue(trainers.contains(t2), "Did not found all trainers.");
 
         em.remove(em.find(Trainer.class, t2.getId()));

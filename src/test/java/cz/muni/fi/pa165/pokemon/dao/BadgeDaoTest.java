@@ -19,6 +19,8 @@ import javax.persistence.PersistenceUnit;
 import java.sql.Date;
 import java.util.List;
 
+import static org.testng.Assert.assertEquals;
+
 /**
  * This class tests BadgeDao implementation.
  *
@@ -35,6 +37,8 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
 
     private Stadium stadium;
 
+    private Trainer trainer;
+
     @Inject
     private BadgeDao badgeDao;
 
@@ -48,7 +52,7 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
         stadium.setType(PokemonType.DRAGON);
         stadium.setCity("Brno");
 
-        Trainer trainer = new Trainer();
+        trainer = new Trainer();
         trainer.setName("Ash");
         trainer.setSurname("Hash");
         trainer.setStadium(stadium);
@@ -82,6 +86,24 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
         if (persisted != null) {
             em.remove(persisted);
         }
+        Trainer persistedTrainer = em.find(Trainer.class, trainer.getId());
+        if (persistedTrainer != null) {
+            em.remove(persistedTrainer);
+        }
+        Stadium persistedStadium = em.find(Stadium.class, stadium.getId());
+        if (persistedStadium != null) {
+            em.remove(persistedStadium);
+        }
+
+        List<Trainer> trainers = em.createQuery("SELECT t FROM Trainer t", Trainer.class)
+                .getResultList();
+        List<Stadium> stadiums = em.createQuery("SELECT s FROM Stadium s", Stadium.class)
+                .getResultList();
+        List<Badge> badges = em.createQuery("SELECT b FROM Badge b", Badge.class)
+                .getResultList();
+        Assert.assertEquals( "Some test did not rollback.", trainers.size(), 0);
+        Assert.assertEquals("Some test did not rollback.", stadiums.size(), 0);
+        Assert.assertEquals("Some test did not rollback.", badges.size(), 0);
         em.getTransaction().commit();
         em.close();
 
