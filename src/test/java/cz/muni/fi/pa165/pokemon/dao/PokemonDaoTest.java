@@ -59,19 +59,18 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
 
         trainer.addPokemon(pokemon1);
 
-        entityManager.getTransaction().begin();
-        entityManager.persist(trainer);
-        entityManager.getTransaction().commit();
-        entityManager.close();
-
-        pokemonDao.create(pokemon1);
-
         pokemon2 = new Pokemon();
         pokemon2.setName("Onix");
         pokemon2.setNickname("nyxnyx");
         pokemon2.setType(PokemonType.ROCK);
         pokemon2.setTrainer(trainer);
-        pokemonDao.create(pokemon2);
+        
+        entityManager.getTransaction().begin();
+        entityManager.persist(trainer);
+        entityManager.persist(pokemon1);
+        entityManager.persist(pokemon2);
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     @AfterMethod
