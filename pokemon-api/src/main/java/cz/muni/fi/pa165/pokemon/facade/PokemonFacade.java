@@ -1,12 +1,13 @@
 package cz.muni.fi.pa165.pokemon.facade;
 
+import cz.muni.fi.pa165.pokemon.dto.PokemonCreateDTO;
 import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import java.util.List;
 
 /**
- * Facade interface defining the facade's contracts.
+ * Facade interface defining the facade's contracts with outer world.
  *
  * @author Jaroslav Cechak
  */
@@ -16,23 +17,33 @@ public interface PokemonFacade {
      * Save the given pokemon into system.
      *
      * @param pokemon pokemon to be saved
-     * @return id given to the pokemon upon saving
+     * @return saved pokemon
      */
-    Long createPokemon(PokemonDTO pokemon);
+    PokemonDTO createPokemon(PokemonCreateDTO pokemon);
+
+    /**
+     * Retruns pokemon with given id
+     *
+     * @param id id of pokenon
+     * @return pokemon with given id
+     */
+    PokemonDTO getPokemonById(Long id);
 
     /**
      * Changes the skill of the pokemon
      *
+     * @param pokemon pokemon to be updated
      * @param newSkill new skill level of the pokemon
      */
-    void changeSkill(Long pokemonId, int newSkill);
+    void changeSkill(PokemonDTO pokemon, int newSkill);
 
     /**
      * Changes the pokemon's trainer (owner)
      *
+     * @param pokemon pokemon to be updated
      * @param newTrainer pokemon's new trainer
      */
-    void changeTrainer(TrainerDTO newTrainer);
+    void changeTrainer(PokemonDTO pokemon, TrainerDTO newTrainer);
 
     /**
      * Deletes the given pokemon from system.
