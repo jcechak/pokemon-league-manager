@@ -9,10 +9,14 @@
     </parent>
     <groupId>cz.muni.fi.pa165</groupId>
     <artifactId>pokemon-service</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>pokemon-service</name>
-    <url>http://maven.apache.org</url>
     <dependencies>
+        <dependency>
+            <groupId>cz.muni.fi.pa165</groupId>
+            <artifactId>pokemon-api</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
