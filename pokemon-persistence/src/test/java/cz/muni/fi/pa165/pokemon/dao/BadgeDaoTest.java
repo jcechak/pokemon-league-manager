@@ -5,7 +5,6 @@ import cz.muni.fi.pa165.pokemon.entity.Badge;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
-import junit.framework.Assert;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
@@ -19,7 +18,7 @@ import javax.persistence.PersistenceUnit;
 import java.sql.Date;
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 /**
  * This class tests BadgeDao implementation.
@@ -101,9 +100,9 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
                 .getResultList();
         List<Badge> badges = em.createQuery("SELECT b FROM Badge b", Badge.class)
                 .getResultList();
-        Assert.assertEquals( "Some test did not rollback.", trainers.size(), 0);
-        Assert.assertEquals("Some test did not rollback.", stadiums.size(), 0);
-        Assert.assertEquals("Some test did not rollback.", badges.size(), 0);
+        assertEquals(trainers.size(), 0, "Some test did not rollback.");
+        assertEquals(stadiums.size(), 0, "Some test did not rollback.");
+        assertEquals(badges.size(), 0, "Some test did not rollback.");
         em.getTransaction().commit();
         em.close();
 
@@ -113,20 +112,20 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
     public void testCreate() throws Exception {
         EntityManager em = emf.createEntityManager();
 
-        Assert.assertNotNull("Persisting badge does not set id.", badge1.getId());
-        Assert.assertNotNull("Persisting badge does not set id.", badge2.getId());
+        assertNotNull(badge1.getId(), "Persisting badge does not set id.");
+        assertNotNull(badge2.getId(), "Persisting badge does not set id.");
 
         Badge persistedBadge1 = em.find(Badge.class, badge1.getId());
         Badge persistedBadge2 = em.find(Badge.class, badge2.getId());
-        Assert.assertNotNull("Persisted badge not found.", persistedBadge1);
-        Assert.assertEquals("Persisted badge does not equal to the original one.", persistedBadge1, badge1);
+        assertNotNull(persistedBadge1, "Persisted badge not found.");
+        assertEquals(persistedBadge1, badge1, "Persisted badge does not equal to the original one.");
 
-        Assert.assertNotNull("Persisted badge not found.", persistedBadge2);
-        Assert.assertEquals("Persisted badge does not equal to the original one.", persistedBadge2, badge2);
+        assertNotNull(persistedBadge2, "Persisted badge not found.");
+        assertEquals(persistedBadge2, badge2, "Persisted badge does not equal to the original one.");
 
         try {
             badgeDao.create(badge2);
-            Assert.fail("Created the same badge twice.");
+            fail("Created the same badge twice.");
         } catch (Exception ignored) {
         }
     }
@@ -138,8 +137,8 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
         badge1.setStadium(stadium);
         badgeDao.update(badge1);
         Badge persistedBadge1 = em.find(Badge.class, badge1.getId());
-        Assert.assertNotNull("Update did not changed anything.", persistedBadge1.getStadium());
-        Assert.assertEquals("Changed Stadium does not equal with original one.", persistedBadge1.getStadium(), stadium);
+        assertNotNull(persistedBadge1.getStadium(), "Update did not changed anything.");
+        assertEquals(persistedBadge1.getStadium(), stadium, "Changed Stadium does not equal with original one.");
     }
 
     @Test
@@ -149,44 +148,44 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
 
         badgeDao.delete(badge1);
         Badge persistedBadge1 = em.find(Badge.class, badge1.getId());
-        Assert.assertNull("Delete called but item found in DB.", persistedBadge1);
+        assertNull(persistedBadge1, "Delete called but item found in DB.");
     }
 
     @Test
     public void testFindById() throws Exception {
         Badge foundBadge = badgeDao.findById(badge2.getId());
-        Assert.assertEquals("Persisted badge does not equal to the original one.", foundBadge, badge2);
+        assertEquals(foundBadge, badge2, "Persisted badge does not equal to the original one.");
     }
 
     @Test
     public void testFindAll() throws Exception {
         List<Badge> badges = badgeDao.findAll();
         if (badges.size() != 2) {
-            Assert.fail("Returned list has " + badges.size() + " items.");
+            fail("Returned list has " + badges.size() + " items.");
         } else if (!badges.contains(badge1) || !badges.contains(badge2)) {
-            Assert.fail("List does not contain expected items.");
+            fail("List does not contain expected items.");
         }
     }
 
     @Test
     public void testFindAllWithTrainer() throws Exception {
         List<Badge> badges = badgeDao.findAllWithTrainer(badge2.getTrainer());
-        Assert.assertTrue("Returned list has " + badges.size() + " items.", badges.size() == 1);
-        Assert.assertTrue("Returned list does not contain right badge.", badges.contains(badge2));
+        assertTrue(badges.size() == 1, "Returned list has " + badges.size() + " items.");
+        assertTrue(badges.contains(badge2), "Returned list does not contain right badge.");
     }
 
     @Test
     public void testFindAllWithStadium() throws Exception {
         List<Badge> badges = badgeDao.findAllWithStadium(badge2.getStadium());
-        Assert.assertTrue("Returned list has " + badges.size() + " items.", badges.size() == 1);
-        Assert.assertTrue("Returned list does not contain right badge.", badges.contains(badge2));
+        assertTrue(badges.size() == 1, "Returned list has " + badges.size() + " items.");
+        assertTrue(badges.contains(badge2), "Returned list does not contain right badge.");
     }
 
     @Test
     public void testFindAllTrainerAndStadium() throws Exception {
         Badge badge = badgeDao.findByTrainerAndStadium(badge2.getTrainer(), badge2.getStadium());
-        Assert.assertEquals("Trainers does not equal.", badge.getTrainer(), badge2.getTrainer());
-        Assert.assertEquals("Stadiums does not equal.", badge.getStadium(), badge2.getStadium());
-        Assert.assertEquals("Badges does not equal.", badge, badge2);
+        assertEquals(badge.getTrainer(), badge2.getTrainer(), "Trainers does not equal.");
+        assertEquals(badge.getStadium(), badge2.getStadium(), "Stadiums does not equal.");
+        assertEquals(badge, badge2, "Badges does not equal.");
     }
 }

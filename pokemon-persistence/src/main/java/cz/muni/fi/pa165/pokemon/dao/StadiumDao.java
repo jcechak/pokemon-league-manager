@@ -25,7 +25,7 @@ public interface StadiumDao {
     
     /**
      * Updates the stadium
-     * @param stadium stadium that has to be updayed
+     * @param stadium stadium that has to be updated
      */
     void update(Stadium stadium);
     

@@ -1,8 +1,12 @@
 package cz.muni.fi.pa165.pokemon.dao;
 
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
+import cz.muni.fi.pa165.pokemon.entity.Trainer;
+
+import java.util.List;
 
 /**
+ * Interface describing the contract of a entity managing DAO.
  * @author Marek Sabo
  */
 public interface PokemonDao {
@@ -31,5 +35,18 @@ public interface PokemonDao {
      * @return Pokemon with given id.
      */
     Pokemon findById(Long id);
+
+    /**
+     * Finds all pokemons.
+     * @return collection with the all pokemons
+     */
+    List<Pokemon> findAll();
+
+    /**
+     * Retrieves a list of pokemons with chosen trainer.
+     * @param trainer trainer who is teaching pokemons
+     * @return collection of pokemons with selected trainer
+     */
+    List<Pokemon> findAllWithTrainer(Trainer trainer);
 
 }

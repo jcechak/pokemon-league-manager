@@ -4,22 +4,21 @@ import cz.muni.fi.pa165.pokemon.context.PersistenceConfiguration;
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
-
-import java.sql.Date;
-
-import junit.framework.Assert;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.validation.ConstraintViolationException;
+import java.sql.Date;
 
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import static org.testng.Assert.*;
+
 
 /**
  * Test if implementation of PokemonDao is correct.
@@ -40,6 +39,7 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
     private Pokemon pokemon1;
     private Pokemon pokemon2;
     private Trainer trainer;
+    private Trainer trainer1;
     
     @BeforeMethod
     public void setUpMethod() throws Exception {
@@ -49,6 +49,12 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
         trainer.setSurname("Ketchum");
         trainer.setDateOfBirth(Date.valueOf("1988-12-31"));
         trainer.setStadium(null);
+
+        trainer1 = new Trainer();
+        trainer1.setName("Mek");
+        trainer1.setSurname("Kek");
+        trainer1.setDateOfBirth(Date.valueOf("1958-2-12"));
+        trainer1.setStadium(null);
 
         pokemon1 = new Pokemon();
         pokemon1.setName("Squirtle");
@@ -67,6 +73,7 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
         
         entityManager.getTransaction().begin();
         entityManager.persist(trainer);
+        entityManager.persist(trainer1);
         entityManager.persist(pokemon1);
         entityManager.persist(pokemon2);
         entityManager.getTransaction().commit();
@@ -92,6 +99,9 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
             }
             entityManager.remove(foundTrainer);
         }
+        foundTrainer = entityManager.find(Trainer.class, trainer1.getId());
+        entityManager.remove(foundTrainer);
+
         entityManager.getTransaction().commit();
         entityManager.close();
     }
@@ -120,24 +130,24 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
         
         Pokemon found = entityManager.find(Pokemon.class, pokemon3.getId());
         
-        Assert.assertNotNull("Pokemon " +
+        assertNotNull(found,
+                "Pokemon " +
                 pokemon3.getName() +
                 "with id: " +
                 pokemon3.getId() +
-                "not found"
-                , found);
+                "not found");
 
 
-        Assert.assertEquals("Persisted pokemon with id: " +
-                pokemon3.getId() +
-                "does not match found pokemon with id: " +
-                found.getId()
-                , found, pokemon3);
+        assertEquals(found
+                        , pokemon3, "Persisted pokemon with id: " +
+                        pokemon3.getId() +
+                        "does not match found pokemon with id: " +
+                        found.getId());
 
 
         try {
             pokemonDao.create(pokemon1);
-            Assert.fail("Pokemon was persisted twice");
+            fail("Pokemon was persisted twice");
         } catch (Exception ignored) {
         }
     }
@@ -151,7 +161,7 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
 
         pokemonDao.update(pokemon1);
         Pokemon pokemon = entityManager.find(Pokemon.class, pokemon1.getId());
-        Assert.assertEquals("Level did not get updated", level + 1, pokemon.getSkillLevel());
+        assertEquals(level + 1, pokemon.getSkillLevel(), "Level did not get updated");
     }
 
     @Test
@@ -160,22 +170,35 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
         pokemonDao.delete(pokemon1);
 
         Pokemon toBeDeleted = entityManager.find(Pokemon.class, pokemon1.getId());
-        Assert.assertNull("Pokemon" +
+        assertNull(toBeDeleted,
+                "Pokemon" +
                         pokemon1.getName() +
                         "with id: " +
                         pokemon1.getId() +
-                        "was not deleted.",
-                toBeDeleted);
+                        "was not deleted.");
     }
 
     @Test
     public void findByIdTest() {
         Pokemon found = pokemonDao.findById(pokemon2.getId());
 
-        Assert.assertEquals("Pokemon found by id:" +
+        assertEquals(pokemon2
+                , found, "Pokemon found by id:" +
                 found.getId() +
                 "does not match expected pokemon with id" +
-                pokemon2.getId()
-                , pokemon2, found);
+                pokemon2.getId());
     }
+
+    @Test
+    public void findAllTest() {
+        assertTrue(pokemonDao.findAll().size() == 2, "FindAll found invalid number of pokemons.");
+    }
+
+    @Test
+    public void findAllWithTrainerTest() {
+        assertTrue(pokemonDao.findAllWithTrainer(trainer).size() == 2, "Invalid number of pokemons.");
+        assertTrue(pokemonDao.findAllWithTrainer(trainer1).size() == 0, "Invalid number of pokemons.");
+    }
+
+
 }

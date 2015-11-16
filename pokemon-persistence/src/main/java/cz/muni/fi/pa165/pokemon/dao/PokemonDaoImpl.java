@@ -1,14 +1,16 @@
 package cz.muni.fi.pa165.pokemon.dao;
 
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
+import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
- * Interface describing the contract of a entity managing DAO.
+ * Class implementing PokemonDao interface.
  * @author Marek Sabo
  */
 @Repository
@@ -36,5 +38,17 @@ public class PokemonDaoImpl implements PokemonDao {
     @Override
     public Pokemon findById(Long id) {
         return em.find(Pokemon.class, id);
+    }
+
+    @Override
+    public List<Pokemon> findAll() {
+        return em.createQuery("SELECT p FROM Pokemon p", Pokemon.class).getResultList();
+    }
+
+    @Override
+    public List<Pokemon> findAllWithTrainer(Trainer trainer) {
+        return em.createQuery("SELECT p FROM Pokemon p WHERE p.trainer = :t", Pokemon.class)
+                .setParameter("t", trainer)
+                .getResultList();
     }
 }

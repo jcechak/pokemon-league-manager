@@ -1,24 +1,22 @@
 package cz.muni.fi.pa165.pokemon.dao;
 
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
-import java.sql.Date;
-import java.util.List;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.*;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
+import java.sql.Date;
+import java.util.List;
+
 import static org.testng.Assert.*;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 /**
  * Tests for TrainerDaoImpl class.
@@ -91,7 +89,7 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
     }
 
     /**
-     * Cleans up databse
+     * Cleans up database
      * @throws Exception 
      */
     @AfterClass
