@@ -9,10 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.*;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.*;
+import javax.validation.ConstraintViolationException;
 import java.sql.Date;
 import java.util.List;
 
@@ -128,6 +126,23 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
     @AfterMethod
     public void tearDownMethod() throws Exception {
     }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void createNullTest() {
+        Trainer trainer = new Trainer();
+        trainer.setName("Brock");
+        trainer.setSurname("Harrison");
+        trainer.setStadium(null);
+        trainerDao.create(trainer);
+    }
+
+
+    @Test(expectedExceptions = PersistenceException.class)
+    public void createTwiceTest() {
+        trainerDao.create(t2);
+        trainerDao.create(t2);
+    }
+
 
     /**
      * Test of create method, of class TrainerDaoImpl.

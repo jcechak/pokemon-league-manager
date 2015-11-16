@@ -14,7 +14,9 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
 import javax.persistence.PersistenceUnit;
+import javax.validation.ConstraintViolationException;
 import java.sql.Date;
 import java.util.List;
 
@@ -35,8 +37,10 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
     private Badge badge2;
 
     private Stadium stadium;
+    private Stadium stadium1;
 
     private Trainer trainer;
+    private Trainer trainer1;
 
     @Inject
     private BadgeDao badgeDao;
@@ -58,13 +62,28 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
         trainer.setDateOfBirth(Date.valueOf("1965-01-28"));
         stadium.setLeader(trainer);
 
+        stadium1 = new Stadium();
+        stadium1.setType(PokemonType.ICE);
+        stadium1.setCity("Martin");
+
+        trainer1 = new Trainer();
+        trainer1.setName("Hek");
+        trainer1.setSurname("Lek");
+        trainer1.setStadium(stadium1);
+        trainer1.setDateOfBirth(Date.valueOf("1983-03-08"));
+        stadium1.setLeader(trainer1);
+
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(stadium);
         em.persist(trainer);
+        em.persist(stadium1);
+        em.persist(trainer1);
         em.getTransaction().commit();
 
         badge1 = new Badge();
+        badge1.setStadium(stadium1);
+        badge1.setTrainer(trainer1);
         badgeDao.create(badge1);
 
         badge2 = new Badge();
@@ -85,11 +104,19 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
         if (persisted != null) {
             em.remove(persisted);
         }
-        Trainer persistedTrainer = em.find(Trainer.class, trainer.getId());
+        Trainer persistedTrainer = em.find(Trainer.class, trainer1.getId());
         if (persistedTrainer != null) {
             em.remove(persistedTrainer);
         }
-        Stadium persistedStadium = em.find(Stadium.class, stadium.getId());
+        persistedTrainer = em.find(Trainer.class, trainer.getId());
+        if (persistedTrainer != null) {
+            em.remove(persistedTrainer);
+        }
+        Stadium persistedStadium = em.find(Stadium.class, stadium1.getId());
+        if (persistedStadium != null) {
+            em.remove(persistedStadium);
+        }
+        persistedStadium = em.find(Stadium.class, stadium.getId());
         if (persistedStadium != null) {
             em.remove(persistedStadium);
         }
@@ -107,6 +134,21 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
         em.close();
 
     }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void createNullTest() {
+        Badge badge = new Badge();
+        badge.setStadium(null);
+        badge.setTrainer(null);
+        badgeDao.create(badge);
+    }
+
+
+    @Test(expectedExceptions = PersistenceException.class)
+    public void createTwiceTest() {
+        badgeDao.create(badge1);
+    }
+
 
     @Test
     public void testCreate() throws Exception {

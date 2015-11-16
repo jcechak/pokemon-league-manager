@@ -1,11 +1,8 @@
 package cz.muni.fi.pa165.pokemon.entity;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 /**
  * This class corresponds to the entity badge
@@ -19,9 +16,11 @@ public class Badge {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne
     private Stadium stadium;
 
+    @NotNull
     @ManyToOne
     private Trainer trainer;
 

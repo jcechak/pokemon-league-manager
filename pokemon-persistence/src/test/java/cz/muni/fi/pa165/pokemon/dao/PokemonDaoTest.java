@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
 import javax.persistence.PersistenceUnit;
 import javax.validation.ConstraintViolationException;
 import java.sql.Date;
@@ -114,6 +115,13 @@ public class PokemonDaoTest extends AbstractTestNGSpringContextTests {
         pokemon.setType(PokemonType.ICE);
         pokemonDao.create(pokemon);
     }
+
+
+    @Test(expectedExceptions = PersistenceException.class)
+    public void createTwiceTest() {
+        pokemonDao.create(pokemon1);
+    }
+
 
     @Test
     public void testCreate() {

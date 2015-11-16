@@ -13,7 +13,9 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
 import javax.persistence.PersistenceUnit;
+import javax.validation.ConstraintViolationException;
 import java.sql.Date;
 import java.util.List;
 
@@ -92,6 +94,21 @@ public class StadiumDaoTest extends AbstractTestNGSpringContextTests {
 
         em.getTransaction().commit();
         em.close();
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void createNullTest() {
+        Stadium stadium = new Stadium();
+        stadium.setLeader(null);
+        stadium.setType(PokemonType.DRAGON);
+        stadium.setCity(null);
+        stadiumDao.create(stadium);
+    }
+
+    @Test(expectedExceptions = PersistenceException.class)
+    public void createTwiceTest() {
+        stadiumDao.create(stadium2);
+        stadiumDao.create(stadium2);
     }
 
     @Test
