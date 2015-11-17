@@ -32,14 +32,14 @@ public class PokemonDTO {
     private PokemonType type;
 
     /**
-     * The level of pokemon's skills, this determines his strength.
+     * The level of pokemon's skill, this determines his strength.
      */
     private int skillLevel;
-    
+
     /**
-     * Trainer (owner) of a pokemon
+     * Id of a trainer (owner) of a pokemon
      */
-    private TrainerDTO trainer;
+    private Long trainerId;
 
     public Long getId() {
         return id;
@@ -81,6 +81,14 @@ public class PokemonDTO {
         this.skillLevel = skillLevel;
     }
 
+    public Long getTrainerId() {
+        return trainerId;
+    }
+
+    public void setTrainerId(Long trainerId) {
+        this.trainerId = trainerId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -115,7 +123,7 @@ public class PokemonDTO {
                 + ", nickname=" + nickname
                 + ", type=" + type
                 + ", skillLevel=" + skillLevel
-                + ", trainer=" + trainer
+                + ", trainerId=" + trainerId
                 + '}';
     }
 

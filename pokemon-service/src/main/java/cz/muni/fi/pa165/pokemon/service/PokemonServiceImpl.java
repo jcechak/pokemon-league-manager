@@ -39,7 +39,7 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Override
     public List<Pokemon> getAllPokemons() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return pokemonDao.findAll();
     }
 
 }
