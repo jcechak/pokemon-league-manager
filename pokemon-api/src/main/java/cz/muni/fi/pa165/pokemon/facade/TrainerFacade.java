@@ -14,9 +14,9 @@ public interface TrainerFacade {
     
     /**
      * Saves the trainer to the system TODO: parameter
-     * @return 
+     * @param trainer the trainer to be saved
      */
-    TrainerDTO createTrainer();
+    void createTrainer(TrainerDTO trainer);
     
     /**
      * Deletes the given trainer from the system
@@ -67,26 +67,26 @@ public interface TrainerFacade {
      * @param pokemon the pokemon we use as filter
      * @return collection of trainers who own given pokemon
      */
-    Collection<TrainerDTO> getAllTrainersWithPokemon(PokemonDTO pokemon);
+    Collection<TrainerDTO> findAllTrainersWithPokemon(PokemonDTO pokemon);
     
     /**
      * Finds all trainer who own given badge
      * @param badge the badge we use as filter
      * @return collection of trainers who own given badge
      */
-    Collection<TrainerDTO> getAllTrainersWithBadge(BadgeDTO badge);
+    Collection<TrainerDTO> findAllTrainersWithBadge(BadgeDTO badge);
     
     /**
      * Finds all trainers with given name
      * @param name the name of trainers we use as filter
      * @return collection of trainers with given name
      */
-    Collection<TrainerDTO> getAllTrainersWithName(String name);
+    Collection<TrainerDTO> findAllTrainersWithName(String name);
     
     /**
      * Finds all trainers with given surname
      * @param surname the surname of trainers we use as filter
      * @return collection of trainers with given surname
      */
-    Collection<TrainerDTO> getAllTrainersWithSurname(String surname);
+    Collection<TrainerDTO> findAllTrainersWithSurname(String surname);
 }
