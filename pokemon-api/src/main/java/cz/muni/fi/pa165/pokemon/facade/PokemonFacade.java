@@ -65,11 +65,11 @@ public interface PokemonFacade {
      * Returns {@link java.util.List List} of all pokemons that are being
      * trained by the given trainer in the system.
      *
-     * @param trainer the common trainer of the pokemons
+     * @param trainerId the id of common trainer of the pokemons
      * @return {@link java.util.List List} of all pokemons that are being
      * trained by the given trainer
      */
-    List<PokemonDTO> getAllPokemonsOfTrainer(TrainerDTO trainer);
+    List<PokemonDTO> getAllPokemonsOfTrainerWithId(Long trainerId);
 
     /**
      * Returns {@link java.util.List List} of all pokemons that have the given
