@@ -8,11 +8,13 @@ import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Milos Bartak
  */
+@Service
 public class TrainerServiceImpl implements TrainerService {
     @Autowired
     private TrainerDao trainerDao;

@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.pokemon.mapping;
 
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
+import cz.muni.fi.pa165.pokemon.service.TrainerService;
+import javax.inject.Inject;
 import org.dozer.CustomConverter;
 import org.dozer.MappingException;
 
@@ -12,15 +14,15 @@ import org.dozer.MappingException;
  *
  * @author Jaroslav Cechak
  */
-public class PokemonCustomConverter implements CustomConverter {
+public class TrainerIdCustomConverter implements CustomConverter {
 
+    @Inject
+    private TrainerService trainerService;
+    
     @Override
     public Object convert(Object destination, Object source, Class<?> destinationClass, Class<?> sourceClass) {
         if (source instanceof Long) {
-            //return TrainerService.getTrainerById(source);
-            Trainer t = new Trainer();
-            t.setId((Long) source);
-            return t;
+            return trainerService.findTrainerById((Long) source);
         } else if (source instanceof Trainer) {
             return ((Trainer) source).getId();
         } else {

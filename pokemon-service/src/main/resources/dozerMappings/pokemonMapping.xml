@@ -13,7 +13,7 @@
     <mapping>
         <class-a>cz.muni.fi.pa165.pokemon.entity.Pokemon</class-a>
         <class-b>cz.muni.fi.pa165.pokemon.dto.PokemonDTO</class-b>
-        <field custom-converter="cz.muni.fi.pa165.pokemon.mapping.PokemonCustomConverter">
+        <field custom-converter-id="trainerIdCustomConverter">
             <a>trainer</a>
             <b>trainerId</b>
         </field>

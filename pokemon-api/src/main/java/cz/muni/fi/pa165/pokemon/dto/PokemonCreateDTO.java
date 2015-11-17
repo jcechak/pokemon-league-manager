@@ -32,9 +32,9 @@ public class PokemonCreateDTO {
     private int skillLevel;
 
     /**
-     * Trainer (owner) of a pokemon
+     * Id of a trainer (owner) of a pokemon
      */
-    private TrainerDTO trainer;
+    private Long trainerId;
 
     public String getName() {
         return name;
@@ -68,6 +68,14 @@ public class PokemonCreateDTO {
         this.skillLevel = skillLevel;
     }
 
+    public Long getTrainerId() {
+        return trainerId;
+    }
+
+    public void setTrainerId(Long trainerId) {
+        this.trainerId = trainerId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -81,10 +89,10 @@ public class PokemonCreateDTO {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof PokemonDTO)) {
+        if (!(obj instanceof PokemonCreateDTO)) {
             return false;
         }
-        final PokemonDTO other = (PokemonDTO) obj;
+        final PokemonCreateDTO other = (PokemonCreateDTO) obj;
         if (!Objects.equals(this.name, other.getName())) {
             return false;
         }
@@ -101,7 +109,7 @@ public class PokemonCreateDTO {
                 + ", nickname=" + nickname
                 + ", type=" + type
                 + ", skillLevel=" + skillLevel
-                + ", trainer=" + trainer
+                + ", trainerId=" + trainerId
                 + '}';
     }
 
