@@ -58,6 +58,7 @@ public class Pokemon {
     /**
      * Trainer (owner) of a pokemon
      */
+    @NotNull
     @ManyToOne
     private Trainer trainer;
 
@@ -146,7 +147,7 @@ public class Pokemon {
                 + ", nickname=" + nickname
                 + ", type=" + type
                 + ", skillLevel=" + skillLevel
-                + ", trainer=" + trainer
+                + ", trainer=" + (trainer == null ? "null" : "Trainer{id=" + trainer.getId() + ", ...}")
                 + '}';
     }
 }

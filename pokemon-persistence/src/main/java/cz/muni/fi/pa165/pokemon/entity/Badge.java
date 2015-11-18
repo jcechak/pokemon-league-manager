@@ -76,8 +76,8 @@ public class Badge {
     public String toString() {
         return "Badge{"
                 + "id=" + id
-                + ", stadium=" + stadium
-                + ", trainer=" + trainer
+                + ", stadium=" + (stadium == null ? "null" : "Stadium{id=" + stadium.getId() + ", ...")
+                + ", trainer=" + (trainer == null ? "null" : "Trainer{id=" + trainer.getId() + ", ...")
                 + '}';
     }
 

@@ -6,7 +6,6 @@ import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
-import cz.muni.fi.pa165.pokemon.facade.PokemonFacade;
 import cz.muni.fi.pa165.pokemon.service.MappingService;
 import cz.muni.fi.pa165.pokemon.service.PokemonService;
 import cz.muni.fi.pa165.pokemon.service.TrainerService;
@@ -15,7 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
@@ -102,6 +100,9 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
         persistedPokemon2.setSkillLevel(20);
         persistedPokemon2.setTrainer(trainer);
         persistedPokemon2.setType(PokemonType.GRASS);
+        
+        trainer.addPokemon(persistedPokemon2);
+        trainer.addPokemon(persistedPokemon);
 
         pokemon.setId(150l);
         pokemon.setName("K");
@@ -208,6 +209,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testCreatePokemon() {
         PokemonDTO result = pokemonFacade.createPokemon(pokemonCreateDTO);
+        
         assertEquals(result, pokemonDTO, "Created pokemon is not as expected.");
         assertEquals(result.getId(), pokemonDTO.getId(), "Created pokemon is not as expected.");
         assertEquals(result.getSkillLevel(), pokemonDTO.getSkillLevel(), "Created pokemon is not as expected.");
@@ -224,6 +226,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testGetPokemonById() {
         PokemonDTO result = pokemonFacade.getPokemonById(persistedPokemonDTO.getId());
+        
         assertEquals(result, persistedPokemonDTO, "Did not retrievd same pokemon.");
     }
 
@@ -234,6 +237,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
     public void testChangeSkill() {
         int newSkill = pokemonDTO.getSkillLevel()+1;
         pokemonFacade.changeSkill(pokemonDTO, newSkill);
+        
         assertNotNull(updatedPokemon, "There has not been any call of update method in pokemon service.");
         assertTrue(pokemonDTO.getSkillLevel() == newSkill, "Pokemon's level has not changed.");
     }
@@ -244,6 +248,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testChangeTrainer() {
         pokemonFacade.changeTrainer(pokemonDTO, trainerDTO);
+        
         assertEquals(pokemonDTO.getTrainerId(), trainerDTO.getId(), "Trainer id has not changed.");
         assertNotNull(updatedPokemon, "There has not been any call of update method in pokemon service.");
     }
@@ -254,6 +259,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testDeletePokemon() {
         pokemonFacade.deletePokemon(pokemonDTO);
+        
         assertNotNull(deletedPokemon, "There has not been any call of delete method in pokemon service.");
     }
 
@@ -263,6 +269,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testGetAllPokemons() {
         List<PokemonDTO> result = pokemonFacade.getAllPokemons();
+        
         assertEquals(result, PokemonDTOList, "Returned list is not as expected.");
     }
 
@@ -271,7 +278,10 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
      */
     @Test
     public void testGetAllPokemonsOfTrainerWithId() {
-        fail("Not tested.");
+        List<PokemonDTO> result = pokemonFacade.getAllPokemonsOfTrainerWithId(trainer.getId());
+        
+        assertTrue(result.size() == 2, "Returned list does not contain expected number of pokemons.");
+        assertEquals(result, PokemonDTOList, "Returned list doec not contain expected pokemons.");
     }
 
     /**

@@ -10,9 +10,9 @@ import org.testng.annotations.*;
 
 import javax.inject.Inject;
 import javax.persistence.*;
-import javax.validation.ConstraintViolationException;
 import java.sql.Date;
 import java.util.List;
+import org.springframework.dao.DataAccessException;
 
 import static org.testng.Assert.*;
 
@@ -127,7 +127,7 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
     public void tearDownMethod() throws Exception {
     }
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createNullTest() {
         Trainer trainer = new Trainer();
         trainer.setName("Brock");
@@ -137,7 +137,7 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
     }
 
 
-    @Test(expectedExceptions = PersistenceException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createTwiceTest() {
         trainerDao.create(t2);
         trainerDao.create(t2);
