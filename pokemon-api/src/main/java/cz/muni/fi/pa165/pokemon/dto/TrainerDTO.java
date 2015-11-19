@@ -119,9 +119,6 @@ public class TrainerDTO {
                 + ", name=" + name
                 + ", surname=" + surname
                 + ", dateOfBirth=" + dateOfBirth
-                + ", pokemons=" + pokemons
-                + ", badges=" + badges
-                + ", stadium=" + stadium
                 + '}';
     }
 }
