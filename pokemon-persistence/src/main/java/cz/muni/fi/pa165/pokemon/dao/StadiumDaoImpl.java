@@ -54,6 +54,7 @@ public class StadiumDaoImpl implements StadiumDao {
     public void update(Stadium stadium) {
         try {
             entityManager.merge(stadium);
+            entityManager.flush();
         } catch(IllegalArgumentException e) {
             throw new InvalidDataAccessApiUsageException("Unable to update object, because received object is not an entity.", e);
         } catch(TransactionRequiredException e) {
@@ -65,6 +66,7 @@ public class StadiumDaoImpl implements StadiumDao {
     public void delete(Stadium stadium) {
         try{
             entityManager.remove(entityManager.find(Stadium.class, stadium.getId()));
+            entityManager.flush();
         } catch(IllegalArgumentException e) {
             throw new InvalidDataAccessApiUsageException("Unable to remove object, because received object is not an entity.", e);
         } catch(TransactionRequiredException e) {
