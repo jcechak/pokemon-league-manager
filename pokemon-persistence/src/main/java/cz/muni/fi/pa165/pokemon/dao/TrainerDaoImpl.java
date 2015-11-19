@@ -1,11 +1,17 @@
 package cz.muni.fi.pa165.pokemon.dao;
 
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.dao.NonTransientDataAccessResourceException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.persistence.TransactionRequiredException;
 import javax.transaction.Transactional;
+import javax.validation.ValidationException;
 import java.util.List;
 
 /**
@@ -21,38 +27,65 @@ public class TrainerDaoImpl implements TrainerDao {
 
     @Override
     public void create(Trainer trainer) {
-        if(trainer == null) {
-            throw new NullPointerException("Trainer cannot be null");
-        }
-        entityManager.persist(trainer);
+        try {
+            entityManager.persist(trainer);
+        } catch (TransactionRequiredException | IllegalStateException e) {
+            throw new NonTransientDataAccessResourceException("Unable to create trainer due to database access failure.", e);
+        } catch (ValidationException | PersistenceException e){
+            throw new DataIntegrityViolationException("Unable to create trainer due to integrity violation.", e);
+        } catch (IllegalArgumentException iae){
+            throw new InvalidDataAccessApiUsageException("Unable to create object, because received object is not an entity.", iae);        }
+
     }
 
     @Override
     public void update(Trainer trainer) {
-        if(trainer == null) {
-            throw new NullPointerException("Trainer cannot be null");
+        try {
+            entityManager.merge(trainer);
+            entityManager.flush();
+        } catch (TransactionRequiredException | IllegalStateException e){
+            throw new NonTransientDataAccessResourceException("Unable to update trainer due to database access failure.", e);
+        } catch (ValidationException | PersistenceException e){
+            throw new DataIntegrityViolationException("Unable to update trainer due to integrity violation.", e);
+        } catch (IllegalArgumentException iae) {
+            throw new InvalidDataAccessApiUsageException("Unable to update object, because received object is not an entity.", iae);
         }
-        entityManager.merge(trainer);
     }
 
     @Override
     public void delete(Trainer trainer) {
-        if(trainer == null) {
-            throw new NullPointerException("Trainer cannot be null");
+        try {
+            entityManager.remove(entityManager.find(Trainer.class, trainer.getId()));
+            entityManager.flush();
+        } catch (TransactionRequiredException | IllegalStateException e) {
+            throw new NonTransientDataAccessResourceException("Unable to delete trainer due to database access failure.", e);
+        } catch (ValidationException | PersistenceException e) {
+            throw new DataIntegrityViolationException("Unable to delete trainer due to integrity violation.", e);
+        } catch (IllegalArgumentException iae) {
+            throw new InvalidDataAccessApiUsageException("Unable to delete object, because required object is not an entity.", iae);
         }
-        entityManager.remove(entityManager.find(Trainer.class, trainer.getId()));
     }
 
     @Override
     public Trainer findById(Long id) {
-        if(id == null) {
-            throw new NullPointerException("Id is null");
+        try {
+            return entityManager.find(Trainer.class, id);
+        } catch (IllegalStateException e) {
+            throw new NonTransientDataAccessResourceException("Unable to retrieve trainer due to database access failure.", e);
+        } catch (IllegalArgumentException iae){
+            throw new InvalidDataAccessApiUsageException("Unable to retrieve object, because received key is not valid primary key.", iae);
         }
-        return entityManager.find(Trainer.class, id);
+
     }
 
     @Override
     public List<Trainer> findAll() {
-        return entityManager.createQuery("SELECT t FROM Trainer t", Trainer.class).getResultList();
+        try {
+            return entityManager.createQuery("SELECT t FROM Trainer t", Trainer.class).getResultList();
+        } catch (IllegalStateException e) {
+            throw new NonTransientDataAccessResourceException("Unable to retrieve list due to database access failure.",e);
+        } catch (IllegalArgumentException iae) {
+            throw new InvalidDataAccessApiUsageException("Unable to retrieve list due to internal error.", iae);
+        }
     }
 }
