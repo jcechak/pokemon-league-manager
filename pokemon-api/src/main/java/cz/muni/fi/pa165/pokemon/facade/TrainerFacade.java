@@ -35,19 +35,19 @@ public interface TrainerFacade {
      * @param stadium the stadium we check the leader at
      * @return true if the trainer is leader of given stadium, false otherwise
      */
-    boolean isLeaderOfTheStadium(StadiumDTO stadium);
+    boolean isLeaderOfTheStadium(TrainerDTO trainerDTO, StadiumDTO stadium);
     
     /**
      * Adds the pokemon to the trainer
      * @param pokemon the pokemon to be added
      */
-    void addPokemon(PokemonDTO pokemon);
+    void addPokemon(TrainerDTO trainerDTO, PokemonDTO pokemon);
     
     /**
      * Adds the badge to the trainer
      * @param badge the badge to be added
      */
-    void addBadge(BadgeDTO badge);
+    void addBadge(TrainerDTO trainerDTO, BadgeDTO badge);
     
     /**
      * Finds the trainer with given id

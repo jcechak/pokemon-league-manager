@@ -4,10 +4,15 @@ import cz.muni.fi.pa165.pokemon.dto.BadgeDTO;
 import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
 import cz.muni.fi.pa165.pokemon.dto.StadiumDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
+import cz.muni.fi.pa165.pokemon.entity.Badge;
+import cz.muni.fi.pa165.pokemon.entity.Pokemon;
+import cz.muni.fi.pa165.pokemon.entity.Stadium;
+import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.facade.TrainerFacade;
+import cz.muni.fi.pa165.pokemon.service.MappingService;
 import cz.muni.fi.pa165.pokemon.service.TrainerService;
 import java.util.Collection;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,19 +22,24 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class TrainerFacadeImpl implements TrainerFacade{
+public class TrainerFacadeImpl implements TrainerFacade {
     
-    @Autowired
+    @Inject
     private TrainerService trainerService;
     
+    @Inject
+    private MappingService beanMappingService;
+    
     @Override
-    public void createTrainer(TrainerDTO trainer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void createTrainer(TrainerDTO trainerDTO) {
+        Trainer trainerEntity = beanMappingService.map(trainerDTO, Trainer.class);
+        trainerService.createTrainer(trainerEntity);
+        trainerDTO.setId(trainerEntity.getId());
     }
 
     @Override
-    public void deleteTrainer(TrainerDTO trainer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void deleteTrainer(TrainerDTO trainerDTO) {
+        trainerService.deleteTrainer(beanMappingService.map(trainerDTO, Trainer.class));
     }
 
     @Override
@@ -38,48 +48,52 @@ public class TrainerFacadeImpl implements TrainerFacade{
     }
 
     @Override
-    public boolean isLeaderOfTheStadium(StadiumDTO stadium) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean isLeaderOfTheStadium(TrainerDTO trainerDTO, StadiumDTO stadiumDTO) {
+        return trainerService.isLeaderOfTheStadium(beanMappingService.map(trainerDTO, Trainer.class), beanMappingService.map(stadiumDTO, Stadium.class));
     }
 
     @Override
-    public void addPokemon(PokemonDTO pokemon) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addPokemon(TrainerDTO trainerDTO, PokemonDTO pokemonDTO) {
+        trainerService.addPokemon(beanMappingService.map(trainerDTO, Trainer.class), beanMappingService.map(pokemonDTO, Pokemon.class));
     }
 
     @Override
-    public void addBadge(BadgeDTO badge) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addBadge(TrainerDTO trainerDTO, BadgeDTO badgeDTO) {
+        trainerService.addBadge(beanMappingService.map(trainerDTO, Trainer.class), beanMappingService.map(badgeDTO, Badge.class));
     }
 
     @Override
     public TrainerDTO findTrainerById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Trainer trainer = trainerService.findTrainerById(id);
+        return (trainer == null) ? null : beanMappingService.map(trainer, TrainerDTO.class);
     }
 
     @Override
     public Collection<TrainerDTO> findAllTrainers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return beanMappingService.map(trainerService.findAllTrainers(), TrainerDTO.class);
+    }
+
+    //TODO spravne?
+    @Override
+    public Collection<TrainerDTO> findAllTrainersWithPokemon(PokemonDTO pokemonDTO) {
+        return beanMappingService.map(trainerService.findAllTrainersWithPokemon(beanMappingService.map(pokemonDTO, Pokemon.class)), TrainerDTO.class);
     }
 
     @Override
-    public Collection<TrainerDTO> findAllTrainersWithPokemon(PokemonDTO pokemon) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Collection<TrainerDTO> findAllTrainersWithBadge(BadgeDTO badge) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Collection<TrainerDTO> findAllTrainersWithBadge(BadgeDTO badgeDTO) {
+        return beanMappingService.map(trainerService.findAllTrainersWithBadge(beanMappingService.map(badgeDTO, Badge.class)), TrainerDTO.class);
     }
 
     @Override
     public Collection<TrainerDTO> findAllTrainersWithName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Trainer> trainers = trainerService.findAllTrainersWithName(name);
+        return (trainers == null) ? null : beanMappingService.map(trainers, TrainerDTO.class);
     }
 
     @Override
     public Collection<TrainerDTO> findAllTrainersWithSurname(String surname) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Trainer> trainers = trainerService.findAllTrainersWithSurname(surname);
+        return (trainers == null) ? null : beanMappingService.map(trainers, TrainerDTO.class);
     }
 
     

@@ -38,19 +38,19 @@ public interface TrainerService {
      * @param stadium the stadium we check the leader at
      * @return true if the trainer is leader of given stadium, false otherwise
      */
-    boolean isLeaderOfTheStadium(Stadium stadium);
+    boolean isLeaderOfTheStadium(Trainer trainer, Stadium stadium);
     
     /**
      * Adds the pokemon to the trainer
      * @param pokemon the pokemon to be added
      */
-    void addPokemon(Pokemon pokemon);
+    void addPokemon(Trainer trainer, Pokemon pokemon);
     
     /**
      * Adds the badge to the trainer
      * @param badge the badge to be added
      */
-    void addBadge(Badge badge);
+    void addBadge(Trainer trainer, Badge badge);
     
     /**
      * Finds a trainer with given id

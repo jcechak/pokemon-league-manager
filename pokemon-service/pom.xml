@@ -41,6 +41,7 @@
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
             <version>5.5.1</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>net.sf.dozer</groupId>
@@ -64,6 +65,7 @@
             <artifactId>mockito-all</artifactId>
             <version>2.0.2-beta</version>
             <scope>test</scope>
+            <type>jar</type>
         </dependency>
     </dependencies>
     <properties>

@@ -35,17 +35,17 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
-    public boolean isLeaderOfTheStadium(Stadium stadium) {
+    public boolean isLeaderOfTheStadium(Trainer trainer, Stadium stadium) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void addPokemon(Pokemon pokemon) {
+    public void addPokemon(Trainer trainer, Pokemon pokemon) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void addBadge(Badge badge) {
+    public void addBadge(Trainer trainer, Badge badge) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

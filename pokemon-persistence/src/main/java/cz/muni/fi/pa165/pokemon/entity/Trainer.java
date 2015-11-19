@@ -160,9 +160,6 @@ public class Trainer {
                 + ", name=" + name
                 + ", surname=" + surname
                 + ", dateOfBirth=" + dateOfBirth
-                + ", pokemons=" + pokemons
-                + ", badges=" + badges
-                + ", stadium=" + stadium
                 + '}';
     }
 
