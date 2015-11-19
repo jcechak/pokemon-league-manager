@@ -36,7 +36,8 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public boolean isLeaderOfTheStadium(Trainer trainer, Stadium stadium) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Trainer found = trainerDao.findById(trainer.getId());
+        return found.getStadium().equals(stadium);
     }
 
     @Override
