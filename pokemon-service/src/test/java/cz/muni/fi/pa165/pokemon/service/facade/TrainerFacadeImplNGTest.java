@@ -1,11 +1,8 @@
 package cz.muni.fi.pa165.pokemon.service.facade;
 
-import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
-import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
-import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import cz.muni.fi.pa165.pokemon.facade.TrainerFacade;
 import cz.muni.fi.pa165.pokemon.service.MappingService;
 import cz.muni.fi.pa165.pokemon.service.PokemonService;
