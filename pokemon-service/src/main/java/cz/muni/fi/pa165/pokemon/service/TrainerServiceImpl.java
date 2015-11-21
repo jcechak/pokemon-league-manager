@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.pokemon.dao.TrainerDao;
 import cz.muni.fi.pa165.pokemon.entity.Badge;
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
+import cz.muni.fi.pa165.pokemon.entity.Tournament;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import java.util.Collection;
 import java.util.List;
@@ -36,18 +37,44 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public boolean isLeaderOfTheStadium(Trainer trainer, Stadium stadium) {
-        Trainer found = trainerDao.findById(trainer.getId());
-        return found.getStadium().equals(stadium);
+        return trainer.getStadium().equals(stadium);
     }
 
+    @Override
+    public boolean mayEnrollInTournament(Trainer trainer, Tournament tournament) {
+        if(trainer.getPokemons().size() < tournament.getMiminalPokemonCount()) {
+            return false;
+        }
+        
+        for(Pokemon p : trainer.getPokemons()) {
+            if(p.getSkillLevel() < tournament.getMinimalPokemonLevel()) {
+                return false;
+            }
+        }
+        
+        for(Badge b : tournament.getBadges()) {
+            if(!(trainer.getBadges().contains(b))) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
     @Override
     public void addPokemon(Trainer trainer, Pokemon pokemon) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        trainer.addPokemon(pokemon);
+        //pokemon.setTrainer(trainer);
+        trainerDao.update(trainer);
     }
 
+    //TODO dao call - method for adding badge
     @Override
     public void addBadge(Trainer trainer, Badge badge) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!(this.isLeaderOfTheStadium(trainer, badge.getStadium()))) {
+            trainer.addBadge(badge);
+            trainerDao.update(trainer);
+        }
     }
 
     @Override

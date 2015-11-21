@@ -1,0 +1,105 @@
+package cz.muni.fi.pa165.pokemon.entity;
+
+import java.util.List;
+import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
+/**
+ *
+ * @author Milos Bartak
+ */
+public class Tournament {
+    
+    private Long id;
+
+    private String tournamentName;
+
+    private String townName;
+    
+    private int miminalPokemonCount;
+    
+    private int minimalPokemonLevel;
+    
+    private List<Badge> badges;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTournamentName() {
+        return tournamentName;
+    }
+
+    public void setTournamentName(String tournamentName) {
+        this.tournamentName = tournamentName;
+    }
+    
+    public String getTownName() {
+        return townName;
+    }
+
+    public void setTownName(String townName) {
+        this.townName = townName;
+    }
+
+    public int getMiminalPokemonCount() {
+        return miminalPokemonCount;
+    }
+
+    public void setMiminalPokemonCount(int miminalPokemonCount) {
+        this.miminalPokemonCount = miminalPokemonCount;
+    }
+
+    public int getMinimalPokemonLevel() {
+        return minimalPokemonLevel;
+    }
+
+    public void setMinimalPokemonLevel(int minimalPokemonLevel) {
+        this.minimalPokemonLevel = minimalPokemonLevel;
+    }
+
+    public List<Badge> getBadges() {
+        return badges;
+    }
+
+    public void setBadges(List<Badge> badges) {
+        this.badges = badges;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 43 * hash + Objects.hashCode(this.tournamentName);
+        hash = 43 * hash + Objects.hashCode(this.townName);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Tournament other = (Tournament) obj;
+        if (!Objects.equals(this.tournamentName, other.tournamentName)) {
+            return false;
+        }
+        if (!Objects.equals(this.townName, other.townName)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
+}

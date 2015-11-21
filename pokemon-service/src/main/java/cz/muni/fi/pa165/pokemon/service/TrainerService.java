@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.pokemon.service;
 import cz.muni.fi.pa165.pokemon.entity.Badge;
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
+import cz.muni.fi.pa165.pokemon.entity.Tournament;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import java.util.Collection;
 import java.util.List;
@@ -35,19 +36,30 @@ public interface TrainerService {
     
     /**
      * Checks whether the trainer is leader at given stadium
+     * @param trainer the trainer whom we check is leader of the stadium
      * @param stadium the stadium we check the leader at
      * @return true if the trainer is leader of given stadium, false otherwise
      */
     boolean isLeaderOfTheStadium(Trainer trainer, Stadium stadium);
     
     /**
+     * Checks if the trainer is ready to participate in a tournament
+     * @param trainer the trainer that want to enroll
+     * @param tournament the tournament the trainer wants to neroll to
+     * @return true if trainer may participate, false otherwise
+     */
+    boolean mayEnrollInTournament(Trainer trainer, Tournament tournament);
+    
+    /**
      * Adds the pokemon to the trainer
+     * @param trainer the trainer to add the pokemon to
      * @param pokemon the pokemon to be added
      */
     void addPokemon(Trainer trainer, Pokemon pokemon);
     
     /**
      * Adds the badge to the trainer
+     * @param trainer the trainer to add the badge to
      * @param badge the badge to be added
      */
     void addBadge(Trainer trainer, Badge badge);
