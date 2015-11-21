@@ -37,7 +37,7 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public boolean isLeaderOfTheStadium(Trainer trainer, Stadium stadium) {
-        return trainer.getStadium().equals(stadium);
+        return stadium.equals(trainer.getStadium());
     }
 
     @Override

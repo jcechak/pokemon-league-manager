@@ -43,6 +43,7 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     @Mock
     private Trainer setUpTrainer2;
     
+    @Mock
     private Tournament tournament;
     
     @Mock
@@ -100,10 +101,6 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         
         when(trainerDao.findById(12L)).thenReturn(setUpTrainer);
         when(trainerDao.findAll()).thenReturn(trainers);
-        when(trainerService.mayEnrollInTournament(setUpTrainer, tournament)).thenReturn(true);
-        
-        Mockito.doReturn(true).when(trainerService).isLeaderOfTheStadium(setUpTrainer, stadium);
-        Mockito.doReturn(false).when(trainerService).isLeaderOfTheStadium(setUpTrainer2, stadium);
     }
     
     @Test
@@ -126,11 +123,20 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     
     @Test
     public void testIsLeaderOfTheStadium() {
-        Boolean isLeader = trainerService.isLeaderOfTheStadium(setUpTrainer, stadium);
+        /*Boolean isLeader = trainerService.isLeaderOfTheStadium(setUpTrainer, stadium);
         
         assertEquals(isLeader, Boolean.TRUE, "Trainer is not leader and should be");
         
         isLeader = trainerService.isLeaderOfTheStadium(setUpTrainer2, stadium);
+        
+        assertEquals(isLeader, Boolean.FALSE, "Trainer is leader and should not be");*/
+        
+        TrainerService trainerService2 = new TrainerServiceImpl();
+        Boolean isLeader = trainerService2.isLeaderOfTheStadium(setUpTrainer, stadium);
+        
+        assertEquals(isLeader, Boolean.TRUE, "Trainer is not leader and should be");
+        
+        isLeader = trainerService2.isLeaderOfTheStadium(setUpTrainer2, stadium);
         
         assertEquals(isLeader, Boolean.FALSE, "Trainer is leader and should not be");
     }
@@ -149,14 +155,17 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     
     @Test
     public void testMayEnrollInTournament() {
-        
-        
         Pokemon pokemon = new Pokemon();
         pokemon.setSkillLevel(25);
         setUpTrainer.addPokemon(pokemon);
         
-        assertEquals(trainerService.mayEnrollInTournament(setUpTrainer, tournament), true);
-        assertEquals(trainerService.mayEnrollInTournament(setUpTrainer2, tournament), false);
+        TrainerService trainerService2 = new TrainerServiceImpl();
+        
+        //assertEquals(trainerService.mayEnrollInTournament(setUpTrainer, tournament), true);
+        //assertEquals(trainerService.mayEnrollInTournament(setUpTrainer2, tournament), false);
+        
+        assertEquals(trainerService2.mayEnrollInTournament(setUpTrainer, tournament), true);
+        assertEquals(trainerService2.mayEnrollInTournament(setUpTrainer2, tournament), false);
     }
     
 }
