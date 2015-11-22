@@ -18,6 +18,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 /**
+ * Entity representing a trainer in the system
+ * 
  * @author Milos Bartak
  */
 @Entity

@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * Implementetion of the TrainerService providing service to facade layer.
+ * 
  * @author Milos Bartak
  */
 @Service

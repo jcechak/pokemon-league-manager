@@ -10,7 +10,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * Interface of TrainerService providing service to facade layer.
+ * 
  * @author Milos Bartak
  */
 @Service

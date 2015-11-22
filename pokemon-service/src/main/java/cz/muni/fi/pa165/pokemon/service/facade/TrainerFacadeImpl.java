@@ -17,7 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * Implementation of the TrainerFacade that uses Service layer to acces entities.
+ * 
  * @author Milos Bartak
  */
 @Service

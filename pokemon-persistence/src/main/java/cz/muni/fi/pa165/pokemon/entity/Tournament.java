@@ -2,15 +2,11 @@ package cz.muni.fi.pa165.pokemon.entity;
 
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+
 
 /**
- *
+ * Class representing a tournament in which trainers may participate
+ * 
  * @author Milos Bartak
  */
 public class Tournament {

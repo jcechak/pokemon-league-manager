@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *
+ * Data transfer object used for transferring information about trainer.
+ * 
  * @author Milos Bartak
  */
 public class TrainerDTO {

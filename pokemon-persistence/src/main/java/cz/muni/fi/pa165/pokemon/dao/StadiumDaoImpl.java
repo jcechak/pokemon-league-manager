@@ -18,7 +18,8 @@ import org.springframework.dao.NonTransientDataAccessResourceException;
 import org.springframework.stereotype.Repository;
 
 /**
- *
+ * Implementation of Stadium data acces object having basic CRUD operations.
+ * 
  * @author Milos Bartak
  */
 @Repository

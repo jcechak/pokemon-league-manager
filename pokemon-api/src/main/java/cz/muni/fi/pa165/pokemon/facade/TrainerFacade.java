@@ -7,7 +7,8 @@ import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
 import java.util.Collection;
 
 /**
- *
+ * Interface for facade layer for manipulating with trainer data transfer objects
+ * 
  * @author Milos Bartak
  */
 public interface TrainerFacade {

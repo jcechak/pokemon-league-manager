@@ -6,7 +6,8 @@ import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import java.util.List;
 
 /**
- *
+ * Interface for Stadium data acces object having basic CRUD operations.
+ * 
  * @author Milos Bartak
  */
 public interface StadiumDao {
