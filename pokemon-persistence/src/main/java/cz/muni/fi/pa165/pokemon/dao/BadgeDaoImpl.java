@@ -3,18 +3,15 @@ package cz.muni.fi.pa165.pokemon.dao;
 import cz.muni.fi.pa165.pokemon.entity.Badge;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.TransactionRequiredException;
-import javax.transaction.Transactional;
-import javax.validation.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.NonTransientDataAccessResourceException;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.*;
+import javax.transaction.Transactional;
+import javax.validation.ValidationException;
+import java.util.List;
 
 /**
  * Implements CRUD operations with Badge entity.
@@ -33,9 +30,9 @@ public class BadgeDaoImpl implements BadgeDao {
         try {
             em.persist(badge);
         } catch (TransactionRequiredException | IllegalStateException e) {
-            throw new NonTransientDataAccessResourceException("Unable to create pokemon due to database access failure.", e);
+            throw new NonTransientDataAccessResourceException("Unable to create badge due to database access failure.", e);
         } catch (ValidationException | PersistenceException e) {
-            throw new DataIntegrityViolationException("Unable to create pokemon due to integrity violation.", e);
+            throw new DataIntegrityViolationException("Unable to create badge due to integrity violation.", e);
         } catch (IllegalArgumentException iae) {
             throw new InvalidDataAccessApiUsageException("Unable to create object, because received object is not an entity.", iae);
         }
@@ -47,9 +44,9 @@ public class BadgeDaoImpl implements BadgeDao {
             em.merge(badge);
             em.flush();
         } catch (TransactionRequiredException | IllegalStateException e) {
-            throw new NonTransientDataAccessResourceException("Unable to update pokemon due to database access failure.", e);
+            throw new NonTransientDataAccessResourceException("Unable to update badge due to database access failure.", e);
         } catch (ValidationException | PersistenceException e) {
-            throw new DataIntegrityViolationException("Unable to update pokemon due to integrity violation.", e);
+            throw new DataIntegrityViolationException("Unable to update badge due to integrity violation.", e);
         } catch (IllegalArgumentException iae) {
             throw new InvalidDataAccessApiUsageException("Unable to update object, because received object is not an entity or this entity has been already removed.", iae);
         }
@@ -61,9 +58,9 @@ public class BadgeDaoImpl implements BadgeDao {
             em.remove(em.find(Badge.class, badge.getId()));
             em.flush();
         } catch (TransactionRequiredException | IllegalStateException e) {
-            throw new NonTransientDataAccessResourceException("Unable to delete pokemon due to database access failure.", e);
+            throw new NonTransientDataAccessResourceException("Unable to delete badge due to database access failure.", e);
         } catch (ValidationException | PersistenceException e) {
-            throw new DataIntegrityViolationException("Unable to delete pokemon due to error in database layer.", e);
+            throw new DataIntegrityViolationException("Unable to delete badge due to error in database layer.", e);
         } catch (IllegalArgumentException iae) {
             throw new InvalidDataAccessApiUsageException("Unable to delete object, because received object is not an entity.", iae);
         }
@@ -74,9 +71,9 @@ public class BadgeDaoImpl implements BadgeDao {
         try {
             return em.find(Badge.class, id);
         } catch (IllegalStateException e) {
-            throw new NonTransientDataAccessResourceException("Unable to retrieve pokemon due to database access failure.", e);
+            throw new NonTransientDataAccessResourceException("Unable to retrieve badge due to database access failure.", e);
         } catch (IllegalArgumentException iae) {
-            throw new InvalidDataAccessApiUsageException("Unable to retrieve pokemon, because the given key is not a valid primary key.", iae);
+            throw new InvalidDataAccessApiUsageException("Unable to retrieve badge, because the given key is not a valid primary key.", iae);
         }
     }
 
@@ -86,9 +83,9 @@ public class BadgeDaoImpl implements BadgeDao {
             return em.createQuery("SELECT b FROM Badge b", Badge.class)
                     .getResultList();
         } catch (IllegalStateException e) {
-            throw new NonTransientDataAccessResourceException("Unable to retrieve pokemons due to database access failure.", e);
+            throw new NonTransientDataAccessResourceException("Unable to retrieve badges due to database access failure.", e);
         } catch (IllegalArgumentException iae) {
-            throw new InvalidDataAccessApiUsageException("Unable to retrieve pokemons due to internal error.", iae);
+            throw new InvalidDataAccessApiUsageException("Unable to retrieve badges due to internal error.", iae);
         }
     }
 
@@ -100,9 +97,9 @@ public class BadgeDaoImpl implements BadgeDao {
                     .setParameter("t", trainer)
                     .getResultList();
         } catch (IllegalStateException e) {
-            throw new NonTransientDataAccessResourceException("Unable to retrieve pokemons due to database access failure.", e);
+            throw new NonTransientDataAccessResourceException("Unable to retrieve badges due to database access failure.", e);
         } catch (IllegalArgumentException iae) {
-            throw new InvalidDataAccessApiUsageException("Unable to retrieve pokemons due to internal error.", iae);
+            throw new InvalidDataAccessApiUsageException("Unable to retrieve badges due to internal error.", iae);
         }
     }
 
@@ -114,9 +111,9 @@ public class BadgeDaoImpl implements BadgeDao {
                     .setParameter("s", stadium)
                     .getResultList();
         } catch (IllegalStateException e) {
-            throw new NonTransientDataAccessResourceException("Unable to retrieve pokemons due to database access failure.", e);
+            throw new NonTransientDataAccessResourceException("Unable to retrieve badges due to database access failure.", e);
         } catch (IllegalArgumentException iae) {
-            throw new InvalidDataAccessApiUsageException("Unable to retrieve pokemons due to internal error.", iae);
+            throw new InvalidDataAccessApiUsageException("Unable to retrieve badges due to internal error.", iae);
         }
     }
 
@@ -132,9 +129,9 @@ public class BadgeDaoImpl implements BadgeDao {
         } catch (NoResultException nre) {
             return null;
         } catch (IllegalStateException e) {
-            throw new NonTransientDataAccessResourceException("Unable to retrieve pokemons due to database access failure.", e);
+            throw new NonTransientDataAccessResourceException("Unable to retrieve badges due to database access failure.", e);
         } catch (IllegalArgumentException iae) {
-            throw new InvalidDataAccessApiUsageException("Unable to retrieve pokemons due to internal error.", iae);
+            throw new InvalidDataAccessApiUsageException("Unable to retrieve badges due to internal error.", iae);
         }
     }
 

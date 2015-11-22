@@ -9,11 +9,12 @@ import cz.muni.fi.pa165.pokemon.facade.PokemonFacade;
 import cz.muni.fi.pa165.pokemon.service.MappingService;
 import cz.muni.fi.pa165.pokemon.service.PokemonService;
 import cz.muni.fi.pa165.pokemon.service.TrainerService;
-import java.util.LinkedList;
-import java.util.List;
+import org.springframework.stereotype.Service;
+
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import org.springframework.stereotype.Service;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Implementation of facade interface defining the facade's contracts.
@@ -109,7 +110,7 @@ public class PokemonFacadeImpl implements PokemonFacade {
     }
 
     @Override
-    public List<PokemonDTO> getAllPokemonsWtihType(PokemonType type) {
+    public List<PokemonDTO> getAllPokemonsWithType(PokemonType type) {
         List<Pokemon> allPokemons = pokemonService.getAllPokemons();
         List<PokemonDTO> pokemonsWithType = new LinkedList<>();
         for (Pokemon p : allPokemons) {

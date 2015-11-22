@@ -9,24 +9,22 @@ import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import cz.muni.fi.pa165.pokemon.service.MappingService;
 import cz.muni.fi.pa165.pokemon.service.PokemonService;
 import cz.muni.fi.pa165.pokemon.service.TrainerService;
-import java.sql.Date;
-import java.util.LinkedList;
-import java.util.List;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.*;
+
+import java.sql.Date;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.*;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 /**
  * Tests correctnes of PokemonFacade implementations
@@ -297,11 +295,11 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
     }
 
     /**
-     * Test of getAllPokemonsWtihType method, of class PokemonFacadeImpl.
+     * Test of getAllPokemonsWithType method, of class PokemonFacadeImpl.
      */
     @Test
     public void testGetAllPokemonsWtihType() {
-        List<PokemonDTO> result = pokemonFacade.getAllPokemonsWtihType(PokemonType.GRASS);
+        List<PokemonDTO> result = pokemonFacade.getAllPokemonsWithType(PokemonType.GRASS);
         List<PokemonDTO> expected = new LinkedList<>();
         expected.add(persistedPokemonDTO2);
         

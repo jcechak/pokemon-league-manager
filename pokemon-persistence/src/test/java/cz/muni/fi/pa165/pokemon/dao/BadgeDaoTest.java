@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.pokemon.entity.Badge;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
@@ -14,9 +15,7 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceException;
 import javax.persistence.PersistenceUnit;
-import javax.validation.ConstraintViolationException;
 import java.sql.Date;
 import java.util.List;
 
@@ -135,7 +134,7 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
 
     }
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
+    @Test(expectedExceptions = DataIntegrityViolationException.class)
     public void createNullTest() {
         Badge badge = new Badge();
         badge.setStadium(null);
@@ -144,7 +143,7 @@ public class BadgeDaoTest extends AbstractTestNGSpringContextTests {
     }
 
 
-    @Test(expectedExceptions = PersistenceException.class)
+    @Test(expectedExceptions = DataIntegrityViolationException.class)
     public void createTwiceTest() {
         badgeDao.create(badge1);
     }

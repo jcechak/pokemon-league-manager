@@ -2,14 +2,9 @@ package cz.muni.fi.pa165.pokemon.entity;
 
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 /**
  * This class corresponds to entity stadium.
@@ -87,7 +82,7 @@ public class Stadium {
     public String toString() {
         return "Stadium{" +
                 "id=" + id +
-                ", leader=" + leader +
+                ", leader=" + "Trainer{id= " + leader.getId() + ", ..." +
                 ", city='" + city + '\'' +
                 ", type=" + type +
                 '}';

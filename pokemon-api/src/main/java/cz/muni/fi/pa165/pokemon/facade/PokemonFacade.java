@@ -22,9 +22,9 @@ public interface PokemonFacade {
     PokemonDTO createPokemon(PokemonCreateDTO pokemon);
 
     /**
-     * Retruns pokemon with given id
+     * Returns pokemon with given id
      *
-     * @param id id of pokenon
+     * @param id id of pokemon
      * @return pokemon with given id
      */
     PokemonDTO getPokemonById(Long id);
@@ -88,5 +88,5 @@ public interface PokemonFacade {
      * @param type type of pokemon
      * @return {@link java.util.List List} of all pokemons of the given type
      */
-    List<PokemonDTO> getAllPokemonsWtihType(PokemonType type);
+    List<PokemonDTO> getAllPokemonsWithType(PokemonType type);
 }

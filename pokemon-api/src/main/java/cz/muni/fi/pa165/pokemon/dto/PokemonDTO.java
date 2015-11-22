@@ -4,14 +4,14 @@ import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import java.util.Objects;
 
 /**
- * Data transfer object for transafering information about a pokemon.
+ * Data transfer object for transfering information about a pokemon.
  *
  * @author Jaroslav Cechak
  */
 public class PokemonDTO {
 
     /**
-     * Id of corresponding object in persistance
+     * Id of corresponding object in persistence
      */
     private Long id;
 
