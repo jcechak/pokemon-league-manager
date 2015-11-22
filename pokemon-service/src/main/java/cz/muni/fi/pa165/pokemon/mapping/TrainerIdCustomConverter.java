@@ -2,12 +2,13 @@ package cz.muni.fi.pa165.pokemon.mapping;
 
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.service.TrainerService;
-import javax.inject.Inject;
 import org.dozer.CustomConverter;
 import org.dozer.MappingException;
 
+import javax.inject.Inject;
+
 /**
- * Custom convertor between pokemon entity and pokemon DTO. Reason for this is
+ * Custom converter between pokemon entity and pokemon DTO. Reason for this is
  * that pokemon DTO stores only trainer id and not a whole trainer to prevent
  * infinite recursion of dependencies and database fetches. It transforms
  * Trainer to Long (his/her id) and vice versa.

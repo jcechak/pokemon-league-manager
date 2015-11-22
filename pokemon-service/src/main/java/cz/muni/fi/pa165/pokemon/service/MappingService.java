@@ -1,12 +1,13 @@
 package cz.muni.fi.pa165.pokemon.service;
 
-import java.util.Collection;
-import java.util.List;
 import org.dozer.Mapper;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
- * Service for easier mapping between entities and DTO obejects. Also provides a
- * mean for mapping top level collestions between these two types.
+ * Service for easier mapping between entities and DTO objects. Also provides a
+ * mean for mapping top level collections between these two types.
  *
  * @author Jaroslav Cechak
  */
@@ -16,9 +17,9 @@ public interface MappingService {
      * Method for mapping any Collection of some type to List of type T
      *
      * @param <T> type of items in returned list
-     * @param sourceCollection collectio to be mapped
+     * @param sourceCollection collection to be mapped
      * @param destinationClass class type of items in returned list
-     * @return list of all items of source collestion mapped to type T
+     * @return list of all items of source collection mapped to type T
      */
     <T> List<T> map(Collection<?> sourceCollection, Class<T> destinationClass);
 

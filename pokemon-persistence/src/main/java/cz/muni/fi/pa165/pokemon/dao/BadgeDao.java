@@ -37,7 +37,7 @@ public interface BadgeDao {
      * Finds entity with the given id.
      *
      * @param id of entity to be retrieved, must not be null.
-     * @return {@link cz.muni.fi.pa165.pokemon.entity.Badge Badge} with the
+     * @return {@link cz.muni.fi.pa165.pokemon.entity.Badge} with the
      * given id or null if there is no entity with such id
      */
     Badge findById(Long id);
@@ -54,16 +54,16 @@ public interface BadgeDao {
      * Finds all badges received by given trainer.
      *
      * @param trainer that received badges, must not be null
-     * @return {@link java.util.List List} of all badges received by trainer,
+     * @return {@link java.util.List} of all badges received by trainer,
      * list is empty if there is no such badge (list is never null)
      */
     List<Badge> findAllWithTrainer(Trainer trainer);
 
     /**
-     * Finds all badges issued in the given stadium
+     * Finds all badges issued in the given stadium.
      *
      * @param stadium that issued badges, must not be null
-     * @return {@link java.util.List List} of all badges issued by stadium, list
+     * @return {@link java.util.List} of all badges issued by stadium, list
      * is empty if there is no such badge (list is never null)
      */
     List<Badge> findAllWithStadium(Stadium stadium);
@@ -73,7 +73,7 @@ public interface BadgeDao {
      *
      * @param trainer that received a badge, must not be null
      * @param stadium that issued a badge, must not be null
-     * @return {@link cz.muni.fi.pa165.pokemon.entity.Badge Badge} that was
+     * @return {@link cz.muni.fi.pa165.pokemon.entity.Badge} that was
      * issued by stadium to trainer
      */
     Badge findByTrainerAndStadium(Trainer trainer, Stadium stadium);

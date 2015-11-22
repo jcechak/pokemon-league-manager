@@ -1,8 +1,6 @@
 package cz.muni.fi.pa165.pokemon.context;
 
 import cz.muni.fi.pa165.pokemon.mapping.TrainerIdCustomConverter;
-import java.util.HashMap;
-import java.util.Map;
 import org.dozer.CustomConverter;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +11,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * This class cofigures all the beans necessary to provide service layer with
+ * This class configures all the beans necessary to provide service layer with
  * spring context
  *
  * @author Jaroslav Cechak
