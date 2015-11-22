@@ -4,7 +4,7 @@ import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import java.util.Objects;
 
 /**
- * Data transfer object for transfering information about a pokemon.
+ * Data transfer object for transferring information about a pokemon.
  *
  * @author Jaroslav Cechak
  */
