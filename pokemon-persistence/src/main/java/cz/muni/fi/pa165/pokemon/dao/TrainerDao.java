@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.pokemon.dao;
 
+import cz.muni.fi.pa165.pokemon.entity.Badge;
+import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 
 import java.util.List;
@@ -39,4 +41,12 @@ public interface TrainerDao {
      * @return  List of all existing Trainers
      */
     List<Trainer> findAll();
+
+    List<Trainer> findAllTrainersWithPokemon(Pokemon pokemon);
+
+    List<Trainer> findAllTrainersWithBadge(Badge badge);
+
+    List<Trainer> findAllTrainersWithName(String name);
+
+    List<Trainer> findAllTrainersWithSurname(String surname);
 }
