@@ -5,20 +5,16 @@ import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import java.util.Objects;
 
 /**
- *
+ * Implementation of data transfer object, used for transfer of stadium data.
  * @author Dominika Talianova
  */
 public class StadiumDTO {
 
     private Long id;
 
-    private String name;
-
     private String city;
 
     private TrainerDTO stadiumLeader;
-
-    private BadgeDTO badge;
 
     private PokemonType stadiumType;
 
@@ -29,14 +25,6 @@ public class StadiumDTO {
 
     public void setId(Long id){
         this.id = id;
-    }
-
-    public String getName(){
-        return name;
-    }
-
-    public void setName(String name){
-        this.name = name;
     }
 
     public String getCity(){
@@ -55,14 +43,6 @@ public class StadiumDTO {
         this.stadiumLeader = stadiumLeader;
     }
 
-    public  BadgeDTO getBadge(){
-        return badge;
-    }
-
-    public void setBadge(BadgeDTO badge){
-        this.badge = badge;
-    }
-
     public PokemonType getStadiumType(){
         return stadiumType;
     }
@@ -74,7 +54,7 @@ public class StadiumDTO {
     @Override
     public int hashCode(){
         int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this.name);
+        hash = 23 * hash + Objects.hashCode(this.stadiumLeader);
         hash = 23 * hash + Objects.hashCode(this.city);
         return hash;
     }
@@ -88,9 +68,8 @@ public class StadiumDTO {
             return false;
         }
         StadiumDTO other = (StadiumDTO) obj;
-        return Objects.equals(this.getName(), other.getName()) &&
-               Objects.equals(this.getCity(), other.getCity()) &&
-               Objects.equals(this.getBadge(), other.getBadge()) &&
+        return Objects.equals(this.getCity(), other.getCity()) &&
+               Objects.equals(this.getStadiumType(), other.getStadiumType()) &&
                Objects.equals(this.getStadiumLeader(), other.getStadiumLeader());
 
     }
@@ -99,11 +78,9 @@ public class StadiumDTO {
     public String toString(){
         return "Stadium{ "
                 + "id = " + id
-                + ", name = " + name
                 + ", city = " + city
                 + ", stadium leader = " + stadiumLeader
                 + ", stadium type = " + stadiumType
-                + ", badge = " + badge
                 + "}";
     }
     
