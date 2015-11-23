@@ -2,27 +2,24 @@ package cz.muni.fi.pa165.pokemon.service;
 
 import cz.muni.fi.pa165.pokemon.dao.PokemonDao;
 import cz.muni.fi.pa165.pokemon.dao.TrainerDao;
-import cz.muni.fi.pa165.pokemon.entity.Badge;
-import cz.muni.fi.pa165.pokemon.entity.Pokemon;
-import cz.muni.fi.pa165.pokemon.entity.Stadium;
-import cz.muni.fi.pa165.pokemon.entity.Tournament;
-import cz.muni.fi.pa165.pokemon.entity.Trainer;
+import cz.muni.fi.pa165.pokemon.entity.*;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
-import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
 
 /**
  *
@@ -59,7 +56,7 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     }
     
     @BeforeMethod
-    public void beforeMehod() {
+    public void beforeMethod() {
         setUpTrainer = new Trainer();
         setUpTrainer.setName("Ash");
         setUpTrainer.setSurname("Brock");
@@ -92,7 +89,7 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         setUpTrainer.addBadge(badge);
         
         tournament = new Tournament();
-        tournament.setMiminalPokemonCount(1);
+        tournament.setMinimalPokemonCount(1);
         tournament.setTournamentName("MasterBlaster tournament");
         tournament.setTownName("Pallet");
         tournament.setMinimalPokemonLevel(17);

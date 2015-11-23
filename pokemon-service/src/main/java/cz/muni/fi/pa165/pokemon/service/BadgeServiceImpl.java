@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.pokemon.dao.BadgeDao;
 import cz.muni.fi.pa165.pokemon.entity.Badge;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  * Implementation of Badge service interface.
  * @author Marek Sabo
  */
+@Service
 public class BadgeServiceImpl implements BadgeService {
 
     @Inject

@@ -17,7 +17,7 @@ public class Tournament {
 
     private String townName;
     
-    private int miminalPokemonCount;
+    private int minimalPokemonCount;
     
     private int minimalPokemonLevel;
     
@@ -47,12 +47,12 @@ public class Tournament {
         this.townName = townName;
     }
 
-    public int getMiminalPokemonCount() {
-        return miminalPokemonCount;
+    public int getMinimalPokemonCount() {
+        return minimalPokemonCount;
     }
 
-    public void setMiminalPokemonCount(int miminalPokemonCount) {
-        this.miminalPokemonCount = miminalPokemonCount;
+    public void setMinimalPokemonCount(int minimalPokemonCount) {
+        this.minimalPokemonCount = minimalPokemonCount;
     }
 
     public int getMinimalPokemonLevel() {

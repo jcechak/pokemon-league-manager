@@ -4,26 +4,23 @@ import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
+import org.dozer.Mapper;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.*;
+
+import javax.inject.Inject;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import javax.inject.Inject;
-import org.dozer.Mapper;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+
 import static org.mockito.Mockito.when;
-import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import static org.testng.Assert.*;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 /**
  * Test of proper functioning of mapping service
@@ -40,12 +37,12 @@ public class MappingServiceImplNGTest extends AbstractTestNGSpringContextTests {
     @Mock
     private Mapper mapper;
 
-    private static Set<Pokemon> PokemonSet;
-    private static List<Pokemon> PokemonList;
+    private static Set<Pokemon> pokemonSet;
+    private static List<Pokemon> pokemonList;
     private static Trainer trainer;
     private static Pokemon pokemon;
     private static Pokemon pokemon2;
-    private static List<PokemonDTO> PokemonDTOList;
+    private static List<PokemonDTO> pokemonDTOList;
     private static PokemonDTO pokemonDTO;
     private static PokemonDTO pokemonDTO2;
     
@@ -54,12 +51,12 @@ public class MappingServiceImplNGTest extends AbstractTestNGSpringContextTests {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        PokemonSet = new HashSet<>();
-        PokemonList = new LinkedList<>();
+        pokemonSet = new HashSet<>();
+        pokemonList = new LinkedList<>();
         trainer = new Trainer();
         pokemon = new Pokemon();
         pokemon2 = new Pokemon();
-        PokemonDTOList = new LinkedList<>();
+        pokemonDTOList = new LinkedList<>();
         pokemonDTO = new PokemonDTO();
         pokemonDTO2 = new PokemonDTO();
 
@@ -97,14 +94,14 @@ public class MappingServiceImplNGTest extends AbstractTestNGSpringContextTests {
         pokemonDTO2.setTrainerId(pokemon2.getTrainer().getId());
         pokemonDTO2.setType(pokemon2.getType());
 
-        PokemonSet.add(pokemon);
-        PokemonSet.add(pokemon2);
+        pokemonSet.add(pokemon);
+        pokemonSet.add(pokemon2);
 
-        PokemonList.add(pokemon2);
-        PokemonList.add(pokemon);
+        pokemonList.add(pokemon2);
+        pokemonList.add(pokemon);
 
-        PokemonDTOList.add(pokemonDTO2);
-        PokemonDTOList.add(pokemonDTO);
+        pokemonDTOList.add(pokemonDTO2);
+        pokemonDTOList.add(pokemonDTO);
     }
 
     @AfterClass
@@ -126,7 +123,7 @@ public class MappingServiceImplNGTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testInjection() {
-        assertNotNull(mappingService, "Service has not been injeted. Check annotations.");
+        assertNotNull(mappingService, "Service has not been injected. Check annotations.");
     }
 
     /**
@@ -134,15 +131,15 @@ public class MappingServiceImplNGTest extends AbstractTestNGSpringContextTests {
      */
     @Test
     public void testMap_Collection_Class() {
-        List<PokemonDTO> result = mappingService.map(PokemonSet, PokemonDTO.class);
+        List<PokemonDTO> result = mappingService.map(pokemonSet, PokemonDTO.class);
 
         assertTrue(result.size() == 2, "Mapped set does not contains all items.");
-        assertTrue(result.containsAll(PokemonDTOList), "Mapped set does not conaint expected items.");
+        assertTrue(result.containsAll(pokemonDTOList), "Mapped set does not contains expected items.");
 
-        result = mappingService.map(PokemonList, PokemonDTO.class);
+        result = mappingService.map(pokemonList, PokemonDTO.class);
         assertTrue(result.size() == 2, "Mapped list does not contains all items.");
-        assertTrue(result.containsAll(PokemonDTOList), "Mapped list does not conaint expected items.");
-        assertEquals(result, PokemonDTOList, "Mapped list does not contain objects in the same order.");
+        assertTrue(result.containsAll(pokemonDTOList), "Mapped list does not contains expected items.");
+        assertEquals(result, pokemonDTOList, "Mapped list does not contain objects in the same order.");
     }
 
     /**

@@ -1,13 +1,10 @@
 package cz.muni.fi.pa165.pokemon.service;
 
-import cz.muni.fi.pa165.pokemon.entity.Badge;
-import cz.muni.fi.pa165.pokemon.entity.Pokemon;
-import cz.muni.fi.pa165.pokemon.entity.Stadium;
-import cz.muni.fi.pa165.pokemon.entity.Tournament;
-import cz.muni.fi.pa165.pokemon.entity.Trainer;
+import cz.muni.fi.pa165.pokemon.entity.*;
+import org.springframework.stereotype.Service;
+
 import java.util.Collection;
 import java.util.List;
-import org.springframework.stereotype.Service;
 
 /**
  * Interface of TrainerService providing service to facade layer.
@@ -46,7 +43,7 @@ public interface TrainerService {
     /**
      * Checks if the trainer is ready to participate in a tournament
      * @param trainer the trainer that want to enroll
-     * @param tournament the tournament the trainer wants to neroll to
+     * @param tournament the tournament the trainer wants to enroll to
      * @return true if trainer may participate, false otherwise
      */
     boolean mayEnrollInTournament(Trainer trainer, Tournament tournament);
