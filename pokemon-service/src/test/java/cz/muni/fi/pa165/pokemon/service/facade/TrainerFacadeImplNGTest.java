@@ -121,7 +121,9 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         pokemonService.createPokemon(pokemon);
         trainerFacade.addPokemon(beanMappingService.map(setUpTrainer, TrainerDTO.class), beanMappingService.map(pokemon, PokemonDTO.class));
         //TODO asi se spravne nemapuje - trener ma pokemona v metode v DAO ale ma prazdny seznam v metode ve FACADEIMPL
-        assertEquals(setUpTrainer.getPokemons().size(), 1, "pokemon not added");
+        assertEquals(setUpTrainer.getPokemons().size(), 1, "Pokemon not added.");
+        trainerFacade.removePokemon(beanMappingService.map(setUpTrainer, TrainerDTO.class), beanMappingService.map(pokemon, PokemonDTO.class));
+        pokemonService.deletePokemon(pokemon);
     }*/
    
     
@@ -143,10 +145,10 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         trainer.setDateOfBirth(Date.valueOf("1949-10-11"));
         trainerService.createTrainer(trainer);
         
-        assertEquals(2, trainerFacade.findAllTrainers().size());
+        assertEquals(trainerFacade.findAllTrainers().size(), 2);
     }
     
-    /*@Test
+    @Test
     public void testFindAllTrainersWithName() {
         Trainer trainer = new Trainer();
         trainer.setName("Brock");
@@ -155,7 +157,7 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         trainer.setDateOfBirth(Date.valueOf("1949-10-11"));
         trainerService.createTrainer(trainer);
         
-        assertEquals(2, trainerFacade.findAllTrainersWithName("Brock").size());
+        assertEquals(trainerFacade.findAllTrainersWithName("Brock").size(), 2);
     }
     
     @Test
@@ -167,6 +169,6 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         trainer.setDateOfBirth(Date.valueOf("1949-10-11"));
         trainerService.createTrainer(trainer);
         
-        assertEquals(2, trainerFacade.findAllTrainersWithSurname("Brokovnice").size());
-    }*/
+        assertEquals(trainerFacade.findAllTrainersWithSurname("Brokovnice").size(), 2);
+    }
 }
