@@ -74,6 +74,11 @@ public class TrainerServiceImpl implements TrainerService {
         }
         trainer.addPokemon(pokemon);
     }
+    
+    @Override
+    public void removePokemon(Trainer trainer, Pokemon pokemon) {
+        trainer.removePokemon(pokemon);
+    }
 
     @Override
     public void addBadge(Trainer trainer, Badge badge) {
