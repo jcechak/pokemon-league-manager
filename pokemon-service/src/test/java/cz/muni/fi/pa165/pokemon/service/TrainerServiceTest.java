@@ -104,9 +104,9 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         tournament = new Tournament();
         tournament.setMiminalPokemonCount(1);
         tournament.setTournamentName("MasterBlaster tournament");
-        tournament.setTownName("Pallet");
+        tournament.setStadiumId(157L);
         tournament.setMinimalPokemonLevel(17);
-        tournament.setBadges(badges);
+        tournament.addBadge(badge);
         
         pokemon = new Pokemon();
         pokemon.setName("Seal");

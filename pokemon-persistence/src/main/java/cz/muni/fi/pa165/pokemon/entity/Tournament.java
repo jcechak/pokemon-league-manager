@@ -1,7 +1,16 @@
 package cz.muni.fi.pa165.pokemon.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -9,19 +18,50 @@ import java.util.Objects;
  * 
  * @author Milos Bartak
  */
+@Entity
 public class Tournament {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Name of the tournament
+     */
+    @NotNull
     private String tournamentName;
 
-    private String townName;
-    
+    /**
+     * Id of the stadium the tournament is played at
+     */
+    @NotNull
+    private Long stadiumId;
+
+    /**
+     * Number representig how many pokemons each traner must have
+     */
+    @Min(1)
     private int miminalPokemonCount;
     
+    /**
+     * Number representing minimal level that all pokemons must have
+     */
+    @Min(1)
     private int minimalPokemonLevel;
     
-    private List<Badge> badges;
+    /**
+     * List of badges all trainers must have to participate
+     */
+    @Column
+    @ElementCollection(targetClass=Badge.class)
+    private List<Badge> badges = new ArrayList<Badge>();
+    
+    /**
+     * The list of participants
+     */
+    @Column
+    @ElementCollection(targetClass=Trainer.class)
+    private final List<Trainer> trainers = new ArrayList<Trainer>();
 
     public Long getId() {
         return id;
@@ -39,12 +79,12 @@ public class Tournament {
         this.tournamentName = tournamentName;
     }
     
-    public String getTownName() {
-        return townName;
+    public Long getStadiumId() {
+        return stadiumId;
     }
 
-    public void setTownName(String townName) {
-        this.townName = townName;
+    public void setStadiumId(Long stadiumId) {
+        this.stadiumId = stadiumId;
     }
 
     public int getMiminalPokemonCount() {
@@ -66,16 +106,28 @@ public class Tournament {
     public List<Badge> getBadges() {
         return badges;
     }
+    
+    public void addBadge(Badge badge) {
+        badges.add(badge);
+    }
 
-    public void setBadges(List<Badge> badges) {
-        this.badges = badges;
+    public List<Trainer> getTrainers() {
+        return trainers;
+    }
+
+    public void addTrainer(Trainer trainer) {
+        trainers.add(trainer);
+    }
+    
+    public void removeTrainer(Trainer trainer) {
+        trainers.remove(trainer);
     }
     
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 43 * hash + Objects.hashCode(this.tournamentName);
-        hash = 43 * hash + Objects.hashCode(this.townName);
+        hash = 43 * hash + Objects.hashCode(this.stadiumId);
         return hash;
     }
 
@@ -91,7 +143,7 @@ public class Tournament {
         if (!Objects.equals(this.tournamentName, other.tournamentName)) {
             return false;
         }
-        if (!Objects.equals(this.townName, other.townName)) {
+        if (!Objects.equals(this.stadiumId, other.stadiumId)) {
             return false;
         }
         return true;
