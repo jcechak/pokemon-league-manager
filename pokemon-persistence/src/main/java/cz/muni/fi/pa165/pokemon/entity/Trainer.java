@@ -114,10 +114,15 @@ public class Trainer {
         pokemon.setTrainer(this);
     }
 
+    public void removePokemon(Pokemon pokemon) {
+        pokemons.remove(pokemon);
+        pokemon.setTrainer(null);
+    }
+    
     public List<Pokemon> getPokemons() {
         return Collections.unmodifiableList(pokemons);
     }
-
+    
     public void addBadge(Badge badge) {
         badges.add(badge);
         badge.setTrainer(this);
