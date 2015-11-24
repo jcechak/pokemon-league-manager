@@ -59,6 +59,11 @@ public class TrainerFacadeImpl implements TrainerFacade {
     }
 
     @Override
+    public void removePokemon(TrainerDTO trainerDTO, PokemonDTO pokemonDTO) {
+        trainerService.removePokemon(beanMappingService.map(trainerDTO, Trainer.class), beanMappingService.map(pokemonDTO, Pokemon.class));
+    }
+    
+    @Override
     public void addBadge(TrainerDTO trainerDTO, BadgeDTO badgeDTO) {
         trainerService.addBadge(beanMappingService.map(trainerDTO, Trainer.class), beanMappingService.map(badgeDTO, Badge.class));
     }
