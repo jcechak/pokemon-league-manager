@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.pokemon.service;
 
 import cz.muni.fi.pa165.pokemon.dao.StadiumDao;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
+import cz.muni.fi.pa165.pokemon.entity.Tournament;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import org.springframework.stereotype.Service;
@@ -58,5 +59,23 @@ public class StadiumServiceImpl implements StadiumService {
     public Stadium findByLeader(Trainer leader){
         return (stadiumDao.findByStadiumLeader(leader));
     }
+
+    @Override
+    public String getLeaderInfo(Trainer trainer){
+        return trainer.toString();
+    }
+
+    @Override
+    public Trainer getTheLeader(Stadium stadium){
+        return stadium.getLeader();
+    }
+
+    @Override
+    public boolean hasLeader(Stadium stadium){
+        if(stadium.getLeader()== null) { return false; }
+        return true;
+    }
+
+
 
 }

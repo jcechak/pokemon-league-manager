@@ -3,8 +3,8 @@ package cz.muni.fi.pa165.pokemon.dto;
 
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 
-//import javax.validation.constraints.NotNull;
-//import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 /**
@@ -13,14 +13,14 @@ import java.util.Objects;
  */
 public class StadiumCreateDTO {
 
-    //@NotNull
-    //@Size(min = 2, max = 50)
+    @NotNull
+    @Size(min = 2, max = 50)
     private String city;
 
-    //@NotNull
+    @NotNull
     private Long stadiumLeaderId;
 
-    ///@NotNull
+    @NotNull
     private PokemonType stadiumType;
 
 
