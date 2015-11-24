@@ -111,6 +111,7 @@ public class Trainer {
 
     public void addPokemon(Pokemon pokemon) {
         pokemons.add(pokemon);
+        pokemon.setTrainer(this);
     }
 
     public List<Pokemon> getPokemons() {
@@ -119,6 +120,7 @@ public class Trainer {
 
     public void addBadge(Badge badge) {
         badges.add(badge);
+        badge.setTrainer(this);
     }
 
     public List<Badge> getBadges() {
