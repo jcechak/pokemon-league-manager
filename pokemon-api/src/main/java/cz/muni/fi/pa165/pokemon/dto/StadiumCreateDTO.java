@@ -1,7 +1,10 @@
 package cz.muni.fi.pa165.pokemon.dto;
 
+
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 
+//import javax.validation.constraints.NotNull;
+//import javax.validation.constraints.Size;
 import java.util.Objects;
 
 /**
@@ -10,12 +13,14 @@ import java.util.Objects;
  */
 public class StadiumCreateDTO {
 
+    //@NotNull
+    //@Size(min = 2, max = 50)
     private String city;
 
-    private Long stadiumId;
+    //@NotNull
+    private Long stadiumLeaderId;
 
-    private TrainerDTO stadiumLeader;
-
+    ///@NotNull
     private PokemonType stadiumType;
 
 
@@ -27,21 +32,13 @@ public class StadiumCreateDTO {
         return city;
     }
 
-    public void setStadiumId(Long id){
-        this.stadiumId = id;
+    public void setStadiumLeaderId(Long stadiumLeaderId){
+
+        this.stadiumLeaderId = stadiumLeaderId;
     }
 
-    public Long getStadiumId(){
-        return stadiumId;
-    }
-
-    public void setStadiumLeader(TrainerDTO stadiumLeader){
-
-        this.stadiumLeader = stadiumLeader;
-    }
-
-    public TrainerDTO getStadiumLeader(){
-        return stadiumLeader;
+    public Long getStadiumLeaderId(){
+        return stadiumLeaderId;
     }
 
     public void setStadiumType(PokemonType type){
@@ -55,7 +52,6 @@ public class StadiumCreateDTO {
     @Override
     public int hashCode(){
         int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this.stadiumLeader);
         hash = 23 * hash + Objects.hashCode(this.city);
         return hash;
     }
@@ -71,16 +67,15 @@ public class StadiumCreateDTO {
         StadiumDTO other = (StadiumDTO) obj;
         return Objects.equals(this.getCity(), other.getCity()) &&
                 Objects.equals(this.getStadiumType(), other.getStadiumType()) &&
-                Objects.equals(this.getStadiumLeader(), other.getStadiumLeader());
+                Objects.equals(this.getStadiumLeaderId(), other.getStadiumLeaderId());
 
     }
 
     @Override
     public String toString(){
         return "Stadium{ "
-                + "stadium's id = " + stadiumId
+                + "stadium's leader id = " + stadiumLeaderId
                 + ", city = " + city
-                + ", stadium leader = " + stadiumLeader
                 + ", stadium type = " + stadiumType
                 + "}";
     }
