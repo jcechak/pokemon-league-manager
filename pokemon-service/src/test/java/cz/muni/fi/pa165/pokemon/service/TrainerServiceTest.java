@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.pokemon.service;
 
+import cz.muni.fi.pa165.exceptions.PokemonServiceException;
 import cz.muni.fi.pa165.pokemon.dao.PokemonDao;
 import cz.muni.fi.pa165.pokemon.dao.TrainerDao;
 import cz.muni.fi.pa165.pokemon.entity.*;
@@ -18,9 +19,14 @@ import org.testng.annotations.Test;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import static org.mockito.Mockito.doAnswer;
 
 import static org.mockito.Mockito.when;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import static org.testng.Assert.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 
 /**
  * Tests correctness of TrainerService methods
@@ -45,6 +51,8 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     @Mock
     private Pokemon pokemon;
     
+    private Pokemon pokemon2;
+    
     @Mock
     private Badge badge;
     
@@ -54,6 +62,8 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     @Mock
     private Stadium stadium;
     
+    private boolean called = false;
+    
     @Autowired
     @InjectMocks
     private TrainerService trainerService;
@@ -61,6 +71,11 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     @BeforeClass
     public void setup() throws ServiceException {
         MockitoAnnotations.initMocks(this);
+    }
+    
+    @AfterClass
+    public void tearDownClass() {
+        
     }
     
     @BeforeMethod
@@ -130,13 +145,46 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         when(trainerDao.findAllTrainersWithBadge(badge)).thenReturn(trainersWithBadge);
         when(trainerDao.findAllTrainersWithName("Ash")).thenReturn(ashList);
         when(trainerDao.findAllTrainersWithSurname("Mistic")).thenReturn(misticList);
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) {
+                called = true;
+                return null;
+            }
+        }).when(trainerDao).create(setUpTrainer);
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) {
+                called = true;
+                return null;
+            }
+        }).when(trainerDao).delete(setUpTrainer);
         
+    }
+    
+    @AfterMethod
+    public void tearDownMethod() {
+        pokemonDao.delete(pokemon2);
+        called = false;
+    }
+    
+    @Test
+    public void testCreateTrainer() {
+        trainerService.createTrainer(setUpTrainer);
         
+        assertEquals(called, true, "No dao create method called");
+    }
+    
+    @Test
+    public void testDeleteTrainer() {
+        trainerService.deleteTrainer(setUpTrainer);
+        
+        assertEquals(called, true, "No dao delete method called");
     }
     
     @Test
     public void testFindTrainerById() {
-        Trainer trainer = trainerDao.findById(12L);
+        Trainer trainer = trainerService.findTrainerById(12L);
         
         assertEquals(trainer, setUpTrainer, "Failed to find the trainer " + setUpTrainer.toString() + " by ID");
     }
@@ -147,7 +195,7 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         trainers.add(setUpTrainer);
         trainers.add(setUpTrainer2);
         
-        List<Trainer> found = trainerDao.findAll();
+        List<Trainer> found = trainerService.findAllTrainers();
         
         assertEquals(trainers, found, "Failed to find all trainers");
     }
@@ -165,24 +213,64 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     
     @Test
     public void testAddPokemon() {
-        Pokemon pokemon = new Pokemon();
-        pokemon.setName("Squirtle");
-        pokemon.setNickname("Splash");
-        pokemon.setSkillLevel(5);
-        pokemon.setType(PokemonType.WATER);
-        pokemonDao.create(pokemon);
+        pokemon2 = new Pokemon();
+        pokemon2.setName("Squirtle");
+        pokemon2.setNickname("Splash");
+        pokemon2.setSkillLevel(5);
+        pokemon2.setType(PokemonType.WATER);
+        pokemonDao.create(pokemon2);
         
         
-        trainerService.addPokemon(setUpTrainer, pokemon);
+        trainerService.addPokemon(setUpTrainer, pokemon2);
         
-        assertEquals(setUpTrainer.getPokemons().contains(pokemon), true, 
-                "Pokemon " + pokemon.toString() + " was not added to trainer " + setUpTrainer.toString());
+        assertEquals(setUpTrainer.getPokemons().contains(pokemon2), true, 
+                "Pokemon " + pokemon2.toString() + " was not added to trainer " + setUpTrainer.toString());
     }
     
     @Test
     public void testAddBadge() {
         assertEquals(setUpTrainer.getBadges().contains(badge), true, 
                 "Badge " + badge.toString() + " was not added to trainer " + setUpTrainer.toString());
+    }
+    
+    @Test(expectedExceptions = PokemonServiceException.class)
+    public void testtAddPokemonTwice() {
+        pokemon2 = new Pokemon();
+        pokemon2.setName("Squirtle");
+        pokemon2.setNickname("Splash");
+        pokemon2.setSkillLevel(5);
+        pokemon2.setType(PokemonType.WATER);
+        pokemonDao.create(pokemon2);
+        
+        
+        trainerService.addPokemon(setUpTrainer, pokemon2);
+        trainerService.addPokemon(setUpTrainer, pokemon2);
+    }
+    
+    @Test
+    public void testRemovePokemon() {
+        Pokemon pokemon5 = new Pokemon();
+        pokemon5.setName("Onix");
+        pokemon5.setNickname("The Rock");
+        pokemon5.setSkillLevel(5);
+        pokemon5.setType(PokemonType.ROCK);
+        pokemonDao.create(pokemon5);
+        
+        Pokemon pokemon6 = new Pokemon();
+        pokemon6.setName("Dito");
+        pokemon6.setNickname("DD");
+        pokemon6.setSkillLevel(5);
+        pokemon6.setType(PokemonType.NORMAL);
+        pokemonDao.create(pokemon6);
+        
+        setUpTrainer.addPokemon(pokemon5);
+        setUpTrainer.addPokemon(pokemon6);
+        
+        assertEquals(setUpTrainer.getPokemons().size(), 2);
+        setUpTrainer.removePokemon(pokemon5);
+        assertEquals(setUpTrainer.getPokemons().size(), 1);
+        setUpTrainer.removePokemon(pokemon5);
+        assertEquals(setUpTrainer.getPokemons().size(), 1);
     }
     
     @Test
@@ -203,7 +291,7 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     public void testFindfindAllTrainersWithPokemon() {
         List<Trainer> trainersWithSeal = new ArrayList<>();
         trainersWithSeal.add(setUpTrainer);
-        assertEquals(trainerDao.findAllTrainersWithPokemon(pokemon), trainersWithSeal, 
+        assertEquals(trainerService.findAllTrainersWithPokemon(pokemon), trainersWithSeal, 
                 "Did not found all trainers with pokemon" + pokemon.toString());
     }
     
@@ -211,7 +299,7 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     public void testFindAllTrainersWithBadge() {
         List<Trainer> trainersWithBadge = new ArrayList<>();
         trainersWithBadge.add(setUpTrainer);
-        assertEquals(trainerDao.findAllTrainersWithBadge(badge), trainersWithBadge,
+        assertEquals(trainerService.findAllTrainersWithBadge(badge), trainersWithBadge,
                 "Did not found all trainers with badge" + badge.toString());
     }
 
@@ -220,7 +308,7 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         List<Trainer> ashList = new ArrayList<>();
         ashList.add(setUpTrainer);
         ashList.add(setUpTrainer2);
-        assertEquals(trainerDao.findAllTrainersWithName("Ash"), ashList,
+        assertEquals(trainerService.findAllTrainersWithName("Ash"), ashList,
                 "Did not found all trainers with name \"Ash\"");
     }
 
@@ -228,7 +316,7 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     public void testFindAllTrainersWithSurname() {
         List<Trainer> misticList = new ArrayList<>();
         misticList.add(setUpTrainer);
-        assertEquals(trainerDao.findAllTrainersWithSurname("Mistic"), misticList,
+        assertEquals(trainerService.findAllTrainersWithSurname("Mistic"), misticList,
                 "Did not found all trainers with surname \"Mistic\"");
     }
 }
