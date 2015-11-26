@@ -62,6 +62,11 @@ public class StadiumFacadeImpl implements StadiumFacade {
     }
 
     @Override
+    public Collection<StadiumDTO> findAll(){
+        return mappingService.map(stadiumService.getAll(), StadiumDTO.class);
+    }
+
+    @Override
     public Collection<StadiumDTO> findByType(PokemonType type){
         if(type == null){
             throw new IllegalArgumentException("type is null.");
@@ -86,6 +91,25 @@ public class StadiumFacadeImpl implements StadiumFacade {
         }
         Stadium stadiumEntity = stadiumService.findByLeader(mappingService.map(leader, Trainer.class));
         return mappingService.map(stadiumEntity, StadiumDTO.class);
+    }
+
+    @Override
+    public TrainerDTO getTheleader(StadiumDTO stadiumDTO){
+        if(stadiumDTO == null){
+            throw new IllegalArgumentException("stadium is null.");
+        }
+        Stadium tempStadium = mappingService.map(stadiumDTO, Stadium.class);
+        Trainer tempTrainer = stadiumService.getTheLeader(tempStadium);
+        return mappingService.map(tempTrainer, TrainerDTO.class);
+    }
+
+    @Override
+    public boolean hasLeader(StadiumDTO stadiumDTO){
+        if (stadiumDTO == null){
+            throw new IllegalArgumentException("stadium is null.");
+        }
+        Stadium tempStadium = mappingService.map(stadiumDTO, Stadium.class);
+        return stadiumService.hasLeader(tempStadium);
     }
 
 }

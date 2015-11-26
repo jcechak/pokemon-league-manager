@@ -56,6 +56,13 @@ public interface TrainerService {
     void addPokemon(Trainer trainer, Pokemon pokemon);
     
     /**
+     * Removes the pokemon from the trainer
+     * @param trainer te owner of the pokemon
+     * @param pokemon the pokemon that has to be removed
+     */
+    void removePokemon(Trainer trainer, Pokemon pokemon);
+    
+    /**
      * Adds the badge to the trainer
      * @param trainer the trainer to add the badge to
      * @param badge the badge to be added

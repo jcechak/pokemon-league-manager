@@ -14,9 +14,9 @@ public class StadiumDTO {
 
     private String city;
 
-    private TrainerDTO stadiumLeader;
+    private Long stadiumLeaderId;
 
-    private PokemonType stadiumType;
+    private PokemonType type;
 
 
     public Long getId(){
@@ -35,26 +35,26 @@ public class StadiumDTO {
         this.city = city;
     }
 
-    public TrainerDTO getStadiumLeader(){
-        return stadiumLeader;
+    public PokemonType getType(){
+        return type;
     }
 
-    public void setStadiumLeader(TrainerDTO stadiumLeader){
-        this.stadiumLeader = stadiumLeader;
+    public void setType(PokemonType type){
+        this.type = type;
     }
 
-    public PokemonType getStadiumType(){
-        return stadiumType;
+    public Long getStadiumLeaderId(){
+        return stadiumLeaderId;
     }
 
-    public void setStadiumType(PokemonType stadiumType){
-        this.stadiumType = stadiumType;
+    public void setStadiumLeaderId(Long id){
+        this.stadiumLeaderId = id;
     }
+
 
     @Override
     public int hashCode(){
         int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this.stadiumLeader);
         hash = 23 * hash + Objects.hashCode(this.city);
         return hash;
     }
@@ -69,8 +69,7 @@ public class StadiumDTO {
         }
         StadiumDTO other = (StadiumDTO) obj;
         return Objects.equals(this.getCity(), other.getCity()) &&
-               Objects.equals(this.getStadiumType(), other.getStadiumType()) &&
-               Objects.equals(this.getStadiumLeader(), other.getStadiumLeader());
+                Objects.equals(this.getType(), other.getType());
 
     }
 
@@ -79,9 +78,9 @@ public class StadiumDTO {
         return "Stadium{ "
                 + "id = " + id
                 + ", city = " + city
-                + ", stadium leader = " + stadiumLeader
-                + ", stadium type = " + stadiumType
+                + ", stadium's leader id = " + stadiumLeaderId
+                + ", stadium type = " + type
                 + "}";
     }
-    
+
 }

@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.pokemon.service;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
+import cz.muni.fi.pa165.pokemon.entity.Tournament;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 
@@ -47,5 +48,11 @@ public interface StadiumService {
     Stadium findByCity(String city);
 
     Stadium findByLeader(Trainer leader);
+
+    String getLeaderInfo(Trainer trainer);
+
+    Trainer getTheLeader(Stadium stadium);
+
+    boolean hasLeader(Stadium stadium);
 
 }

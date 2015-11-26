@@ -1,12 +1,16 @@
 package cz.muni.fi.pa165.pokemon.service;
 
+import cz.muni.fi.pa165.exceptions.PokemonServiceException;
 import cz.muni.fi.pa165.pokemon.dao.TrainerDao;
-import cz.muni.fi.pa165.pokemon.entity.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import cz.muni.fi.pa165.pokemon.entity.Badge;
+import cz.muni.fi.pa165.pokemon.entity.Pokemon;
+import cz.muni.fi.pa165.pokemon.entity.Stadium;
+import cz.muni.fi.pa165.pokemon.entity.Tournament;
+import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import java.util.Collection;
 import java.util.List;
+import javax.inject.Inject;
+import org.springframework.stereotype.Service;
 
 /**
  * Implementation of the TrainerService providing service to facade layer.
@@ -15,7 +19,7 @@ import java.util.List;
  */
 @Service
 public class TrainerServiceImpl implements TrainerService {
-    @Autowired
+    @Inject
     private TrainerDao trainerDao;
     
     @Override
@@ -35,12 +39,15 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public boolean isLeaderOfTheStadium(Trainer trainer, Stadium stadium) {
+        if(trainer == null || stadium == null) {
+            return false;
+        }
         return stadium.equals(trainer.getStadium());
     }
 
     @Override
     public boolean mayEnrollInTournament(Trainer trainer, Tournament tournament) {
-        if(trainer.getPokemons().size() < tournament.getMinimalPokemonCount()) {
+        if(trainer.getPokemons().size() < tournament.getMiminalPokemonCount()) {
             return false;
         }
         
@@ -61,17 +68,27 @@ public class TrainerServiceImpl implements TrainerService {
     
     @Override
     public void addPokemon(Trainer trainer, Pokemon pokemon) {
+        if(trainer.getPokemons().contains(pokemon)) {
+            throw new PokemonServiceException(trainer.toString() + 
+            " already has " + pokemon.toString());
+        }
         trainer.addPokemon(pokemon);
-        //pokemon.setTrainer(trainer);
-        trainerDao.update(trainer);
+    }
+    
+    @Override
+    public void removePokemon(Trainer trainer, Pokemon pokemon) {
+        trainer.removePokemon(pokemon);
     }
 
-    //TODO dao call - method for adding badge
     @Override
     public void addBadge(Trainer trainer, Badge badge) {
+        if(trainer.getBadges().contains(badge)) {
+            throw new PokemonServiceException(trainer.toString() + 
+                    " already has " + badge.toString());
+        }
+        
         if(!(this.isLeaderOfTheStadium(trainer, badge.getStadium()))) {
             trainer.addBadge(badge);
-            trainerDao.update(trainer);
         }
     }
 
@@ -87,22 +104,22 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public Collection<Trainer> findAllTrainersWithPokemon(Pokemon pokemon) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return trainerDao.findAllTrainersWithPokemon(pokemon);
     }
 
     @Override
     public Collection<Trainer> findAllTrainersWithBadge(Badge badge) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return trainerDao.findAllTrainersWithBadge(badge);
     }
 
     @Override
     public Collection<Trainer> findAllTrainersWithName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return trainerDao.findAllTrainersWithName(name);
     }
 
     @Override
     public Collection<Trainer> findAllTrainersWithSurname(String surname) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return trainerDao.findAllTrainersWithSurname(surname);
     }
     
 }

@@ -1,11 +1,16 @@
 package cz.muni.fi.pa165.pokemon.service.facade;
 
+import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
+import cz.muni.fi.pa165.pokemon.dto.StadiumDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
+import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
+import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import cz.muni.fi.pa165.pokemon.facade.TrainerFacade;
 import cz.muni.fi.pa165.pokemon.service.MappingService;
 import cz.muni.fi.pa165.pokemon.service.PokemonService;
+import cz.muni.fi.pa165.pokemon.service.StadiumService;
 import cz.muni.fi.pa165.pokemon.service.TrainerService;
 import java.sql.Date;
 import java.util.Collection;
@@ -18,7 +23,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- *
+ * Tests corectness of TranerFacadeImpl methods
+ * 
  * @author Milos Bartak
  */
 @ContextConfiguration(classes = {cz.muni.fi.pa165.pokemon.context.ServiceConfiguration.class})
@@ -32,14 +38,15 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
     
     @Inject
     PokemonService pokemonService;
+
+    @Inject
+    StadiumService stadiumService;
     
     @Inject
     private MappingService beanMappingService;
     
     private Trainer setUpTrainer;
-    //private TrainerDTO setUpTrainerDTO;
     
-    //persist stadium
     private Stadium stadium = null;
     
     @BeforeMethod
@@ -48,7 +55,6 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         setUpTrainer = new Trainer();
         setUpTrainer.setName("Brock");
         setUpTrainer.setSurname("Brokovnice");
-        setUpTrainer.setStadium(stadium);
         setUpTrainer.setDateOfBirth(Date.valueOf("1989-10-11"));
         trainerService.createTrainer(setUpTrainer);
         
@@ -70,7 +76,6 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         trainerDTO.setSurname("Hsa");
         trainerDTO.setStadium(null);
         trainerDTO.setDateOfBirth(Date.valueOf("1990-10-11"));
-        
         trainerFacade.createTrainer(trainerDTO);
 
         assertEquals(beanMappingService.map(trainerDTO, Trainer.class), trainerService.findTrainerById(trainerDTO.getId()), trainerDTO.toString() + " not created");
@@ -79,23 +84,30 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
     @Test
     public void testDeleteTrainer() {
         trainerFacade.deleteTrainer(beanMappingService.map(setUpTrainer, TrainerDTO.class));
-        
         assertEquals(null, trainerService.findTrainerById(setUpTrainer.getId()), "Trainer was not deleted properly");
     }
     
     @Test
     public void testUpdateTrainer() {
         setUpTrainer.setName("Brockbrock");
-        
         trainerFacade.updateTrainer(beanMappingService.map(setUpTrainer, TrainerDTO.class));
-        
         assertEquals(setUpTrainer.getName(), trainerService.findTrainerById(setUpTrainer.getId()).getName());
     }
     
-    /*@Test
+    @Test
     public void testIsLeadeOfTheStadium() {
-        trainerFacade.isLeaderOfTheStadium(beanMappingService.map(setUpTrainer, TrainerDTO.class), beanMappingService.map(stadium, StadiumDTO.class));
-    }*/
+        stadium = new Stadium();
+        stadium.setCity("Pallet");
+        stadium.setType(PokemonType.ROCK);
+        stadium.setLeader(setUpTrainer);
+        stadiumService.createStadium(stadium);
+        setUpTrainer.setStadium(stadium);
+        boolean result = trainerFacade.isLeaderOfTheStadium(beanMappingService.map(setUpTrainer, TrainerDTO.class), beanMappingService.map(stadium, StadiumDTO.class));
+        
+        assertEquals(result, true);
+        
+        stadiumService.deleteStadium(stadium);
+    }
     
     /*@Test
     public void testAddPokemon() {
@@ -108,10 +120,12 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         
         pokemonService.createPokemon(pokemon);
         trainerFacade.addPokemon(beanMappingService.map(setUpTrainer, TrainerDTO.class), beanMappingService.map(pokemon, PokemonDTO.class));
-        
-        assertEquals(1, setUpTrainer.getPokemons().size(), "pokemon not added");
+        //TODO asi se spravne nemapuje - trener ma pokemona v metode v DAO ale ma prazdny seznam v metode ve FACADEIMPL
+        assertEquals(setUpTrainer.getPokemons().size(), 1, "Pokemon not added.");
+        trainerFacade.removePokemon(beanMappingService.map(setUpTrainer, TrainerDTO.class), beanMappingService.map(pokemon, PokemonDTO.class));
+        pokemonService.deletePokemon(pokemon);
     }*/
-    
+   
     
     @Test
     public void testFindTrainerById() {
@@ -131,10 +145,10 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         trainer.setDateOfBirth(Date.valueOf("1949-10-11"));
         trainerService.createTrainer(trainer);
         
-        assertEquals(2, trainerFacade.findAllTrainers().size());
+        assertEquals(trainerFacade.findAllTrainers().size(), 2);
     }
     
-    /*@Test
+    @Test
     public void testFindAllTrainersWithName() {
         Trainer trainer = new Trainer();
         trainer.setName("Brock");
@@ -143,7 +157,7 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         trainer.setDateOfBirth(Date.valueOf("1949-10-11"));
         trainerService.createTrainer(trainer);
         
-        assertEquals(2, trainerFacade.findAllTrainersWithName("Brock").size());
+        assertEquals(trainerFacade.findAllTrainersWithName("Brock").size(), 2);
     }
     
     @Test
@@ -155,6 +169,6 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         trainer.setDateOfBirth(Date.valueOf("1949-10-11"));
         trainerService.createTrainer(trainer);
         
-        assertEquals(2, trainerFacade.findAllTrainersWithSurname("Brokovnice").size());
-    }*/
+        assertEquals(trainerFacade.findAllTrainersWithSurname("Brokovnice").size(), 2);
+    }
 }

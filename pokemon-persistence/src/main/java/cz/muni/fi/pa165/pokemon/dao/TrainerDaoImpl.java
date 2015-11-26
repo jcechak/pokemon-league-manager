@@ -139,7 +139,7 @@ public class TrainerDaoImpl implements TrainerDao {
     @Override
     public List<Trainer> findAllTrainersWithSurname(String surname){
         try{
-            return entityManager.createQuery("SELET t FROM Trainer t WHERE t.surname = :t", Trainer.class)
+            return entityManager.createQuery("SELECT t FROM Trainer t WHERE t.surname = :t", Trainer.class)
                     .setParameter("t",surname)
                     .getResultList();
         } catch (NoResultException noResult) {

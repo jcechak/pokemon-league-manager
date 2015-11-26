@@ -38,6 +38,12 @@ public interface StadiumFacade {
     StadiumDTO findById(Long id);
 
     /**
+     * finds all stadiums
+     * @return collection of found stadiums
+     */
+    Collection<StadiumDTO> findAll();
+
+    /**
      * finds stadiums of give type
      * @param type the type of stadiums to be returned
      * @return found stadiums of certain type
@@ -57,6 +63,20 @@ public interface StadiumFacade {
      * @return found stadium
      */
     StadiumDTO findStadiumByLeader(TrainerDTO leader);
+
+    /**
+     * Retrieves the leader of the stadium
+     * @param stadiumDTO the stadium where the leader is looked for
+     * @return the leader of given stadium
+     */
+    TrainerDTO getTheleader(StadiumDTO stadiumDTO);
+
+    /**
+     * Checks whether the stadium has a leader
+     * @param stadiumDTO stadium to be checked
+     * @return true if the stadium has a leader, false otherwise
+     */
+    boolean hasLeader(StadiumDTO stadiumDTO);
 
 
 }
