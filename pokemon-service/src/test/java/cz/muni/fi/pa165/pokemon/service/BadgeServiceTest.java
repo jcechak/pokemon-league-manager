@@ -19,6 +19,7 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.doAnswer;
@@ -97,14 +98,14 @@ public class BadgeServiceTest extends AbstractTransactionalTestNGSpringContextTe
         badges.add(badge);
 
         when(badgeDao.findById(456L)).thenReturn(badge);
-        when(badgeDao.findAll()).thenReturn(badges);
-        when(badgeDao.findAllWithStadium(stadium)).thenReturn(badges);
+        when(badgeDao.findAll()).thenReturn(Collections.unmodifiableList(badges));
+        when(badgeDao.findAllWithStadium(stadium)).thenReturn(Collections.unmodifiableList(badges));
         when(badgeDao.findByTrainerAndStadium(trainer, stadium)).thenReturn(badge);
         when(badgeDao.findByTrainerAndStadium(anotherTrainer, stadium)).thenReturn(anotherBadge);
 
         List<Badge> trainerList = new ArrayList<>();
         trainerList.add(badge);
-        when(badgeDao.findAllWithTrainer(trainer)).thenReturn(trainerList);
+        when(badgeDao.findAllWithTrainer(trainer)).thenReturn(Collections.unmodifiableList(trainerList));
 
         doAnswer(invocation -> {
             createdBadge = badge;

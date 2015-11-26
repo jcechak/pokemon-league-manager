@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Implementation of StadiumFacade that uses service layer to access entities.
@@ -94,7 +93,7 @@ public class StadiumFacadeImpl implements StadiumFacade {
     }
 
     @Override
-    public TrainerDTO getTheleader(StadiumDTO stadiumDTO){
+    public TrainerDTO getTheLeader(StadiumDTO stadiumDTO){
         if(stadiumDTO == null){
             throw new IllegalArgumentException("stadium is null.");
         }

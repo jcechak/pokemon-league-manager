@@ -4,10 +4,11 @@ import cz.muni.fi.pa165.pokemon.dao.PokemonDao;
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
+import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
-import javax.inject.Inject;
-import org.springframework.stereotype.Service;
 
 /**
  * Implementation of Pokemon service interface.
@@ -108,12 +109,12 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Override
     public List<Pokemon> getAllPokemons() {
-        return pokemonDao.findAll();
+        return Collections.unmodifiableList(pokemonDao.findAll());
     }
 
     @Override
     public List<Pokemon> getAllPokemonsOfTrainer(Trainer trainer) {
-        return trainer.getPokemons();
+        return Collections.unmodifiableList(trainer.getPokemons());
     }
 
     @Override
