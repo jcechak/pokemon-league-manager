@@ -12,6 +12,8 @@ import cz.muni.fi.pa165.pokemon.service.TrainerService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.*;
@@ -22,8 +24,6 @@ import java.util.List;
 
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import static org.testng.Assert.*;
 
 /**
@@ -257,8 +257,8 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
         expectedArguments.add(persistedPokemon1);
         expectedArguments.add(20);
 
-        assertNotNull(arguments, "The correspoding method of service layer has not been called.");
-        assertEquals(arguments, expectedArguments, "The underlying service layer did not receivd correct arguments.");
+        assertNotNull(arguments, "The corresponding method of service layer has not been called.");
+        assertEquals(arguments, expectedArguments, "The underlying service layer did not received correct arguments.");
     }
 
     /**
@@ -271,8 +271,8 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
         expectedArguments.add(persistedPokemon1);
         expectedArguments.add(trainer1);
 
-        assertNotNull(arguments, "The correspoding method of service layer has not been called.");
-        assertEquals(arguments, expectedArguments, "The underlying service layer did not receivd correct arguments.");
+        assertNotNull(arguments, "The corresponding method of service layer has not been called.");
+        assertEquals(arguments, expectedArguments, "The underlying service layer did not received correct arguments.");
     }
 
     /**
@@ -284,8 +284,8 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
 
         expectedArguments.add(persistedPokemon1);
 
-        assertNotNull(arguments, "The correspoding method of service layer has not been called.");
-        assertEquals(arguments, expectedArguments, "The underlying service layer did not receivd correct arguments.");
+        assertNotNull(arguments, "The corresponding method of service layer has not been called.");
+        assertEquals(arguments, expectedArguments, "The underlying service layer did not received correct arguments.");
     }
 
     /**
@@ -346,7 +346,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
         expectedArguments.add(persistedPokemon1);
         expectedArguments.add(persistedPokemon2);
 
-        assertNotNull(arguments, "The correspoding method of service layer has not been called.");
-        assertEquals(arguments, expectedArguments, "The underlying service layer did not receivd correct arguments.");
+        assertNotNull(arguments, "The corresponding method of service layer has not been called.");
+        assertEquals(arguments, expectedArguments, "The underlying service layer did not received correct arguments.");
     }
 }

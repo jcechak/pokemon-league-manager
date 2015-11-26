@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.pokemon.service;
 
+import cz.muni.fi.pa165.exceptions.PokemonServiceException;
 import cz.muni.fi.pa165.pokemon.dao.BadgeDao;
 import cz.muni.fi.pa165.pokemon.entity.Badge;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
@@ -7,6 +8,7 @@ import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,6 +24,9 @@ public class BadgeServiceImpl implements BadgeService {
 
     @Override
     public void createBadge(Badge badge) {
+        if (badge.getStadium().getLeader().equals(badge.getTrainer())) {
+            throw new PokemonServiceException("Badge assign to leader of the stadium.");
+        }
         badgeDao.create(badge);
     }
 
@@ -42,17 +47,17 @@ public class BadgeServiceImpl implements BadgeService {
 
     @Override
     public List<Badge> getAllBadges() {
-        return badgeDao.findAll();
+        return Collections.unmodifiableList(badgeDao.findAll());
     }
 
     @Override
     public List<Badge> getBadgesWithTrainer(Trainer trainer) {
-        return badgeDao.findAllWithTrainer(trainer);
+        return Collections.unmodifiableList(badgeDao.findAllWithTrainer(trainer));
     }
 
     @Override
     public List<Badge> getBadgesWithStadium(Stadium stadium) {
-        return badgeDao.findAllWithStadium(stadium);
+        return Collections.unmodifiableList(badgeDao.findAllWithStadium(stadium));
     }
 
     @Override

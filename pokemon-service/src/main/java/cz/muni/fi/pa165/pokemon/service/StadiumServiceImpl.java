@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,12 +42,12 @@ public class StadiumServiceImpl implements StadiumService {
 
     @Override
     public List<Stadium> getAll(){
-        return (stadiumDao.findAll());
+        return Collections.unmodifiableList(stadiumDao.findAll());
     }
 
     @Override
     public List<Stadium> findByType(PokemonType type){
-        return (stadiumDao.findByPokemonType(type));
+        return Collections.unmodifiableList(stadiumDao.findByPokemonType(type));
     }
 
     @Override

@@ -4,23 +4,21 @@ import cz.muni.fi.pa165.pokemon.dao.PokemonDao;
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.testng.annotations.*;
+
 import java.sql.Date;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import org.mockito.InjectMocks;
+
 import static org.mockito.Matchers.any;
-import org.mockito.Mock;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
-import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import static org.testng.Assert.*;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  *
@@ -92,46 +90,34 @@ public class PokemonServiceImplNGTest {
 
         passedThrough = null;
 
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                updateCalled = true;
-                passedThrough = invocation.getArgumentAt(0, Pokemon.class);
-                return null;
-            }
+        doAnswer(invocation -> {
+            updateCalled = true;
+            passedThrough = invocation.getArgumentAt(0, Pokemon.class);
+            return null;
         }).when(pokemonDao).update(any(Pokemon.class));
 
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                createCalled = true;
-                passedThrough = invocation.getArgumentAt(0, Pokemon.class);
-                return null;
-            }
+        doAnswer(invocation -> {
+            createCalled = true;
+            passedThrough = invocation.getArgumentAt(0, Pokemon.class);
+            return null;
         }).when(pokemonDao).create(any(Pokemon.class));
 
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                deleteCalled = true;
-                passedThrough = invocation.getArgumentAt(0, Pokemon.class);
-                return null;
-            }
+        doAnswer(invocation -> {
+            deleteCalled = true;
+            passedThrough = invocation.getArgumentAt(0, Pokemon.class);
+            return null;
         }).when(pokemonDao).delete(any(Pokemon.class));
 
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                Long id = invocation.getArgumentAt(0, Long.class);
-                if (id == p1.getId()) {
-                    return p1;
-                } else {
-                    return p2;
-                }
+        doAnswer(invocation -> {
+            Long id = invocation.getArgumentAt(0, Long.class);
+            if (id == p1.getId()) {
+                return p1;
+            } else {
+                return p2;
             }
         }).when(pokemonDao).findById(any(Long.class));
 
-        when(pokemonDao.findAll()).thenReturn(l1);
+        when(pokemonDao.findAll()).thenReturn(Collections.unmodifiableList(l1));
     }
 
     @AfterMethod

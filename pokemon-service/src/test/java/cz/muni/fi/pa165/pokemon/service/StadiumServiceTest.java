@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -90,8 +91,8 @@ public class StadiumServiceTest extends AbstractTransactionalTestNGSpringContext
 
         when(stadiumDao.findById(13L)).thenReturn(stadium1);
         when(stadiumDao.findByCity("Orange")).thenReturn(stadium1);
-        when(stadiumDao.findAll()).thenReturn(stadiums);
-        when(stadiumDao.findByPokemonType(PokemonType.ELECTRIC)).thenReturn(electricStadiums);
+        when(stadiumDao.findAll()).thenReturn(Collections.unmodifiableList(stadiums));
+        when(stadiumDao.findByPokemonType(PokemonType.ELECTRIC)).thenReturn(Collections.unmodifiableList(electricStadiums));
         when(stadiumDao.findByStadiumLeader(trainer1)).thenReturn(stadium1);
     }
 
