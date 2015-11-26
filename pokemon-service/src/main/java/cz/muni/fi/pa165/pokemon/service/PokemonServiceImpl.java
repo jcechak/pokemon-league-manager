@@ -29,6 +29,7 @@ public class PokemonServiceImpl implements PokemonService {
             throw new IllegalArgumentException("Pokemon cannot be null.");
         }
         pokemonDao.create(pokemon);
+        trainerService.addPokemon(pokemon.getTrainer(), pokemon);
         return pokemon.getId();
     }
 

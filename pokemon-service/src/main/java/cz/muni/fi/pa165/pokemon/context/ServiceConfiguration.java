@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.pokemon.context;
 
-import cz.muni.fi.pa165.pokemon.mapping.TrainerIdCustomConverter;
+import cz.muni.fi.pa165.pokemon.mapping.EntityIdCustomConverter;
 import org.dozer.CustomConverter;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +41,7 @@ public class ServiceConfiguration {
 
         Map<String, CustomConverter> customConverters
                 = new HashMap<>();
-        customConverters.put("trainerIdCustomConverter", trainerIdCustomConverter());
+        customConverters.put("entityIdCustomConverter", entityIdCustomConverter());
 
         dmf.setCustomConvertersWithId(customConverters);
 
@@ -55,7 +55,7 @@ public class ServiceConfiguration {
      * @return trainer-id converter
      */
     @Bean
-    public CustomConverter trainerIdCustomConverter() {
-        return new TrainerIdCustomConverter();
+    public CustomConverter entityIdCustomConverter() {
+        return new EntityIdCustomConverter();
     }
 }

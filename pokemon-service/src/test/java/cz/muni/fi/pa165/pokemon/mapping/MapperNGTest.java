@@ -32,7 +32,7 @@ public class MapperNGTest {
     private static Mapper mapper;
     
     @Mock
-    private static TrainerIdCustomConverter trainerIdCustomConverter;
+    private static EntityIdCustomConverter trainerIdCustomConverter;
 
     private static Trainer trainer;
     private static Pokemon pokemon;
