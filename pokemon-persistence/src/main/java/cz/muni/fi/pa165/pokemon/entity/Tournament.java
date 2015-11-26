@@ -1,16 +1,11 @@
 package cz.muni.fi.pa165.pokemon.entity;
 
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 
 /**
@@ -38,10 +33,10 @@ public class Tournament {
     private Long stadiumId;
 
     /**
-     * Number representig how many pokemons each traner must have
+     * Number representing how many pokemons each trainer must have
      */
     @Min(1)
-    private int miminalPokemonCount;
+    private int minimalPokemonCount;
     
     /**
      * Number representing minimal level that all pokemons must have
@@ -54,14 +49,14 @@ public class Tournament {
      */
     @Column
     @ElementCollection(targetClass=Badge.class)
-    private List<Badge> badges = new ArrayList<Badge>();
+    private List<Badge> badges = new ArrayList<>();
     
     /**
      * The list of participants
      */
     @Column
     @ElementCollection(targetClass=Trainer.class)
-    private final List<Trainer> trainers = new ArrayList<Trainer>();
+    private final List<Trainer> trainers = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -87,12 +82,12 @@ public class Tournament {
         this.stadiumId = stadiumId;
     }
 
-    public int getMiminalPokemonCount() {
-        return miminalPokemonCount;
+    public int getMinimalPokemonCount() {
+        return minimalPokemonCount;
     }
 
-    public void setMiminalPokemonCount(int miminalPokemonCount) {
-        this.miminalPokemonCount = miminalPokemonCount;
+    public void setMinimalPokemonCount(int minimalPokemonCount) {
+        this.minimalPokemonCount = minimalPokemonCount;
     }
 
     public int getMinimalPokemonLevel() {

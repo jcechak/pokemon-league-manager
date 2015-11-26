@@ -39,7 +39,7 @@ public interface BadgeService {
      * @param id the id of the Badge
      * @return the Badge with the given id
      */
-    Badge getBadgeById(Long id);
+    Badge findBadgeById(Long id);
 
     /**
      * Retrieves all the badges from the database.
@@ -69,6 +69,6 @@ public interface BadgeService {
      * @param stadium stadium where the badge was acquired
      * @return unique Badge
      */
-    Badge getBadgeWithTrainerAndStadium(Trainer trainer, Stadium stadium);
+    Badge findBadgeByTrainerAndStadium(Trainer trainer, Stadium stadium);
 
 }

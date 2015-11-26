@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.pokemon.service.facade;
 
-import cz.muni.fi.pa165.pokemon.dto.StadiumCreateDTO;
 import cz.muni.fi.pa165.pokemon.dto.StadiumDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
@@ -15,8 +14,6 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
 
 import javax.inject.Inject;
 import java.sql.Date;
@@ -24,8 +21,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
+
 /**
- * Testing class for StadiumFacade
+ * Testing class for StadiumFacade.
  * @author Dominika Talianova
  */
 @ContextConfiguration(classes = {cz.muni.fi.pa165.pokemon.context.ServiceConfiguration.class})
@@ -140,7 +140,7 @@ public class StadiumFacadeImplNGTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindByCity(){
-        StadiumDTO stadiumsByCity = new StadiumDTO();
+        StadiumDTO stadiumsByCity;
         stadiumsByCity = beanMappingService.map(stadium1, StadiumDTO.class);
         assertEquals(stadiumFacade.findByCity("Azalea"),stadiumsByCity, "Failed to find all stadiums by city.");
     }

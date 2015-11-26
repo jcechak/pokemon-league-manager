@@ -36,7 +36,7 @@ public class BadgeServiceImpl implements BadgeService {
     }
 
     @Override
-    public Badge getBadgeById(Long id) {
+    public Badge findBadgeById(Long id) {
         return badgeDao.findById(id);
     }
 
@@ -56,7 +56,7 @@ public class BadgeServiceImpl implements BadgeService {
     }
 
     @Override
-    public Badge getBadgeWithTrainerAndStadium(Trainer trainer, Stadium stadium) {
+    public Badge findBadgeByTrainerAndStadium(Trainer trainer, Stadium stadium) {
         return badgeDao.findByTrainerAndStadium(trainer, stadium);
     }
 }

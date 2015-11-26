@@ -12,8 +12,6 @@ import cz.muni.fi.pa165.pokemon.service.TrainerService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.*;
@@ -27,7 +25,7 @@ import static org.mockito.Mockito.when;
 import static org.testng.Assert.*;
 
 /**
- * Tests correctnes of PokemonFacade implementations
+ * Tests correctness of PokemonFacade implementations
  *
  * @author Jaroslav Cechak
  */
@@ -154,29 +152,20 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
         when(pokemonService.getAllPokemons()).thenReturn(PokemonList);
         when(pokemonService.getPokemonById(persistedPokemon.getId())).thenReturn(persistedPokemon);
 
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                createdPokemon = pokemon;
-                createdPokemon.setId(100l);
-                return null;
-            }
+        doAnswer(invocation -> {
+            createdPokemon = pokemon;
+            createdPokemon.setId(100l);
+            return null;
         }).when(pokemonService).createPokemon(pokemon);
 
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                updatedPokemon = pokemon;
-                return null;
-            }
+        doAnswer(invocation -> {
+            updatedPokemon = pokemon;
+            return null;
         }).when(pokemonService).updatePokemon(pokemon);
 
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                deletedPokemon = pokemon;
-                return null;
-            }
+        doAnswer(invocation -> {
+            deletedPokemon = pokemon;
+            return null;
         }).when(pokemonService).deletePokemon(pokemon);
 
         createdPokemon = null;
@@ -225,7 +214,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
     public void testGetPokemonById() {
         PokemonDTO result = pokemonFacade.getPokemonById(persistedPokemonDTO.getId());
         
-        assertEquals(result, persistedPokemonDTO, "Did not retrievd same pokemon.");
+        assertEquals(result, persistedPokemonDTO, "Did not retrieved same pokemon.");
     }
 
     /**
@@ -279,7 +268,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
         List<PokemonDTO> result = pokemonFacade.getAllPokemonsOfTrainerWithId(trainer.getId());
         
         assertTrue(result.size() == 2, "Returned list does not contain expected number of pokemons.");
-        assertEquals(result, PokemonDTOList, "Returned list doec not contain expected pokemons.");
+        assertEquals(result, PokemonDTOList, "Returned list does not contain expected pokemons.");
     }
 
     /**

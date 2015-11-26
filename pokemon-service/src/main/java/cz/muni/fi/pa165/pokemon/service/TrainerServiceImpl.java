@@ -2,15 +2,12 @@ package cz.muni.fi.pa165.pokemon.service;
 
 import cz.muni.fi.pa165.exceptions.PokemonServiceException;
 import cz.muni.fi.pa165.pokemon.dao.TrainerDao;
-import cz.muni.fi.pa165.pokemon.entity.Badge;
-import cz.muni.fi.pa165.pokemon.entity.Pokemon;
-import cz.muni.fi.pa165.pokemon.entity.Stadium;
-import cz.muni.fi.pa165.pokemon.entity.Tournament;
-import cz.muni.fi.pa165.pokemon.entity.Trainer;
+import cz.muni.fi.pa165.pokemon.entity.*;
+import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.List;
-import javax.inject.Inject;
-import org.springframework.stereotype.Service;
 
 /**
  * Implementation of the TrainerService providing service to facade layer.
@@ -47,7 +44,7 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public boolean mayEnrollInTournament(Trainer trainer, Tournament tournament) {
-        if(trainer.getPokemons().size() < tournament.getMiminalPokemonCount()) {
+        if(trainer.getPokemons().size() < tournament.getMinimalPokemonCount()) {
             return false;
         }
         

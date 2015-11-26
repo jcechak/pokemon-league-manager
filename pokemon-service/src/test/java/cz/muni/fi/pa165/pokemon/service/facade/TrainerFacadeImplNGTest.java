@@ -1,9 +1,7 @@
 package cz.muni.fi.pa165.pokemon.service.facade;
 
-import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
 import cz.muni.fi.pa165.pokemon.dto.StadiumDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
-import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
@@ -12,18 +10,20 @@ import cz.muni.fi.pa165.pokemon.service.MappingService;
 import cz.muni.fi.pa165.pokemon.service.PokemonService;
 import cz.muni.fi.pa165.pokemon.service.StadiumService;
 import cz.muni.fi.pa165.pokemon.service.TrainerService;
-import java.sql.Date;
-import java.util.Collection;
-import javax.inject.Inject;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import static org.testng.Assert.assertEquals;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.inject.Inject;
+import java.sql.Date;
+import java.util.Collection;
+
+import static org.testng.Assert.assertEquals;
+
 /**
- * Tests corectness of TranerFacadeImpl methods
+ * Tests correctness of TrainerFacadeImpl methods
  * 
  * @author Milos Bartak
  */
@@ -95,7 +95,7 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
     }
     
     @Test
-    public void testIsLeadeOfTheStadium() {
+    public void testIsLeaderOfTheStadium() {
         stadium = new Stadium();
         stadium.setCity("Pallet");
         stadium.setType(PokemonType.ROCK);

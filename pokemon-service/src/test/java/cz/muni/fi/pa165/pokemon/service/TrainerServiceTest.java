@@ -2,30 +2,28 @@ package cz.muni.fi.pa165.pokemon.service;
 
 import cz.muni.fi.pa165.pokemon.dao.PokemonDao;
 import cz.muni.fi.pa165.pokemon.dao.TrainerDao;
-import cz.muni.fi.pa165.pokemon.entity.Badge;
-import cz.muni.fi.pa165.pokemon.entity.Pokemon;
-import cz.muni.fi.pa165.pokemon.entity.Stadium;
-import cz.muni.fi.pa165.pokemon.entity.Tournament;
-import cz.muni.fi.pa165.pokemon.entity.Trainer;
+import cz.muni.fi.pa165.pokemon.entity.*;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
-import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+
 /**
- * Tests corectness of TrainerService methods
+ * Tests correctness of TrainerService methods
  * 
  * @author Milos Bartak
  */
@@ -66,7 +64,7 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     }
     
     @BeforeMethod
-    public void beforeMehod() {
+    public void beforeMethod() {
         setUpTrainer = new Trainer();
         setUpTrainer.setName("Ash");
         setUpTrainer.setSurname("Brock");
@@ -79,7 +77,7 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         setUpTrainer2.setId(15L);
         setUpTrainer2.setDateOfBirth(new Date(1998-10-10));
         
-        List<Trainer> trainers = new ArrayList<Trainer>();
+        List<Trainer> trainers = new ArrayList<>();
         trainers.add(setUpTrainer);
         trainers.add(setUpTrainer2);
         
@@ -93,16 +91,16 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         badge = new Badge();
         badge.setTrainer(setUpTrainer);
         badge.setStadium(stadium);
-        List<Badge> badges = new ArrayList<Badge>();
+        List<Badge> badges = new ArrayList<>();
         badges.add(badge);
         
         setUpTrainer.addBadge(badge);
 
-        List<Trainer> trainersWithBadge = new ArrayList<Trainer>();
+        List<Trainer> trainersWithBadge = new ArrayList<>();
         trainersWithBadge.add(setUpTrainer);
         
         tournament = new Tournament();
-        tournament.setMiminalPokemonCount(1);
+        tournament.setMinimalPokemonCount(1);
         tournament.setTournamentName("MasterBlaster tournament");
         tournament.setStadiumId(157L);
         tournament.setMinimalPokemonLevel(17);
@@ -116,14 +114,14 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         pokemon.setTrainer(setUpTrainer);
         
         
-        List<Trainer> trainersWithSeal = new ArrayList<Trainer>();
+        List<Trainer> trainersWithSeal = new ArrayList<>();
         trainersWithSeal.add(setUpTrainer);
         
-        List<Trainer> ashList = new ArrayList<Trainer>();
+        List<Trainer> ashList = new ArrayList<>();
         ashList.add(setUpTrainer);
         ashList.add(setUpTrainer2);
         
-        List<Trainer> misticList = new ArrayList<Trainer>();
+        List<Trainer> misticList = new ArrayList<>();
         misticList.add(setUpTrainer);
         
         when(trainerDao.findById(12L)).thenReturn(setUpTrainer);
@@ -145,7 +143,7 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     
     @Test
     public void testFindAllTrainers() {
-        List<Trainer> trainers = new ArrayList<Trainer>();
+        List<Trainer> trainers = new ArrayList<>();
         trainers.add(setUpTrainer);
         trainers.add(setUpTrainer2);
         
@@ -203,7 +201,7 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
  
     @Test
     public void testFindfindAllTrainersWithPokemon() {
-        List<Trainer> trainersWithSeal = new ArrayList<Trainer>();
+        List<Trainer> trainersWithSeal = new ArrayList<>();
         trainersWithSeal.add(setUpTrainer);
         assertEquals(trainerDao.findAllTrainersWithPokemon(pokemon), trainersWithSeal, 
                 "Did not found all trainers with pokemon" + pokemon.toString());
@@ -211,24 +209,24 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     
     @Test
     public void testFindAllTrainersWithBadge() {
-        List<Trainer> trainersWithBadge = new ArrayList<Trainer>();
+        List<Trainer> trainersWithBadge = new ArrayList<>();
         trainersWithBadge.add(setUpTrainer);
         assertEquals(trainerDao.findAllTrainersWithBadge(badge), trainersWithBadge,
                 "Did not found all trainers with badge" + badge.toString());
     }
-    
+
     @Test
     public void testFindAllTrainersWithName() {
-        List<Trainer> ashList = new ArrayList<Trainer>();
+        List<Trainer> ashList = new ArrayList<>();
         ashList.add(setUpTrainer);
         ashList.add(setUpTrainer2);
         assertEquals(trainerDao.findAllTrainersWithName("Ash"), ashList,
                 "Did not found all trainers with name \"Ash\"");
     }
-    
+
     @Test
     public void testFindAllTrainersWithSurname() {
-        List<Trainer> misticList = new ArrayList<Trainer>();
+        List<Trainer> misticList = new ArrayList<>();
         misticList.add(setUpTrainer);
         assertEquals(trainerDao.findAllTrainersWithSurname("Mistic"), misticList,
                 "Did not found all trainers with surname \"Mistic\"");

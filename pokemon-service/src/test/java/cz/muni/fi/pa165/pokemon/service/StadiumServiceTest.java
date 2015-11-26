@@ -1,8 +1,5 @@
 package cz.muni.fi.pa165.pokemon.service;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
-
 import cz.muni.fi.pa165.pokemon.dao.StadiumDao;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
@@ -11,19 +8,20 @@ import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static org.mockito.Mockito.when;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 
 /**
@@ -121,7 +119,7 @@ public class StadiumServiceTest extends AbstractTransactionalTestNGSpringContext
         if(foundStadiums.size()!= 1){
             fail("Returned list has " +foundStadiums.size() + " items.");
         } else if (foundStadiums.contains(stadium1)){
-            fail("The list does not contain correct itmes.");
+            fail("The list does not contain correct items.");
         }
     }
 
