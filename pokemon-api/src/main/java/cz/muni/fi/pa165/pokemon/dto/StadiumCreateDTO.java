@@ -21,7 +21,7 @@ public class StadiumCreateDTO {
     private Long stadiumLeaderId;
 
     @NotNull
-    private PokemonType stadiumType;
+    private PokemonType type;
 
 
     public void setCity(String city){
@@ -41,12 +41,12 @@ public class StadiumCreateDTO {
         return stadiumLeaderId;
     }
 
-    public void setStadiumType(PokemonType type){
-        this.stadiumType= type;
+    public void setType(PokemonType type){
+        this.type= type;
     }
 
-    public PokemonType getStadiumType(){
-        return stadiumType;
+    public PokemonType getType(){
+        return type;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class StadiumCreateDTO {
         }
         StadiumDTO other = (StadiumDTO) obj;
         return Objects.equals(this.getCity(), other.getCity()) &&
-                Objects.equals(this.getStadiumType(), other.getStadiumType()) &&
+                Objects.equals(this.getType(), other.getType()) &&
                 Objects.equals(this.getStadiumLeaderId(), other.getStadiumLeaderId());
 
     }
@@ -76,7 +76,7 @@ public class StadiumCreateDTO {
         return "Stadium{ "
                 + "stadium's leader id = " + stadiumLeaderId
                 + ", city = " + city
-                + ", stadium type = " + stadiumType
+                + ", stadium type = " + type
                 + "}";
     }
 

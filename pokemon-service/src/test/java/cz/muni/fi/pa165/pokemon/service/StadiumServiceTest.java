@@ -160,7 +160,7 @@ public class StadiumServiceTest extends AbstractTransactionalTestNGSpringContext
     public void testHasLeader(){
         boolean tempCheck = stadiumService.hasLeader(stadium1);
         if(!tempCheck){
-            fail("Failed to check if the stadium has a leader.");
+            fail("The stadium does not have a leader.");
         }
     }
 }
