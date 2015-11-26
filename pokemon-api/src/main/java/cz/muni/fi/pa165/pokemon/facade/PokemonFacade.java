@@ -1,8 +1,7 @@
 package cz.muni.fi.pa165.pokemon.facade;
 
 import cz.muni.fi.pa165.pokemon.dto.PokemonCreateDTO;
-import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
-import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
+import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import java.util.List;
 
@@ -17,9 +16,9 @@ public interface PokemonFacade {
      * Save the given pokemon into system.
      *
      * @param pokemon pokemon to be saved
-     * @return saved pokemon
+     * @return id of newly created pokemon
      */
-    PokemonDTO createPokemon(PokemonCreateDTO pokemon);
+    Long createPokemon(PokemonCreateDTO pokemon);
 
     /**
      * Returns pokemon with given id
@@ -32,25 +31,32 @@ public interface PokemonFacade {
     /**
      * Changes the skill of the pokemon
      *
-     * @param pokemon pokemon to be updated
+     * @param pokemonId id of pokemon to be updated
      * @param newSkill new skill level of the pokemon
      */
-    void changeSkill(PokemonDTO pokemon, int newSkill);
+    void changeSkill(Long pokemonId, int newSkill);
 
     /**
      * Changes the pokemon's trainer (owner)
      *
-     * @param pokemon pokemon to be updated
-     * @param newTrainer pokemon's new trainer
+     * @param pokemonId id of pokemon to be updated
+     * @param newTrainerId id of pokemon's new trainer
      */
-    void changeTrainer(PokemonDTO pokemon, TrainerDTO newTrainer);
+    void changeTrainer(Long pokemonId, Long newTrainerId);
+    
+    /**
+     * Trades pokemons by switching their trainers.
+     * @param pokemonId1 id of first pokemon to trade
+     * @param pokemonId2 id of second pokemon to trade
+     */
+    void tradePokemon(Long pokemonId1, Long pokemonId2);
 
     /**
      * Deletes the given pokemon from system.
      *
-     * @param pokemon pokemon to be deleted
+     * @param pokemonId id of pokemon to be deleted
      */
-    void deletePokemon(PokemonDTO pokemon);
+    void deletePokemon(Long pokemonId);
 
     /**
      * Returns {@link java.util.List List} of all pokemons present in the

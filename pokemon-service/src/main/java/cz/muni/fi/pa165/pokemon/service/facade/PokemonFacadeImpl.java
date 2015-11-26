@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.pokemon.service.facade;
 
 import cz.muni.fi.pa165.pokemon.dto.PokemonCreateDTO;
 import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
-import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import cz.muni.fi.pa165.pokemon.facade.PokemonFacade;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -24,24 +22,23 @@ import java.util.List;
 @Service
 @Transactional
 public class PokemonFacadeImpl implements PokemonFacade {
-    
+
     @Inject
     private PokemonService pokemonService;
-    
+
     @Inject
     private MappingService mappingService;
-    
+
     @Inject
     private TrainerService trainerService;
 
     @Override
-    public PokemonDTO createPokemon(PokemonCreateDTO pokemon) {
+    public Long createPokemon(PokemonCreateDTO pokemon) {
         if (pokemon == null) {
             throw new IllegalArgumentException("Pokemon cannot be null.");
         }
         Pokemon newPokemon = mappingService.map(pokemon, Pokemon.class);
-        pokemonService.createPokemon(newPokemon);
-        return mappingService.map(newPokemon, PokemonDTO.class);
+        return pokemonService.createPokemon(newPokemon);
     }
 
     @Override
@@ -49,75 +46,97 @@ public class PokemonFacadeImpl implements PokemonFacade {
         if (id == null) {
             throw new IllegalArgumentException("Id cannot be null.");
         }
-        return mappingService.map(pokemonService.getPokemonById(id), PokemonDTO.class);
+        return mappingService.map(
+                pokemonService.getPokemonById(id),
+                PokemonDTO.class
+        );
     }
 
     @Override
-    public void changeSkill(PokemonDTO pokemon, int newSkill) {
-        if (pokemon == null) {
-            throw new IllegalArgumentException("Pokemon cannot be null.");
+    public void changeSkill(Long pokemonId, int newSkill) {
+        if (pokemonId == null) {
+            throw new IllegalArgumentException("Pokemon's id cannot be null.");
         }
         if (newSkill < 0) {
             throw new IllegalArgumentException("Skill cannot be negative number");
         }
-        pokemon.setSkillLevel(newSkill);
-        pokemonService.updatePokemon(mappingService.map(pokemon, Pokemon.class));
+        pokemonService.changeSkill(
+                pokemonService.getPokemonById(pokemonId),
+                newSkill
+        );
     }
 
     @Override
-    public void changeTrainer(PokemonDTO pokemon, TrainerDTO newTrainer) {
-        if (pokemon == null) {
-            throw new IllegalArgumentException("Pokemon cannot be null.");
+    public void changeTrainer(Long pokemonId, Long newTrainerId) {
+        if (pokemonId == null) {
+            throw new IllegalArgumentException("Pokemon's id cannot be null.");
         }
-        if (newTrainer == null) {
-            throw new IllegalArgumentException("Trainer cannot be null.");
+        if (newTrainerId == null) {
+            throw new IllegalArgumentException("Trainer's id cannot be null.");
         }
-        pokemon.setTrainerId(newTrainer.getId());
-        pokemonService.updatePokemon(mappingService.map(pokemon, Pokemon.class));
+        pokemonService.changeTrainer(
+                pokemonService.getPokemonById(pokemonId),
+                trainerService.findTrainerById(newTrainerId)
+        );
     }
 
     @Override
-    public void deletePokemon(PokemonDTO pokemon) {
-        if (pokemon == null) {
-            throw new IllegalArgumentException("Pokemon cannot be null.");
+    public void tradePokemon(Long pokemonId1, Long pokemonId2) {
+        pokemonService.tradePokemon(
+                pokemonService.getPokemonById(pokemonId1),
+                pokemonService.getPokemonById(pokemonId2)
+        );
+
+    }
+
+    @Override
+    public void deletePokemon(Long pokemonId) {
+        if (pokemonId == null) {
+            throw new IllegalArgumentException("Pokemon's id cannot be null.");
         }
-        pokemonService.deletePokemon(mappingService.map(pokemon, Pokemon.class));
+        pokemonService.deletePokemon(pokemonService.getPokemonById(pokemonId));
     }
 
     @Override
     public List<PokemonDTO> getAllPokemons() {
-        return mappingService.map(pokemonService.getAllPokemons(), PokemonDTO.class);
+        return mappingService.map(
+                pokemonService.getAllPokemons(),
+                PokemonDTO.class
+        );
     }
 
     @Override
     public List<PokemonDTO> getAllPokemonsOfTrainerWithId(Long trainerId) {
         if (trainerId == null) {
-            throw new IllegalArgumentException("Trainer id cannot be null.");
+            throw new IllegalArgumentException("Trainer's id cannot be null.");
         }
-        return mappingService.map(trainerService.findTrainerById(trainerId).getPokemons(), PokemonDTO.class);
+        return mappingService.map(
+                pokemonService.getAllPokemonsOfTrainer(
+                        trainerService.findTrainerById(trainerId)
+                ),
+                PokemonDTO.class
+        );
     }
 
     @Override
     public List<PokemonDTO> getAllPokemonsWithName(String name) {
-        List<Pokemon> allPokemons = pokemonService.getAllPokemons();
-        List<PokemonDTO> pokemonsWithName = new LinkedList<>();
-        for (Pokemon p : allPokemons) {
-            if (p.getName().equals(name)) {
-                pokemonsWithName.add(mappingService.map(p, PokemonDTO.class));
-            }
+        if (name == null) {
+            throw new IllegalArgumentException("Pokemon's name cannot be null.");
         }
-        return pokemonsWithName;
+        return mappingService.map(
+                pokemonService.getAllPokemonsWithName(name),
+                PokemonDTO.class
+        );
     }
 
     @Override
     public List<PokemonDTO> getAllPokemonsWithType(PokemonType type) {
-        List<Pokemon> allPokemons = pokemonService.getAllPokemons();
-        List<PokemonDTO> pokemonsWithType = new LinkedList<>();
-        for (Pokemon p : allPokemons) {
-            if (p.getType().equals(type)) {
-                pokemonsWithType.add(mappingService.map(p, PokemonDTO.class));
-            }
+        if (type == null) {
+            throw new IllegalArgumentException("Pokemon's type cannot be null.");
         }
-        return pokemonsWithType;
-    }    
+        return mappingService.map(
+                pokemonService.getAllPokemonsWithType(type),
+                PokemonDTO.class
+        );
+    }
 }

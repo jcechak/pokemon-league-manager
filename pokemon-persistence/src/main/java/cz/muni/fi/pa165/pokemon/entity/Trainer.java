@@ -111,12 +111,10 @@ public class Trainer {
 
     public void addPokemon(Pokemon pokemon) {
         pokemons.add(pokemon);
-        pokemon.setTrainer(this);
     }
 
     public void removePokemon(Pokemon pokemon) {
         pokemons.remove(pokemon);
-        pokemon.setTrainer(null);
     }
     
     public List<Pokemon> getPokemons() {
