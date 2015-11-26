@@ -45,6 +45,12 @@ public class BadgeFacadeImpl implements BadgeFacade {
     }
 
     @Override
+    public void updateBadge(BadgeDTO badgeDto) {
+        Badge badgeEntity = mappingService.map(badgeDto, Badge.class);
+        badgeService.updateBadge(badgeEntity);
+    }
+
+    @Override
     public BadgeDTO findBadgeById(Long badgeId) {
         return mappingService.map(
                 badgeService.findBadgeById(badgeId), BadgeDTO.class);

@@ -14,20 +14,27 @@ import java.util.List;
 public interface BadgeFacade {
 
     /**
-     * Saves the badge into the system
+     * Saves the badge into the system.
      * @param badgeDto badge object to be created
      */
     void assignBadge(BadgeDTO badgeDto);
 
     /**
-     * Removes the badge from the system
+     * Removes the badge from the system.
      * @param badgeDto badge object to be deleted
      */
     void removeBadge(BadgeDTO badgeDto);
 
+
+    /**
+     * Updates the badge attributes.
+     * @param badgeDto badge object to be deleted
+     */
+    void updateBadge(BadgeDTO badgeDto);
+
+
     /**
      * Gets Badge with given id.
-     *
      * @param badgeId the id of the Badge
      * @return {@link BadgeDTO} with the given id
      */

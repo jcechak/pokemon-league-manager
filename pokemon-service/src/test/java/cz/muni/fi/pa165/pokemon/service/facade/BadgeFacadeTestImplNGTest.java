@@ -9,8 +9,6 @@ import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import cz.muni.fi.pa165.pokemon.facade.BadgeFacade;
 import cz.muni.fi.pa165.pokemon.service.BadgeService;
 import cz.muni.fi.pa165.pokemon.service.MappingService;
-import cz.muni.fi.pa165.pokemon.service.StadiumService;
-import cz.muni.fi.pa165.pokemon.service.TrainerService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -42,26 +40,21 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
     @Mock
     private BadgeService badgeService;
 
-    @Mock
-    private TrainerService trainerService;
-
-    @Mock
-    private StadiumService stadiumService;
-
     @InjectMocks
     private BadgeFacadeImpl badgeFacade;
 
     private static BadgeDTO badgeDTO;
-    private static BadgeDTO badgeDTO2;
 
     private Badge createdBadge;
+    private Badge updatedBadge;
 
-    private static Trainer trainerLeader;
-    private static Trainer trainer2;
+    private static Trainer trainer;
+    private static Trainer anotherTrainer;
     private static Stadium stadium;
 
     private static Badge badge;
-    private static Badge badge2;
+    private static Badge anotherBadge;
+
     private static List<Badge> badges = new ArrayList<>();
     private static List<BadgeDTO> badgesDTO = new ArrayList<>();
 
@@ -69,18 +62,23 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
     public void setUpClass() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        trainerLeader = new Trainer();
+        Trainer trainerLeader = new Trainer();
         trainerLeader.setId(1l);
         trainerLeader.setName("Prd");
         trainerLeader.setSurname("Makovy");
         trainerLeader.setDateOfBirth(Date.valueOf("1989-07-08"));
 
+        trainer = new Trainer();
+        trainer.setId(2l);
+        trainer.setName("Ask");
+        trainer.setSurname("Ketchum");
+        trainer.setDateOfBirth(Date.valueOf("1992-04-15"));
 
-        trainer2 = new Trainer();
-        trainer2.setId(2l);
-        trainer2.setName("Ask");
-        trainer2.setSurname("Ketchum");
-        trainer2.setDateOfBirth(Date.valueOf("1992-04-15"));
+        anotherTrainer = new Trainer();
+        anotherTrainer.setId(17L);
+        anotherTrainer.setName("Bruck");
+        anotherTrainer.setSurname("Ruck");
+        anotherTrainer.setDateOfBirth(Date.valueOf("1999-07-05"));
 
         stadium = new Stadium();
         stadium.setId(666l);
@@ -88,28 +86,17 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
         stadium.setType(PokemonType.NORMAL);
         stadium.setLeader(trainerLeader);
 
-        badge = new Badge();
-        badge.setId(42l);
-        badge.setTrainer(trainerLeader);
-        badge.setStadium(stadium);
+        anotherBadge = new Badge();
+        anotherBadge.setId(54l);
+        anotherBadge.setTrainer(anotherTrainer);
+        anotherBadge.setStadium(stadium);
 
-        badge2 = new Badge();
-        badge2.setId(54l);
-        badge2.setTrainer(trainerLeader);
-        badge2.setStadium(stadium);
+        badges.add(anotherBadge);
 
-        badges.add(badge);
-        badges.add(badge2);
-
-        badgeDTO = new BadgeDTO();
-        badgeDTO.setStadiumId(badge.getStadium().getId());
-        badgeDTO.setTrainerId(badge.getTrainer().getId());
-        badgeDTO.setId(badge.getId());
-
-        badgeDTO2 = new BadgeDTO();
-        badgeDTO2.setStadiumId(badge2.getStadium().getId());
-        badgeDTO2.setTrainerId(badge2.getTrainer().getId());
-        badgeDTO2.setId(badge2.getId());
+        BadgeDTO badgeDTO2 = new BadgeDTO();
+        badgeDTO2.setStadiumId(anotherBadge.getStadium().getId());
+        badgeDTO2.setTrainerId(anotherBadge.getTrainer().getId());
+        badgeDTO2.setId(anotherBadge.getId());
 
         badgesDTO.add(badgeDTO);
         badgesDTO.add(badgeDTO2);
@@ -119,6 +106,18 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
     @BeforeMethod
     public void setUpMethod() throws Exception {
 
+        badge = new Badge();
+        badge.setId(42l);
+        badge.setTrainer(trainer);
+        badge.setStadium(stadium);
+
+        badges.add(badge);
+
+        badgeDTO = new BadgeDTO();
+        badgeDTO.setStadiumId(badge.getStadium().getId());
+        badgeDTO.setTrainerId(badge.getTrainer().getId());
+        badgeDTO.setId(badge.getId());
+
         doAnswer(invocation -> {
             createdBadge = badge;
             createdBadge.setId(100l);
@@ -127,6 +126,11 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
 
         when(badgeService.findBadgeById(badge.getId())).thenReturn(badge);
         when(badgeService.getAllBadges()).thenReturn(badges);
+
+        doAnswer(invocation -> {
+            updatedBadge = badge;
+            return null;
+        }).when(badgeService).updateBadge(badge);
 
         when(mappingService.map(badges, BadgeDTO.class)).thenReturn(badgesDTO);
 
@@ -155,10 +159,23 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
     }
 
     @Test
+    public void testUpdateBadge() throws Exception {
+        Long oldTrainerId = badgeDTO.getTrainerId();
+        Long newTrainerId = 41357L;
+        badgeDTO.setTrainerId(newTrainerId);
+        badgeFacade.updateBadge(badgeDTO);
+        assertEquals(badgeService.findBadgeById(badgeDTO.getId()), updatedBadge, "Badge update not working");
+
+        badgeDTO.setTrainerId(oldTrainerId);
+        badgeFacade.updateBadge(badgeDTO);
+        assertEquals(badgeService.findBadgeById(badgeDTO.getId()), updatedBadge, "Badge update not working");
+    }
+
+    @Test
     public void testGetAllBadges() throws Exception {
         Collection<BadgeDTO> badgeList = badgeFacade.getAllBadges();
         assertTrue(badgeList.size() == badgesDTO.size(), "List does not contain expected number of badges, found: " + badgeList.size());
-        assertEquals(badgeList, badgesDTO, "Returned list does not contain expected pokemons.");
+        assertEquals(badgeList, badgesDTO, "Returned list does not contain expected badges.");
     }
 
     @Test

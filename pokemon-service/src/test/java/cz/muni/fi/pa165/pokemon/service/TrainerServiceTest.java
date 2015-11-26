@@ -12,21 +12,15 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import static org.mockito.Mockito.doAnswer;
 
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import static org.testng.Assert.assertEquals;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 
 /**
  * Tests correctness of TrainerService methods
@@ -145,19 +139,13 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         when(trainerDao.findAllTrainersWithBadge(badge)).thenReturn(trainersWithBadge);
         when(trainerDao.findAllTrainersWithName("Ash")).thenReturn(ashList);
         when(trainerDao.findAllTrainersWithSurname("Mistic")).thenReturn(misticList);
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                called = true;
-                return null;
-            }
+        doAnswer(invocation -> {
+            called = true;
+            return null;
         }).when(trainerDao).create(setUpTrainer);
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                called = true;
-                return null;
-            }
+        doAnswer(invocation -> {
+            called = true;
+            return null;
         }).when(trainerDao).delete(setUpTrainer);
         
     }

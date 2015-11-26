@@ -287,7 +287,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
      * Test of getAllPokemonsWithType method, of class PokemonFacadeImpl.
      */
     @Test
-    public void testGetAllPokemonsWtihType() {
+    public void testGetAllPokemonsWithType() {
         List<PokemonDTO> result = pokemonFacade.getAllPokemonsWithType(PokemonType.GRASS);
         List<PokemonDTO> expected = new LinkedList<>();
         expected.add(persistedPokemonDTO2);

@@ -28,7 +28,7 @@ import static org.testng.Assert.*;
  * @author Jaroslav Cechak
  */
 @ContextConfiguration(classes = {cz.muni.fi.pa165.pokemon.context.ServiceConfiguration.class})
-public class MappingServiceImplNGTest extends AbstractTestNGSpringContextTests {
+public class MappingServiceTest extends AbstractTestNGSpringContextTests {
 
     @InjectMocks
     @Inject
@@ -46,7 +46,7 @@ public class MappingServiceImplNGTest extends AbstractTestNGSpringContextTests {
     private static PokemonDTO pokemonDTO;
     private static PokemonDTO pokemonDTO2;
     
-    public MappingServiceImplNGTest() {
+    public MappingServiceTest() {
     }
 
     @BeforeClass
