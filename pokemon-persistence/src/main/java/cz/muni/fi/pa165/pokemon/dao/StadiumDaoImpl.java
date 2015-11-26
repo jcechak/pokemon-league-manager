@@ -42,6 +42,7 @@ public class StadiumDaoImpl implements StadiumDao {
     public void create(Stadium stadium) {
         try {
             entityManager.persist(stadium);
+            entityManager.flush();
         } catch(EntityExistsException e) {
             throw new DataIntegrityViolationException("Unable to persist stadium " + stadium.toString() + ", because this stadium is already persisted", e);
         } catch(IllegalArgumentException e) {

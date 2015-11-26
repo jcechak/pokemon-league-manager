@@ -61,10 +61,10 @@ public class StadiumCreateDTO {
         if (obj == null) {
             return false;
         }
-        if(!(obj instanceof StadiumDTO)){
+        if(!(obj instanceof StadiumCreateDTO)){
             return false;
         }
-        StadiumDTO other = (StadiumDTO) obj;
+        StadiumCreateDTO other = (StadiumCreateDTO) obj;
         return Objects.equals(this.getCity(), other.getCity()) &&
                 Objects.equals(this.getType(), other.getType()) &&
                 Objects.equals(this.getStadiumLeaderId(), other.getStadiumLeaderId());

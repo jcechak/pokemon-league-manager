@@ -27,6 +27,7 @@ public class PokemonDaoImpl implements PokemonDao {
     public void create(Pokemon pokemon) {
         try {
             em.persist(pokemon);
+            em.flush();
         } catch(EntityExistsException e) {
             throw new DataIntegrityViolationException("Unable to persist pokemon " + pokemon.toString() + ", because this pokemon is already persisted", e);
         } catch(IllegalArgumentException e) {
@@ -55,6 +56,7 @@ public class PokemonDaoImpl implements PokemonDao {
     public void delete(Pokemon pokemon) {
         try {
             em.remove(findById(pokemon.getId()));
+            em.flush();
         } catch (TransactionRequiredException | IllegalStateException e) {
             throw new NonTransientDataAccessResourceException("Unable to update pokemon due to database access failure.", e);
         } catch (ValidationException | PersistenceException e) {

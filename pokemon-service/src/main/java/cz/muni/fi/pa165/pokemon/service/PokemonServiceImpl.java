@@ -20,7 +20,7 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Inject
     private PokemonDao pokemonDao;
-    
+
     @Inject
     private TrainerService trainerService;
 
@@ -56,15 +56,15 @@ public class PokemonServiceImpl implements PokemonService {
             throw new IllegalArgumentException("Trainer cannot be null.");
         }
         Trainer oldTrainer = pokemon.getTrainer();
-        
-        pokemon.setTrainer(newTrainer);
-        pokemonDao.update(pokemon);
-        
+
         oldTrainer.removePokemon(pokemon);
         trainerService.updateTrainer(oldTrainer);
-        
+
         newTrainer.addPokemon(pokemon);
         trainerService.updateTrainer(newTrainer);
+
+        pokemon.setTrainer(newTrainer);
+        pokemonDao.update(pokemon);
     }
 
     @Override
@@ -74,19 +74,19 @@ public class PokemonServiceImpl implements PokemonService {
         }
         Trainer trainer1 = pokemon1.getTrainer();
         Trainer trainer2 = pokemon2.getTrainer();
-        
-        pokemon1.setTrainer(trainer2);
-        pokemon2.setTrainer(trainer1);
-        
+
         trainer1.removePokemon(pokemon1);
         trainer1.addPokemon(pokemon2);
-        
+
         trainer2.removePokemon(pokemon2);
         trainer1.addPokemon(pokemon1);
-        
+
+        pokemon1.setTrainer(trainer2);
+        pokemon2.setTrainer(trainer1);
+
         pokemonDao.update(pokemon1);
         pokemonDao.update(pokemon2);
-        
+
         trainerService.updateTrainer(trainer1);
         trainerService.updateTrainer(trainer2);
     }
@@ -121,7 +121,7 @@ public class PokemonServiceImpl implements PokemonService {
     public List<Pokemon> getAllPokemonsWithName(String name) {
         List<Pokemon> all = this.getAllPokemons();
         for (Pokemon p : all) {
-            if(!p.getName().equals(name)) {
+            if (!p.getName().equals(name)) {
                 all.remove(p);
             }
         }
@@ -132,7 +132,7 @@ public class PokemonServiceImpl implements PokemonService {
     public List<Pokemon> getAllPokemonsWithType(PokemonType type) {
         List<Pokemon> all = this.getAllPokemons();
         for (Pokemon p : all) {
-            if(!p.getType().equals(type)) {
+            if (!p.getType().equals(type)) {
                 all.remove(p);
             }
         }
