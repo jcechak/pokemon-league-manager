@@ -8,11 +8,11 @@ import cz.muni.fi.pa165.pokemon.facade.PokemonFacade;
 import cz.muni.fi.pa165.pokemon.service.MappingService;
 import cz.muni.fi.pa165.pokemon.service.PokemonService;
 import cz.muni.fi.pa165.pokemon.service.TrainerService;
+import java.util.Collection;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.util.List;
 
 /**
  * Implementation of facade interface defining the facade's contracts.
@@ -98,7 +98,7 @@ public class PokemonFacadeImpl implements PokemonFacade {
     }
 
     @Override
-    public List<PokemonDTO> getAllPokemons() {
+    public Collection<PokemonDTO> getAllPokemons() {
         return mappingService.map(
                 pokemonService.getAllPokemons(),
                 PokemonDTO.class
@@ -106,7 +106,7 @@ public class PokemonFacadeImpl implements PokemonFacade {
     }
 
     @Override
-    public List<PokemonDTO> getAllPokemonsOfTrainerWithId(Long trainerId) {
+    public Collection<PokemonDTO> getAllPokemonsOfTrainerWithId(Long trainerId) {
         if (trainerId == null) {
             throw new IllegalArgumentException("Trainer's id cannot be null.");
         }
@@ -119,7 +119,7 @@ public class PokemonFacadeImpl implements PokemonFacade {
     }
 
     @Override
-    public List<PokemonDTO> getAllPokemonsWithName(String name) {
+    public Collection<PokemonDTO> getAllPokemonsWithName(String name) {
         if (name == null) {
             throw new IllegalArgumentException("Pokemon's name cannot be null.");
         }
@@ -130,7 +130,7 @@ public class PokemonFacadeImpl implements PokemonFacade {
     }
 
     @Override
-    public List<PokemonDTO> getAllPokemonsWithType(PokemonType type) {
+    public Collection<PokemonDTO> getAllPokemonsWithType(PokemonType type) {
         if (type == null) {
             throw new IllegalArgumentException("Pokemon's type cannot be null.");
         }

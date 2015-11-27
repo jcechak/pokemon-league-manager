@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.pokemon.service;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
-import cz.muni.fi.pa165.pokemon.entity.Tournament;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 

@@ -29,6 +29,7 @@ public class TrainerDaoImpl implements TrainerDao {
     public void create(Trainer trainer) {
         try {
             entityManager.persist(trainer);
+            entityManager.flush();
         } catch (TransactionRequiredException | IllegalStateException e) {
             throw new NonTransientDataAccessResourceException("Unable to create trainer due to database access failure.", e);
         } catch (ValidationException | PersistenceException e){

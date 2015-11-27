@@ -16,6 +16,7 @@ import org.testng.annotations.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.doAnswer;
@@ -87,7 +88,8 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         badge = new Badge();
         badge.setTrainer(setUpTrainer);
         badge.setStadium(stadium);
-        List<Badge> badges = new ArrayList<>();
+        List<Badge> badges = new ArrayList<>(); // TODO: badges are never used,
+                                                // Please add unmodifiableList if you want to use it
         badges.add(badge);
         
         setUpTrainer.addBadge(badge);
@@ -121,11 +123,11 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         misticList.add(setUpTrainer);
         
         when(trainerDao.findById(12L)).thenReturn(setUpTrainer);
-        when(trainerDao.findAll()).thenReturn(trainers);
-        when(trainerDao.findAllTrainersWithPokemon(pokemon)).thenReturn(trainersWithSeal);
-        when(trainerDao.findAllTrainersWithBadge(badge)).thenReturn(trainersWithBadge);
-        when(trainerDao.findAllTrainersWithName("Ash")).thenReturn(ashList);
-        when(trainerDao.findAllTrainersWithSurname("Mistic")).thenReturn(misticList);
+        when(trainerDao.findAll()).thenReturn(Collections.unmodifiableList(trainers));
+        when(trainerDao.findAllTrainersWithPokemon(pokemon)).thenReturn(Collections.unmodifiableList(trainersWithSeal));
+        when(trainerDao.findAllTrainersWithBadge(badge)).thenReturn(Collections.unmodifiableList(trainersWithBadge));
+        when(trainerDao.findAllTrainersWithName("Ash")).thenReturn(Collections.unmodifiableList(ashList));
+        when(trainerDao.findAllTrainersWithSurname("Mistic")).thenReturn(Collections.unmodifiableList(misticList));
         doAnswer(invocation -> {
             called = true;
             return null;
@@ -259,11 +261,11 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         assertEquals(trainerService2.mayEnrollInTournament(setUpTrainer, tournament), true, 
                 "Trainer " + setUpTrainer.toString() + " may enroll in tournament, but was not able to");
         assertEquals(trainerService2.mayEnrollInTournament(setUpTrainer2, tournament), false, 
-                "Trainer " + setUpTrainer2.toString() + " must not enroll in tournamet, but was able to");
+                "Trainer " + setUpTrainer2.toString() + " must not enroll in tournament, but was able to");
     }
  
     @Test
-    public void testFindfindAllTrainersWithPokemon() {
+    public void testFindAllTrainersWithPokemon() {
         List<Trainer> trainersWithSeal = new ArrayList<>();
         trainersWithSeal.add(setUpTrainer);
         assertEquals(trainerService.findAllTrainersWithPokemon(pokemon), trainersWithSeal, 

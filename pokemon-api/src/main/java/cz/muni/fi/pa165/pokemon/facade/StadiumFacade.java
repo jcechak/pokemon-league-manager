@@ -69,7 +69,7 @@ public interface StadiumFacade {
      * @param stadiumDTO the stadium where the leader is looked for
      * @return the leader of given stadium
      */
-    TrainerDTO getTheleader(StadiumDTO stadiumDTO);
+    TrainerDTO getTheLeader(StadiumDTO stadiumDTO);
 
     /**
      * Checks whether the stadium has a leader

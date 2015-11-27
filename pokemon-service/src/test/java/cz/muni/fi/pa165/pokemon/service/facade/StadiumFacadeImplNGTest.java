@@ -155,7 +155,7 @@ public class StadiumFacadeImplNGTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testGetTheLeader(){
         StadiumDTO tempStadium = beanMappingService.map(stadium1, StadiumDTO.class);
-        assertEquals(stadiumFacade.getTheleader(tempStadium),beanMappingService.map(trainer1,TrainerDTO.class)
+        assertEquals(stadiumFacade.getTheLeader(tempStadium),beanMappingService.map(trainer1,TrainerDTO.class)
                 ,"Failed to retrieve the leader.");
     }
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -99,27 +100,27 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public List<Trainer> findAllTrainers() {
-        return trainerDao.findAll();
+        return Collections.unmodifiableList(trainerDao.findAll());
     }
 
     @Override
     public Collection<Trainer> findAllTrainersWithPokemon(Pokemon pokemon) {
-        return trainerDao.findAllTrainersWithPokemon(pokemon);
+        return Collections.unmodifiableCollection(trainerDao.findAllTrainersWithPokemon(pokemon));
     }
 
     @Override
     public Collection<Trainer> findAllTrainersWithBadge(Badge badge) {
-        return trainerDao.findAllTrainersWithBadge(badge);
+        return Collections.unmodifiableCollection(trainerDao.findAllTrainersWithBadge(badge));
     }
 
     @Override
     public Collection<Trainer> findAllTrainersWithName(String name) {
-        return trainerDao.findAllTrainersWithName(name);
+        return Collections.unmodifiableCollection(trainerDao.findAllTrainersWithName(name));
     }
 
     @Override
     public Collection<Trainer> findAllTrainersWithSurname(String surname) {
-        return trainerDao.findAllTrainersWithSurname(surname);
+        return Collections.unmodifiableCollection(trainerDao.findAllTrainersWithSurname(surname));
     }
     
 }

@@ -29,6 +29,7 @@ public class BadgeDaoImpl implements BadgeDao {
     public void create(Badge badge) {
         try {
             em.persist(badge);
+            em.flush();
         } catch (TransactionRequiredException | IllegalStateException e) {
             throw new NonTransientDataAccessResourceException("Unable to create badge due to database access failure.", e);
         } catch (ValidationException | PersistenceException e) {

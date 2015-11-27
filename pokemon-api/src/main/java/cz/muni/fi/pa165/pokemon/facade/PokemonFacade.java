@@ -3,7 +3,7 @@ package cz.muni.fi.pa165.pokemon.facade;
 import cz.muni.fi.pa165.pokemon.dto.PokemonCreateDTO;
 import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Facade interface defining the facade's contracts with outer world.
@@ -59,40 +59,40 @@ public interface PokemonFacade {
     void deletePokemon(Long pokemonId);
 
     /**
-     * Returns {@link java.util.List List} of all pokemons present in the
+     * Returns {@link java.util.Collection Collection} of all pokemons present in the
      * systems.
      *
-     * @return {@link java.util.List List} of all pokemons present in the
+     * @return {@link java.util.Collection Collection} of all pokemons present in the
      * systems
      */
-    List<PokemonDTO> getAllPokemons();
+    Collection<PokemonDTO> getAllPokemons();
 
     /**
-     * Returns {@link java.util.List List} of all pokemons that are being
+     * Returns {@link java.util.Collection Collection} of all pokemons that are being
      * trained by the given trainer in the system.
      *
      * @param trainerId the id of common trainer of the pokemons
-     * @return {@link java.util.List List} of all pokemons that are being
+     * @return {@link java.util.Collection Collection} of all pokemons that are being
      * trained by the given trainer
      */
-    List<PokemonDTO> getAllPokemonsOfTrainerWithId(Long trainerId);
+    Collection<PokemonDTO> getAllPokemonsOfTrainerWithId(Long trainerId);
 
     /**
-     * Returns {@link java.util.List List} of all pokemons that have the given
+     * Returns {@link java.util.Collection Collection} of all pokemons that have the given
      * name in the system.
      *
      * @param name name of pokemon
-     * @return {@link java.util.List List} of all pokemons that have the given
+     * @return {@link java.util.Collection Collection} of all pokemons that have the given
      * name
      */
-    List<PokemonDTO> getAllPokemonsWithName(String name);
+    Collection<PokemonDTO> getAllPokemonsWithName(String name);
 
     /**
-     * Returns {@link java.util.List List} of all pokemons of the given type in
+     * Returns {@link java.util.Collection Collection} of all pokemons of the given type in
      * the system.
      *
      * @param type type of pokemon
-     * @return {@link java.util.List List} of all pokemons of the given type
+     * @return {@link java.util.Collection Collection} of all pokemons of the given type
      */
-    List<PokemonDTO> getAllPokemonsWithType(PokemonType type);
+    Collection<PokemonDTO> getAllPokemonsWithType(PokemonType type);
 }
