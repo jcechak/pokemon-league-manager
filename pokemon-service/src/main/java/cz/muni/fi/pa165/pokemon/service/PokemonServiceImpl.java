@@ -44,6 +44,12 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Override
     public void changeSkill(Pokemon pokemon, int newSkill) {
+        if (pokemon == null) {
+            throw new IllegalArgumentException("Pokemon cannot be null.");
+        }
+        if (newSkill < 0) {
+            throw new IllegalArgumentException("Skill must be non negative.");
+        }
         pokemon.setSkillLevel(newSkill);
         pokemonDao.update(pokemon);
     }
@@ -77,10 +83,10 @@ public class PokemonServiceImpl implements PokemonService {
         Trainer trainer2 = pokemon2.getTrainer();
 
         trainer1.removePokemon(pokemon1);
-        trainer1.addPokemon(pokemon2);
-
         trainer2.removePokemon(pokemon2);
-        trainer1.addPokemon(pokemon1);
+        
+        trainer1.addPokemon(pokemon2);        
+        trainer2.addPokemon(pokemon1);
 
         pokemon1.setTrainer(trainer2);
         pokemon2.setTrainer(trainer1);
@@ -115,28 +121,33 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Override
     public List<Pokemon> getAllPokemonsOfTrainer(Trainer trainer) {
+        if (trainer == null) {
+            throw new IllegalArgumentException("Trainer cannot be null.");
+        }
         return Collections.unmodifiableList(trainer.getPokemons());
     }
 
     @Override
     public List<Pokemon> getAllPokemonsWithName(String name) {
-        List<Pokemon> all = this.getAllPokemons();
-        for (Pokemon p : all) {
-            if (!p.getName().equals(name)) {
-                all.remove(p);
-            }
+        if (name == null) {
+            throw new IllegalArgumentException("Name cannot be null.");
         }
+        List<Pokemon> all = this.getAllPokemons();
+        all.stream().filter((p) -> (!p.getName().equals(name))).forEach((p) -> {
+            all.remove(p);
+        });
         return Collections.unmodifiableList(all);
     }
 
     @Override
     public List<Pokemon> getAllPokemonsWithType(PokemonType type) {
-        List<Pokemon> all = this.getAllPokemons();
-        for (Pokemon p : all) {
-            if (!p.getType().equals(type)) {
-                all.remove(p);
-            }
+        if (type == null) {
+            throw new IllegalArgumentException("Type cannot be null.");
         }
+        List<Pokemon> all = this.getAllPokemons();
+        all.stream().filter((p) -> (!p.getType().equals(type))).forEach((p) -> {
+            all.remove(p);
+        });
         return Collections.unmodifiableList(all);
     }
 }

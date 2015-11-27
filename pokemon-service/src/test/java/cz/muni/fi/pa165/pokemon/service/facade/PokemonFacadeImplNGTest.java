@@ -19,6 +19,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.*;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -159,9 +160,9 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
 
         pokemonDTOList.add(persistedPokemonDTO2);
         pokemonDTOList.add(persistedPokemonDTO1);
-        
+
         pokemonDTOListByName.add(persistedPokemonDTO1);
-        
+
         pokemonDTOListByType.add(persistedPokemonDTO2);
 
         pokemonCreateDTO.setName(newPokemon.getName());
@@ -209,6 +210,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
         doAnswer(saveParameters).when(pokemonService).tradePokemon(persistedPokemon1, persistedPokemon2);
 
         when(trainerService.findTrainerById(trainer1.getId())).thenReturn(trainer1);
+        when(trainerService.findTrainerById(trainer2.getId())).thenReturn(trainer2);
 
         when(mappingService.map(persistedPokemon1, PokemonDTO.class)).thenReturn(persistedPokemonDTO1);
         when(mappingService.map(persistedPokemon2, PokemonDTO.class)).thenReturn(persistedPokemonDTO2);
@@ -216,7 +218,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
         when(mappingService.map(pokemonList, PokemonDTO.class)).thenReturn(pokemonDTOList);
         when(mappingService.map(pokemonListByName, PokemonDTO.class)).thenReturn(pokemonDTOListByName);
         when(mappingService.map(pokemonListByType, PokemonDTO.class)).thenReturn(pokemonDTOListByType);
-        
+
         when(mappingService.map(pokemonCreateDTO, Pokemon.class)).thenReturn(newPokemon);
     }
 
@@ -234,7 +236,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
         expectedArguments.add(newPokemon);
 
         assertEquals((Object) id, newPokemon.getId(), "The returned id is not the same as the one of created entity.");
-        assertEquals(arguments, expectedArguments, "The underlying service layer did not received correct arguments.");
+        assertEquals(arguments, expectedArguments.toArray(), "The underlying service layer did not received correct arguments.");
     }
 
     /**
@@ -258,7 +260,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
         expectedArguments.add(20);
 
         assertNotNull(arguments, "The corresponding method of service layer has not been called.");
-        assertEquals(arguments, expectedArguments, "The underlying service layer did not received correct arguments.");
+        assertEquals(arguments, expectedArguments.toArray(), "The underlying service layer did not received correct arguments.");
     }
 
     /**
@@ -269,10 +271,10 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
         pokemonFacade.changeTrainer(persistedPokemon1.getId(), trainer2.getId());
 
         expectedArguments.add(persistedPokemon1);
-        expectedArguments.add(trainer1);
+        expectedArguments.add(trainer2);
 
         assertNotNull(arguments, "The corresponding method of service layer has not been called.");
-        assertEquals(arguments, expectedArguments, "The underlying service layer did not received correct arguments.");
+        assertEquals(arguments, expectedArguments.toArray(), "The underlying service layer did not received correct arguments.");
     }
 
     /**
@@ -285,7 +287,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
         expectedArguments.add(persistedPokemon1);
 
         assertNotNull(arguments, "The corresponding method of service layer has not been called.");
-        assertEquals(arguments, expectedArguments, "The underlying service layer did not received correct arguments.");
+        assertEquals(arguments, expectedArguments.toArray(), "The underlying service layer did not received correct arguments.");
     }
 
     /**
@@ -293,7 +295,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
      */
     @Test
     public void testGetAllPokemons() {
-        List<PokemonDTO> result = pokemonFacade.getAllPokemons();
+        Collection<PokemonDTO> result = pokemonFacade.getAllPokemons();
 
         assertNotNull(result, "Returned list should not be null.");
         assertTrue(result.size() == 2, "Returned list does not contain expected number of pokemons.");
@@ -305,7 +307,7 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
      */
     @Test
     public void testGetAllPokemonsOfTrainerWithId() {
-        List<PokemonDTO> result = pokemonFacade.getAllPokemonsOfTrainerWithId(trainer1.getId());
+        Collection<PokemonDTO> result = pokemonFacade.getAllPokemonsOfTrainerWithId(trainer1.getId());
 
         assertNotNull(result, "Returned list should not be null.");
         assertTrue(result.size() == 2, "Returned list does not contain expected number of pokemons.");
@@ -317,11 +319,11 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
      */
     @Test
     public void testGetAllPokemonsWithName() {
-        List<PokemonDTO> result = pokemonFacade.getAllPokemonsWithName(persistedPokemon1.getName());
+        Collection<PokemonDTO> result = pokemonFacade.getAllPokemonsWithName(persistedPokemon1.getName());
 
         assertNotNull(result, "Returned list should not be null.");
         assertTrue(result.size() == 1, "Returned list does not contain expected number of pokemons.");
-        assertEquals(result, pokemonListByName, "Returned list is not as expected.");
+        assertEquals(result, pokemonDTOListByName, "Returned list is not as expected.");
     }
 
     /**
@@ -329,11 +331,11 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
      */
     @Test
     public void testGetAllPokemonsWtihType() {
-        List<PokemonDTO> result = pokemonFacade.getAllPokemonsWithType(persistedPokemon2.getType());
+        Collection<PokemonDTO> result = pokemonFacade.getAllPokemonsWithType(persistedPokemon2.getType());
 
         assertNotNull(result, "Returned list should not be null.");
         assertTrue(result.size() == 1, "Returned list does not contain expected number of pokemons.");
-        assertEquals(result, pokemonListByType, "Returned list is not as expected.");
+        assertEquals(result, pokemonDTOListByType, "Returned list is not as expected.");
     }
 
     /**
@@ -347,6 +349,6 @@ public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
         expectedArguments.add(persistedPokemon2);
 
         assertNotNull(arguments, "The corresponding method of service layer has not been called.");
-        assertEquals(arguments, expectedArguments, "The underlying service layer did not received correct arguments.");
+        assertEquals(arguments, expectedArguments.toArray(), "The underlying service layer did not received correct arguments.");
     }
 }

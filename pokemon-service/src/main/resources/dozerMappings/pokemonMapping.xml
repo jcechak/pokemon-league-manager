@@ -53,4 +53,21 @@
             <a>trainer</a>
             <b>trainerId</b>
         </field>
+    </mapping>
+    <mapping>
+        <class-a>cz.muni.fi.pa165.pokemon.entity.Trainer</class-a>
+        <class-b>cz.muni.fi.pa165.pokemon.dto.TrainerDTO</class-b>
+        <field>
+            <a set-method="addPokemon" type="iterate">pokemons</a>
+            <b set-method="addPokemon" type="iterate">pokemons</b>
+            <a-hint>cz.muni.fi.pa165.pokemon.entity.Pokemon</a-hint>
+            <b-hint>cz.muni.fi.pa165.pokemon.dto.PokemonDTO</b-hint>
+        </field>
+        <field>
+            <a set-method="addBadge" type="iterate">badges</a>
+            <b set-method="addBadge" type="iterate">badges</b>
+            <a-hint>cz.muni.fi.pa165.pokemon.entity.Badge</a-hint>
+            <b-hint>cz.muni.fi.pa165.pokemon.dto.BadgeDTO</b-hint>
+        </field>
+    </mapping>
 </mappings>  

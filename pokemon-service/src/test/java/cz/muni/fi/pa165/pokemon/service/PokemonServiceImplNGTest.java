@@ -17,10 +17,12 @@ import java.util.List;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import static org.testng.Assert.*;
 
 /**
+ * Test of pokemon service implementation
  *
  * @author Jaroslav Cechak
  */
@@ -29,51 +31,65 @@ public class PokemonServiceImplNGTest {
     @Mock
     private PokemonDao pokemonDao;
 
+    @Mock
+    private TrainerService trainerService;
+
     @InjectMocks
     private PokemonServiceImpl pokemonService;
 
-    private static Pokemon p1;
-    private static Pokemon p2;
+    private static Pokemon pokemon1;
+    private static Pokemon pokemon2;
 
-    private static Trainer t1;
+    private static Trainer trainer1;
+    private static Trainer trainer2;
 
-    private static List<Pokemon> l1;
+    private static List<Pokemon> pokemonList;
 
-    private Pokemon passedThrough;
-    private boolean createCalled;
-    private boolean updateCalled;
-    private boolean deleteCalled;
+    private Object[] arguments;
+    private List<Object> expectedArguments;
 
     public PokemonServiceImplNGTest() {
     }
 
+    public static void prepareTestData() {
+        pokemon1 = new Pokemon();
+        pokemon1.setId(1l);
+        pokemon1.setName("Pikachu");
+        pokemon1.setNickname("Pika");
+        pokemon1.setSkillLevel(10);
+        pokemon1.setTrainer(trainer1);
+        pokemon1.setType(PokemonType.ELECTRIC);
+
+        pokemon2 = new Pokemon();
+        pokemon2.setId(2l);
+        pokemon2.setName("Some");
+        pokemon2.setNickname("Pokemon");
+        pokemon2.setSkillLevel(20);
+        pokemon2.setTrainer(trainer1);
+        pokemon2.setType(PokemonType.ROCK);
+
+        pokemonList = new LinkedList<>();
+        pokemonList.add(pokemon1);
+        pokemonList.add(pokemon2);
+
+        trainer1 = new Trainer();
+        trainer1.setId(1l);
+        trainer1.setName("Ask");
+        trainer1.setSurname("Ketchum");
+        trainer1.setDateOfBirth(new Date(System.currentTimeMillis()));
+        trainer1.addPokemon(pokemon1);
+        trainer1.addPokemon(pokemon2);
+
+        trainer2 = new Trainer();
+        trainer2.setId(2l);
+        trainer2.setName("Garry");
+        trainer2.setSurname("Oak");
+        trainer2.setDateOfBirth(new Date(System.currentTimeMillis()));
+    }
+
     @BeforeClass
     public static void setUpClass() throws Exception {
-        t1 = new Trainer();
-        t1.setId(1l);
-        t1.setName("Ask");
-        t1.setSurname("Ketchum");
-        t1.setDateOfBirth(new Date(System.currentTimeMillis()));
 
-        p1 = new Pokemon();
-        p1.setId(1l);
-        p1.setName("Pikachu");
-        p1.setNickname("Pika");
-        p1.setSkillLevel(10);
-        p1.setTrainer(t1);
-        p1.setType(PokemonType.ELECTRIC);
-
-        p2 = new Pokemon();
-        p2.setId(2l);
-        p2.setName("Some");
-        p2.setNickname("Pokemon");
-        p2.setSkillLevel(20);
-        p2.setTrainer(t1);
-        p2.setType(PokemonType.ROCK);
-
-        l1 = new LinkedList<>();
-        l1.add(p1);
-        l1.add(p2);
     }
 
     @AfterClass
@@ -82,42 +98,40 @@ public class PokemonServiceImplNGTest {
 
     @BeforeMethod
     public void setUpMethod() throws Exception {
+        arguments = null;
+        expectedArguments = new LinkedList<>();
+
+        prepareTestData();
+
         MockitoAnnotations.initMocks(this);
-        
-        createCalled = false;
-        updateCalled = false;
-        deleteCalled = false;
 
-        passedThrough = null;
-
-        doAnswer(invocation -> {
-            updateCalled = true;
-            passedThrough = invocation.getArgumentAt(0, Pokemon.class);
+        Answer<Object> saveParameters = (InvocationOnMock invocation) -> {
+            arguments = invocation.getArguments();
             return null;
-        }).when(pokemonDao).update(any(Pokemon.class));
+        };
+
+        doAnswer(saveParameters).when(pokemonDao).update(any(Pokemon.class));
+        doAnswer(saveParameters).when(pokemonDao).delete(any(Pokemon.class));
 
         doAnswer(invocation -> {
-            createCalled = true;
-            passedThrough = invocation.getArgumentAt(0, Pokemon.class);
+            arguments = invocation.getArguments();
+            invocation.getArgumentAt(0, Pokemon.class).setId(1234l);
             return null;
         }).when(pokemonDao).create(any(Pokemon.class));
 
         doAnswer(invocation -> {
-            deleteCalled = true;
-            passedThrough = invocation.getArgumentAt(0, Pokemon.class);
-            return null;
-        }).when(pokemonDao).delete(any(Pokemon.class));
-
-        doAnswer(invocation -> {
             Long id = invocation.getArgumentAt(0, Long.class);
-            if (id == p1.getId()) {
-                return p1;
+            if (id == pokemon1.getId()) {
+                return pokemon1;
             } else {
-                return p2;
+                return pokemon2;
             }
         }).when(pokemonDao).findById(any(Long.class));
 
-        when(pokemonDao.findAll()).thenReturn(Collections.unmodifiableList(l1));
+        when(pokemonDao.findAll()).thenReturn(Collections.unmodifiableList(pokemonList));
+
+        when(trainerService.findTrainerById(trainer1.getId())).thenReturn(trainer1);
+        when(trainerService.findTrainerById(trainer2.getId())).thenReturn(trainer2);
     }
 
     @AfterMethod
@@ -129,10 +143,20 @@ public class PokemonServiceImplNGTest {
      */
     @Test
     public void testCreatePokemon() {
-        pokemonService.createPokemon(p1);
-        
-        assertTrue(createCalled, "Service did not called create method of DAO");
-        assertEquals(passedThrough, p1, "Object passed to DAO for persisting has been changed.");
+        pokemon1.setId(null);
+        Long newId = pokemonService.createPokemon(pokemon1);
+
+        expectedArguments.add(pokemon1);
+
+        assertNotNull(arguments, "The corresponding method of service layer has not been called.");
+        assertEquals(arguments, expectedArguments.toArray(), "The underlying service layer did not received correct arguments.");
+        assertEquals(newId, (Long) 1234l, "Returned id is not the one that has been given to new pokemon.");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testCreateNull() {
+        pokemonService.createPokemon(null);
+        fail("Pokemon service should have thrown IllegalArgumentException when creating null entity.");
     }
 
     /**
@@ -140,10 +164,21 @@ public class PokemonServiceImplNGTest {
      */
     @Test
     public void testUpdatePokemon() {
-        pokemonService.updatePokemon(p1);
-        
-        assertTrue(updateCalled, "Service did not called update method of DAO.");
-        assertEquals(passedThrough, p1, "Object passed to DAO for update has been changed.");
+        pokemon1.setName("x");
+        pokemonService.updatePokemon(pokemon1);
+
+        expectedArguments.add(pokemon1);
+
+        assertNotNull(arguments, "The corresponding method of service layer has not been called.");
+        assertEquals(arguments, expectedArguments.toArray(), "The underlying service layer did not received correct arguments.");
+
+        pokemon1.setName("Pikachu");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testUpdateNull() {
+        pokemonService.updatePokemon(null);
+        fail("Pokemon service should have thrown IllegalArgumentException when updating null entity.");
     }
 
     /**
@@ -151,10 +186,18 @@ public class PokemonServiceImplNGTest {
      */
     @Test
     public void testDeletePokemon() {
-        pokemonService.deletePokemon(p1);
-        
-        assertTrue(deleteCalled, "Service did not called delete method of DAO.");
-        assertEquals(passedThrough, p1, "Object passed to DAO for deletion has been changed.");
+        pokemonService.deletePokemon(pokemon1);
+
+        expectedArguments.add(pokemon1);
+
+        assertNotNull(arguments, "The corresponding method of service layer has not been called.");
+        assertEquals(arguments, expectedArguments.toArray(), "The underlying service layer did not received correct arguments.");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testDeleteNull() {
+        pokemonService.deletePokemon(null);
+        fail("Pokemon service should have thrown IllegalArgumentException when deleting null entity.");
     }
 
     /**
@@ -162,9 +205,15 @@ public class PokemonServiceImplNGTest {
      */
     @Test
     public void testGetPokemonById() {
-        Pokemon result = pokemonService.getPokemonById(p1.getId());
-        
-        assertEquals(result, p1, "Returned object is not the one expected.");
+        Pokemon result = pokemonService.getPokemonById(pokemon1.getId());
+
+        assertEquals(result, pokemon1, "Returned object is not the one expected.");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testGetByNullId() {
+        pokemonService.getPokemonById(null);
+        fail("Pokemon service should have thrown IllegalArgumentException when given null as entity id.");
     }
 
     /**
@@ -173,10 +222,163 @@ public class PokemonServiceImplNGTest {
     @Test
     public void testGetAllPokemons() {
         List<Pokemon> result = pokemonService.getAllPokemons();
-        
+
         assertTrue(result.size() == 2, "Returned lost has unexpected size.");
-        assertTrue(result.containsAll(l1), "List does not contain expected objects.");
-        assertEquals(result, l1, "List does not contain objects expected order.");
+        assertTrue(result.containsAll(pokemonList), "List does not contain expected objects.");
+        assertEquals(result, pokemonList, "List does not contain objects expected order.");
+    }
+
+    /**
+     * Test of changeSkill method, of class PokemonServiceImpl.
+     */
+    @Test
+    public void testChangeSkill() {
+        pokemonService.changeSkill(pokemon1, 20);
+
+        expectedArguments.add(pokemon1);
+
+        assertNotNull(arguments, "The corresponding method of service layer has not been called.");
+        assertEquals(arguments, expectedArguments.toArray(), "The underlying service layer did not received correct arguments.");
+        assertEquals(pokemon1.getSkillLevel(), 20, "Pokemon's skill level has not changed.");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testChangeSkillNull() {
+        pokemonService.changeSkill(null, 20);
+        fail("Pokemon service should have thrown IllegalArgumentException when given null as a pokemon.");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testChangeSkillNegative() {
+        pokemonService.changeSkill(pokemon1, -1);
+        fail("Pokemon service should have thrown IllegalArgumentException when given negative number as skill level.");
+    }
+
+    /**
+     * Test of changeTrainer method, of class PokemonServiceImpl.
+     */
+    @Test
+    public void testChangeTrainer() {
+        pokemonService.changeTrainer(pokemon1, trainer2);
+
+        expectedArguments.add(pokemon1);
+        assertNotNull(arguments, "The corresponding method of service layer has not been called.");
+        assertEquals(arguments, expectedArguments.toArray(), "The underlying service layer did not received correct arguments.");
+
+        assertEquals(pokemon1.getTrainer(), trainer2, "Pokemon has not changed.");
+        assertTrue(trainer2.getPokemons().contains(pokemon1), "Pokemon has not been added to new trainer.");
+        assertFalse(trainer1.getPokemons().contains(pokemon1), "Pokemon has not been removed from previous trainer.");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testChangeTrainerNull() {
+        pokemonService.changeTrainer(null, trainer1);
+        fail("Pokemon service should have thrown IllegalArgumentException when given null as a pokemon.");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testChangeTrainerNullTrainer() {
+        pokemonService.changeTrainer(pokemon1, null);
+        fail("Pokemon service should have thrown IllegalArgumentException when given null as a trainer.");
+    }
+
+    /**
+     * Test of tradePokemon method, of class PokemonServiceImpl.
+     */
+    @Test
+    public void testTradePokemon() {
+        pokemonService.changeTrainer(pokemon2, trainer2);
+
+        pokemonService.tradePokemon(pokemon1, pokemon2);
+
+        assertEquals(pokemon1.getTrainer(), trainer2, "Pokemon has not changed.");
+        assertEquals(pokemon2.getTrainer(), trainer1, "Pokemon has not changed.");
+        assertTrue(trainer2.getPokemons().contains(pokemon1), "Pokemon has not been added to new trainer.");
+        assertFalse(trainer1.getPokemons().contains(pokemon1), "Pokemon has not been removed from previous trainer.");
+        assertTrue(trainer1.getPokemons().contains(pokemon2), "Pokemon has not been added to new trainer.");
+        assertFalse(trainer2.getPokemons().contains(pokemon2), "Pokemon has not been removed from previous trainer.");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testTradeNull1() {
+        pokemonService.tradePokemon(null, pokemon2);
+        fail("Pokemon service should have thrown IllegalArgumentException when given null as one of pokemons to trade.");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testTradeNull2() {
+        pokemonService.tradePokemon(pokemon2, null);
+        fail("Pokemon service should have thrown IllegalArgumentException when given null as one of pokemons to trade.");
+    }
+
+    /**
+     * Test of getAllPokemonsOfTrainer method, of class PokemonServiceImpl.
+     */
+    @Test
+    public void testGetAllPokemonsOfTrainer() {
+        List<Pokemon> result = pokemonService.getAllPokemonsOfTrainer(trainer1);
+
+        assertEquals(result, pokemonList, "Returned list of pokemons is not as expected.");
+
+        result = pokemonService.getAllPokemonsOfTrainer(trainer2);
+
+        assertTrue(result.isEmpty(), "Returned list of pokemons is not empty.");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testGetByNullTrainer() {
+        pokemonService.getAllPokemonsOfTrainer(null);
+        fail("Pokemon service should have thrown IllegalArgumentException when given null as trainer.");
+    }
+
+    /**
+     * Test of getAllPokemonsWithName method, of class PokemonServiceImpl.
+     */
+    @Test
+    public void testGetAllPokemonsWithName() {
+        pokemonList.remove(pokemon1);
+
+        List<Pokemon> result = pokemonService.getAllPokemonsWithName(pokemon2.getName());
+
+        assertEquals(result, pokemonList, "Returned list of pokemons is not as expected.");
+
+        pokemonList.remove(pokemon2);
+        pokemonList.add(pokemon1);
+
+        result = pokemonService.getAllPokemonsWithName(pokemon1.getName());
+
+        assertEquals(result, pokemonList, "Returned list of pokemons is not as expected.");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testGetByNullName() {
+        pokemonService.getAllPokemonsWithName(null);
+        fail("Pokemon service should have thrown IllegalArgumentException when given null as name.");
+    }
+
+    /**
+     * Test of getAllPokemonsWithType method, of class PokemonServiceImpl.
+     */
+    @Test
+    public void testGetAllPokemonsWithType() {
+        pokemonList.remove(pokemon1);
+
+        List<Pokemon> result = pokemonService.getAllPokemonsWithType(pokemon2.getType());
+
+        assertEquals(result, pokemonList, "Returned list of pokemons is not as expected.");
+
+        pokemonList.remove(pokemon2);
+        pokemonList.add(pokemon1);
+
+        result = pokemonService.getAllPokemonsWithType(pokemon1.getType());
+
+        assertEquals(result, pokemonList, "Returned list of pokemons is not as expected.");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testGetByNullType() {
+        pokemonService.getAllPokemonsWithType(null);
+        fail("Pokemon service should have thrown IllegalArgumentException when given null as pokemon type.");
     }
 
 }
