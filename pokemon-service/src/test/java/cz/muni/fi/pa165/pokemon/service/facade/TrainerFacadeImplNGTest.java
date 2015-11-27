@@ -318,11 +318,8 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
      */
     @Test
     public void testFindAllTrainersWithPokemon() {
-        pokemonDTO = new PokemonDTO();
-        pokemonDTO.setName(pokemon.getName());
-        pokemonDTO.setNickname(pokemon.getNickname());
-        pokemonDTO.setSkillLevel(pokemon.getSkillLevel());
-        pokemonDTO.setType(pokemon.getType());
+        pokemonDTO = TestUtils.createPokemonDTO(pokemon);
+        
         
         trainerDTO.addPokemon(pokemonDTO);
         
