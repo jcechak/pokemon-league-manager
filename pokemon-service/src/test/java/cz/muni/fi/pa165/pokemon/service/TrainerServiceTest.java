@@ -121,8 +121,6 @@ public class TrainerServiceTest extends AbstractTestNGSpringContextTests {
         
         when(trainerDao.findById(12L)).thenReturn(leaderTrainer);
         when(trainerDao.findAll()).thenReturn(Collections.unmodifiableList(trainers));
-        when(trainerDao.findAllTrainersWithPokemon(pokemon)).thenReturn(Collections.unmodifiableList(trainersWithSeal));
-        when(trainerDao.findAllTrainersWithBadge(badge)).thenReturn(Collections.unmodifiableList(trainersWithBadge));
         when(trainerDao.findAllTrainersWithName("Ash")).thenReturn(Collections.unmodifiableList(ashList));
         when(trainerDao.findAllTrainersWithSurname("Mistic")).thenReturn(Collections.unmodifiableList(misticList));
         doAnswer(invocation -> {
@@ -271,21 +269,6 @@ public class TrainerServiceTest extends AbstractTestNGSpringContextTests {
                 "Trainer " + setUpTrainer2.toString() + " must not enroll in tournament, but was able to");
     }
  
-    @Test
-    public void testFindAllTrainersWithPokemon() {
-        List<Trainer> trainersWithSeal = new ArrayList<>();
-        trainersWithSeal.add(leaderTrainer);
-        assertEquals(trainerService.findAllTrainersWithPokemon(pokemon), trainersWithSeal, 
-                "Did not found all trainers with pokemon" + pokemon.toString());
-    }
-    
-    @Test
-    public void testFindAllTrainersWithBadge() {
-        List<Trainer> trainersWithBadge = new ArrayList<>();
-        trainersWithBadge.add(leaderTrainer);
-        assertEquals(trainerService.findAllTrainersWithBadge(badge), trainersWithBadge,
-                "Did not found all trainers with badge" + badge.toString());
-    }
 
     @Test
     public void testFindAllTrainersWithName() {

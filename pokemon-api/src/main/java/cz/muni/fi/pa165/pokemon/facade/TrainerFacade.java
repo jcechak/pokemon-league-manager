@@ -82,20 +82,6 @@ public interface TrainerFacade {
     Collection<TrainerDTO> findAllTrainers();
            
     /**
-     * Finds all trainer who own given pokemon
-     * @param pokemonDTO the pokemon we use as filter
-     * @return collection of trainers who own given pokemon
-     */
-    Collection<TrainerDTO> findAllTrainersWithPokemon(PokemonDTO pokemonDTO);
-    
-    /**
-     * Finds all trainer who own given badge
-     * @param badgeDTO the badge we use as filter
-     * @return collection of trainers who own given badge
-     */
-    Collection<TrainerDTO> findAllTrainersWithBadge(BadgeDTO badgeDTO);
-    
-    /**
      * Finds all trainers with given name
      * @param name the name of trainers we use as filter
      * @return collection of trainers with given name

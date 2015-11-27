@@ -3,10 +3,12 @@ package cz.muni.fi.pa165.pokemon.service.facade;
 import cz.muni.fi.pa165.pokemon.dto.BadgeDTO;
 import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
 import cz.muni.fi.pa165.pokemon.dto.StadiumDTO;
+import cz.muni.fi.pa165.pokemon.dto.TournamentDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
 import cz.muni.fi.pa165.pokemon.entity.Badge;
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
+import cz.muni.fi.pa165.pokemon.entity.Tournament;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import cz.muni.fi.pa165.pokemon.facade.TrainerFacade;
@@ -59,6 +61,8 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
     private PokemonDTO pokemonDTO;
     private BadgeDTO badgeDTO;
     private Badge badge;
+    private Tournament tournament;
+    private TournamentDTO tournamentDTO;
     
     private Stadium stadium = null;
     
@@ -89,17 +93,19 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         pokemon.setSkillLevel(5);
         pokemon.setType(PokemonType.ELECTRIC);
         
+        tournament = new Tournament();
+        tournament.setMinimalPokemonCount(1);
+        tournament.setMinimalPokemonLevel(2);
+        tournament.setStadiumId(Long.MIN_VALUE);
+        tournament.setTournamentName("JohnCena");
         
         when(beanMappingService.map(trainerDTO, Trainer.class)).thenReturn(setUpTrainer);
         when(beanMappingService.map(setUpTrainer, TrainerDTO.class)).thenReturn(trainerDTO);
         when(beanMappingService.map(stadiumDTO, Stadium.class)).thenReturn(stadium);
         when(beanMappingService.map(trainersList, TrainerDTO.class)).thenReturn(trainersDTOList);
         when(beanMappingService.map(pokemonDTO, Pokemon.class)).thenReturn(pokemon);
-        when(beanMappingService.map(trainerService.findAllTrainersWithPokemon(beanMappingService.
-                map(pokemonDTO, Pokemon.class)), TrainerDTO.class)).thenReturn(trainersDTOList);
         when(beanMappingService.map(badgeDTO, Badge.class)).thenReturn(badge);
-        when(beanMappingService.map(trainerService.findAllTrainersWithBadge(beanMappingService.
-                map(badgeDTO, Badge.class)), TrainerDTO.class)).thenReturn(trainersDTOList);
+
         
         doAnswer(invocation -> {
             called = true;
@@ -121,8 +127,8 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         when(trainerService.findAllTrainers()).thenReturn(trainersList);
         when(trainerService.findAllTrainersWithName("Brock")).thenReturn(trainersList);
         when(trainerService.findAllTrainersWithSurname("Brokovnice")).thenReturn(trainersList);
-        when(trainerService.findAllTrainersWithPokemon(pokemon)).thenReturn(trainersList);
-        when(trainerService.findAllTrainersWithBadge(badge)).thenReturn(trainersList);
+        when(beanMappingService.map(tournamentDTO, Tournament.class)).thenReturn(tournament);
+        when(trainerService.mayEnrollInTournament(setUpTrainer, tournament)).thenReturn(true);
         
         doAnswer(invocation -> {
             trainerDTO.addPokemon(pokemonDTO);
@@ -196,7 +202,15 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
     
     @Test
     public void testMayEnrollInTournament() {
+        tournamentDTO = new TournamentDTO();
+        tournamentDTO.setMinimalPokemonCount(1);
+        tournamentDTO.setMinimalPokemonLevel(2);
+        tournamentDTO.setTournamentName("JohnCena");
+        tournamentDTO.setStadiumId(Long.MIN_VALUE);
         
+        boolean result = trainerFacade.mayEnrollInTournament(trainerDTO, null);
+        
+        assertEquals(result, true, "trainer should be able to enroll but is not");
     }
     
     /**
@@ -315,35 +329,5 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         
         Collection<TrainerDTO> result = trainerFacade.findAllTrainersWithSurname("Brokovnice");
         assertEquals(result, trainersDTOList, "result list does not contain same objects");
-    }
-    
-    
-    /**
-     * Tests find all trainers with pokemon
-     */
-    @Test
-    public void testFindAllTrainersWithPokemon() {
-        pokemonDTO = TestUtils.createPokemonDTO(pokemon);
-        
-        
-        trainerDTO.addPokemon(pokemonDTO);
-        
-        Collection<TrainerDTO> result = trainerFacade.findAllTrainersWithPokemon(pokemonDTO);
-        assertEquals(result, trainersDTOList);
-    }
-    
-    /**
-     * Tests find all trainers with badge
-     */
-    @Test
-    public void testFindAllTrainersWithBadge() {
-        badgeDTO = new BadgeDTO();
-        badgeDTO.setStadiumId(1L);
-        badgeDTO.setTrainerId(111L);
-        
-        trainerDTO.addBadge(badgeDTO);
-        
-        Collection<TrainerDTO> result = trainerFacade.findAllTrainersWithBadge(badgeDTO);
-        assertEquals(result, trainersDTOList);
     }
 }

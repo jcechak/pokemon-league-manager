@@ -43,20 +43,6 @@ public interface TrainerDao {
     List<Trainer> findAll();
 
     /**
-     * finds all trainers with the same pokemon
-     * @param pokemon the pokemon by which the search for the trainer is done
-     * @return list of trainers with given pokemon
-     */
-    List<Trainer> findAllTrainersWithPokemon(Pokemon pokemon);
-
-    /**
-     * finds all trainers with the same badge
-     * @param badge the badge by which the search for the trainer is done
-     * @return list of trainers with given badge
-     */
-    List<Trainer> findAllTrainersWithBadge(Badge badge);
-    
-    /**
      * finds all trainers with the same name
      * @param name the name by which the search for the trainer is done
      * @return list of trainers with given name

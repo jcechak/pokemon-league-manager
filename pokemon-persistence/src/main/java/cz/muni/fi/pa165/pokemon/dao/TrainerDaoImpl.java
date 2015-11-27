@@ -121,34 +121,4 @@ public class TrainerDaoImpl implements TrainerDao {
         }
     }
     
-    @Override
-    public List<Trainer> findAllTrainersWithPokemon(Pokemon pokemon){
-        try{
-            return entityManager.createQuery("SELECT t FROM Trainer t WHERE t.pokemon = :t", Trainer.class)
-                    .setParameter("t",pokemon)
-                    .getResultList();
-        } catch(NoResultException noResult) {
-            return null;
-        } catch(IllegalArgumentException iae) {
-            throw new InvalidDataAccessApiUsageException("Unable to retrieve list because given object is not an entity.", iae);
-        } catch (PersistenceException e) {
-            throw new DataRetrievalFailureException("Unable to retrieve data with selected query", e);
-        }
-    }
-
-    @Override
-    public List<Trainer> findAllTrainersWithBadge(Badge badge){
-        try{
-            return entityManager.createQuery("SELECT t FROM Trainer t WHERE t.badge = :t", Trainer.class)
-                    .setParameter("t",badge)
-                    .getResultList();
-        } catch (NoResultException noResult) {
-            return null;
-        } catch (IllegalArgumentException iae) {
-            throw new InvalidDataAccessApiUsageException("Unable to retrieve list because given object is not an entity.", iae);
-        } catch (PersistenceException e) {
-            throw new DataIntegrityViolationException("Unable to retrieve data with selected query.", e);
-        }
-
-    }
 }
