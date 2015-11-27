@@ -36,26 +36,13 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     @Mock
     private PokemonDao pokemonDao;
     
-    @Mock
     private Trainer setUpTrainer;
-    
-    @Mock
     private Trainer setUpTrainer2;
-    
-    @Mock
     private Pokemon pokemon;
-    
     private Pokemon pokemon2;
-    
-    @Mock
     private Badge badge;
-    
-    @Mock
     private Tournament tournament;
-    
-    @Mock
     private Stadium stadium;
-    
     private boolean called = false;
     
     @Autowired
