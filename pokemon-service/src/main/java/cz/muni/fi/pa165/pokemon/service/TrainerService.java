@@ -81,21 +81,7 @@ public interface TrainerService {
      * @return list of all trainers
      */
     List<Trainer> findAllTrainers();
-    
-    /**
-     * Finds all trainer who own given pokemon
-     * @param pokemon the pokemon we use as filter
-     * @return collection of trainers who own given pokemon
-     */
-    Collection<Trainer> findAllTrainersWithPokemon(Pokemon pokemon);
-    
-    /**
-     * Finds all trainer who own given badge
-     * @param badge the badge we use as filter
-     * @return collection of trainers who own given badge
-     */
-    Collection<Trainer> findAllTrainersWithBadge(Badge badge);
-    
+
     /**
      * Finds all trainers with given name
      * @param name the name of trainers we use as filter

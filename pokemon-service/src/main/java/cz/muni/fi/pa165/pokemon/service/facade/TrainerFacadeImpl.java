@@ -11,10 +11,11 @@ import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.facade.TrainerFacade;
 import cz.muni.fi.pa165.pokemon.service.MappingService;
 import cz.muni.fi.pa165.pokemon.service.TrainerService;
-import java.util.Collection;
-import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
+import java.util.Collection;
 
 /**
  * Implementation of the TrainerFacade that uses Service layer to access entities.
@@ -79,15 +80,6 @@ public class TrainerFacadeImpl implements TrainerFacade {
         return beanMappingService.map(trainerService.findAllTrainers(), TrainerDTO.class);
     }
 
-    @Override
-    public Collection<TrainerDTO> findAllTrainersWithPokemon(PokemonDTO pokemonDTO) {
-        return beanMappingService.map(trainerService.findAllTrainersWithPokemon(beanMappingService.map(pokemonDTO, Pokemon.class)), TrainerDTO.class);
-    }
-
-    @Override
-    public Collection<TrainerDTO> findAllTrainersWithBadge(BadgeDTO badgeDTO) {
-        return beanMappingService.map(trainerService.findAllTrainersWithBadge(beanMappingService.map(badgeDTO, Badge.class)), TrainerDTO.class);
-    }
 
     @Override
     public Collection<TrainerDTO> findAllTrainersWithName(String name) {

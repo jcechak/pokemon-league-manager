@@ -1,10 +1,7 @@
 package cz.muni.fi.pa165.pokemon.dao;
 
-import cz.muni.fi.pa165.pokemon.entity.Badge;
-import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.NonTransientDataAccessResourceException;
 import org.springframework.stereotype.Repository;
@@ -88,37 +85,6 @@ public class TrainerDaoImpl implements TrainerDao {
         } catch (IllegalArgumentException iae) {
             throw new InvalidDataAccessApiUsageException("Unable to retrieve list due to internal error.", iae);
         }
-    }
-
-    @Override
-    public List<Trainer> findAllTrainersWithPokemon(Pokemon pokemon){
-        try{
-            return entityManager.createQuery("SELECT t FROM Trainer t WHERE t.pokemon = :t", Trainer.class)
-                    .setParameter("t",pokemon)
-                    .getResultList();
-        } catch(NoResultException noResult) {
-            return null;
-        } catch(IllegalArgumentException iae) {
-            throw new InvalidDataAccessApiUsageException("Unable to retrieve list because given object is not an entity.", iae);
-        } catch (PersistenceException e) {
-            throw new DataRetrievalFailureException("Unable to retrieve data with selected query", e);
-        }
-    }
-
-    @Override
-    public List<Trainer> findAllTrainersWithBadge(Badge badge){
-        try{
-            return entityManager.createQuery("SELECT t FROM Trainer t WHERE t.badge = :t", Trainer.class)
-                    .setParameter("t",badge)
-                    .getResultList();
-        } catch (NoResultException noResult) {
-            return null;
-        } catch (IllegalArgumentException iae) {
-            throw new InvalidDataAccessApiUsageException("Unable to retrieve list because given object is not an entity.", iae);
-        } catch (PersistenceException e) {
-            throw new DataIntegrityViolationException("Unable to retrieve data with selected query.", e);
-        }
-
     }
 
     @Override

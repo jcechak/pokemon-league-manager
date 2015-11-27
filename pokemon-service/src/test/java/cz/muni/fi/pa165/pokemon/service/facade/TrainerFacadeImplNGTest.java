@@ -12,9 +12,14 @@ import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import cz.muni.fi.pa165.pokemon.facade.TrainerFacade;
 import cz.muni.fi.pa165.pokemon.service.MappingService;
 import cz.muni.fi.pa165.pokemon.service.TrainerService;
+import org.hibernate.service.spi.ServiceException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -23,15 +28,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.hibernate.service.spi.ServiceException;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
-import org.mockito.MockitoAnnotations;
-
 import static org.testng.Assert.assertEquals;
-import org.testng.annotations.BeforeClass;
 
 /**
  * Tests correctness of TrainerFacadeImpl methods
@@ -95,11 +95,7 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         when(beanMappingService.map(stadiumDTO, Stadium.class)).thenReturn(stadium);
         when(beanMappingService.map(trainersList, TrainerDTO.class)).thenReturn(trainersDTOList);
         when(beanMappingService.map(pokemonDTO, Pokemon.class)).thenReturn(pokemon);
-        when(beanMappingService.map(trainerService.findAllTrainersWithPokemon(beanMappingService.
-                map(pokemonDTO, Pokemon.class)), TrainerDTO.class)).thenReturn(trainersDTOList);
         when(beanMappingService.map(badgeDTO, Badge.class)).thenReturn(badge);
-        when(beanMappingService.map(trainerService.findAllTrainersWithBadge(beanMappingService.
-                map(badgeDTO, Badge.class)), TrainerDTO.class)).thenReturn(trainersDTOList);
         
         doAnswer(invocation -> {
             called = true;
@@ -121,9 +117,7 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         when(trainerService.findAllTrainers()).thenReturn(trainersList);
         when(trainerService.findAllTrainersWithName("Brock")).thenReturn(trainersList);
         when(trainerService.findAllTrainersWithSurname("Brokovnice")).thenReturn(trainersList);
-        when(trainerService.findAllTrainersWithPokemon(pokemon)).thenReturn(trainersList);
-        when(trainerService.findAllTrainersWithBadge(badge)).thenReturn(trainersList);
-        
+
         doAnswer(invocation -> {
             trainerDTO.addPokemon(pokemonDTO);
             return null;
@@ -311,37 +305,5 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         Collection<TrainerDTO> result = trainerFacade.findAllTrainersWithSurname("Brokovnice");
         assertEquals(result, trainersDTOList, "result list does not contain same objects");
     }
-    
-    
-    /**
-     * Tests find all trainers with pokemon
-     */
-    @Test
-    public void testFindAllTrainersWithPokemon() {
-        pokemonDTO = new PokemonDTO();
-        pokemonDTO.setName(pokemon.getName());
-        pokemonDTO.setNickname(pokemon.getNickname());
-        pokemonDTO.setSkillLevel(pokemon.getSkillLevel());
-        pokemonDTO.setType(pokemon.getType());
-        
-        trainerDTO.addPokemon(pokemonDTO);
-        
-        Collection<TrainerDTO> result = trainerFacade.findAllTrainersWithPokemon(pokemonDTO);
-        assertEquals(result, trainersDTOList);
-    }
-    
-    /**
-     * Tests find all trainers with badge
-     */
-    @Test
-    public void testFindAllTrainersWithBadge() {
-        badgeDTO = new BadgeDTO();
-        badgeDTO.setStadiumId(1L);
-        badgeDTO.setTrainerId(111L);
-        
-        trainerDTO.addBadge(badgeDTO);
-        
-        Collection<TrainerDTO> result = trainerFacade.findAllTrainersWithBadge(badgeDTO);
-        assertEquals(result, trainersDTOList);
-    }
+
 }

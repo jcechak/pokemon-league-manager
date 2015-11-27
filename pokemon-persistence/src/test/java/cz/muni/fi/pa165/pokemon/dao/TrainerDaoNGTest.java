@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.pokemon.dao;
 
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.test.context.transaction.AfterTransaction;
@@ -9,10 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.*;
 
 import javax.inject.Inject;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
 import java.sql.Date;
 import java.util.List;
-import org.springframework.dao.DataAccessException;
 
 import static org.testng.Assert.*;
 
@@ -71,7 +74,8 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
 
     /**
      * Prepares fixtures for tests
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -87,7 +91,8 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
 
     /**
      * Cleans up database
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @AfterClass
     public static void tearDownClass() throws Exception {
@@ -207,6 +212,25 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
 
         trainers = trainerDao.findAll();
         assertTrue(trainers.isEmpty(), "There should not be any trainer in database.");
+
+    }
+
+    @Test
+    public void testFindAllTrainersWithName() {
+
+        List<Trainer> trainers = trainerDao.findAllTrainersWithName("Garry");
+
+        assertTrue(trainers.size() == 1, "There should be exactly one trainer named Garry." + trainers.size());
+        assertTrue(trainers.contains(t2), "Did not found correct trainer.");
+    }
+
+    @Test
+    public void testFindAllTrainersWithSurname() {
+
+        List<Trainer> trainers = trainerDao.findAllTrainersWithSurname("Oak");
+
+        assertTrue(trainers.size() == 1, "There should be exactly one trainer named Oak, not " + trainers.size());
+        assertTrue(trainers.contains(t2), "Did not found correct trainer.");
 
     }
 

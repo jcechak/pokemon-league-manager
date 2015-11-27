@@ -103,15 +103,6 @@ public class TrainerServiceImpl implements TrainerService {
         return Collections.unmodifiableList(trainerDao.findAll());
     }
 
-    @Override
-    public Collection<Trainer> findAllTrainersWithPokemon(Pokemon pokemon) {
-        return Collections.unmodifiableCollection(trainerDao.findAllTrainersWithPokemon(pokemon));
-    }
-
-    @Override
-    public Collection<Trainer> findAllTrainersWithBadge(Badge badge) {
-        return Collections.unmodifiableCollection(trainerDao.findAllTrainersWithBadge(badge));
-    }
 
     @Override
     public Collection<Trainer> findAllTrainersWithName(String name) {

@@ -49,6 +49,7 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
 
     private Badge createdBadge;
     private Badge updatedBadge;
+    private Badge deletedBadge;
 
     private static Trainer trainer;
     private static Trainer anotherTrainer;
@@ -140,6 +141,12 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
             return null;
         }).when(badgeService).updateBadge(badge);
 
+        doAnswer(invocation -> {
+            deletedBadge = badge;
+            deletedBadge.setId(null);
+            return null;
+        }).when(badgeService).deleteBadge(badge);
+
         when(badgeService.findBadgeById(badge.getId())).thenReturn(badge);
         when(badgeService.getAllBadges()).thenReturn(badges);
         when(badgeService.getBadgesWithTrainer(anotherTrainer)).thenReturn(badgesTrainer);
@@ -176,6 +183,7 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
     public void testRemoveBadge() throws Exception {
         badgeFacade.removeBadge(badgeDTO);
         assertNull(badgeService.findBadgeById(badgeDTO.getId()), "Badge was not deleted properly");
+        assertSame(deletedBadge, badge, "Persisted badge is not the one expected.");
     }
 
     @Test
