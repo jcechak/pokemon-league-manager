@@ -70,6 +70,10 @@ public class TrainerDTO {
     public void addPokemon(PokemonDTO pokemon) {
         pokemons.add(pokemon);
     }
+    
+    public void removePokemon(PokemonDTO pokemon) {
+        pokemons.remove(pokemon);
+    }
 
     public List<PokemonDTO> getPokemons() {
         return Collections.unmodifiableList(pokemons);
