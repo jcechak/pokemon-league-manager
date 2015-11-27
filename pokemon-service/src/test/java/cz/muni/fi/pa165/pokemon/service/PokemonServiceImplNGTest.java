@@ -7,18 +7,19 @@ import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.testng.annotations.*;
 
 import java.sql.Date;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import static org.testng.Assert.*;
 
 /**
@@ -121,7 +122,7 @@ public class PokemonServiceImplNGTest {
 
         doAnswer(invocation -> {
             Long id = invocation.getArgumentAt(0, Long.class);
-            if (id == pokemon1.getId()) {
+            if (Objects.equals(id, pokemon1.getId())) {
                 return pokemon1;
             } else {
                 return pokemon2;

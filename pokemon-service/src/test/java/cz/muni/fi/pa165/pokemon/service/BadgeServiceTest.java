@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.pokemon.service;
 
+import cz.muni.fi.pa165.exceptions.PokemonServiceException;
 import cz.muni.fi.pa165.pokemon.context.ServiceConfiguration;
 import cz.muni.fi.pa165.pokemon.dao.BadgeDao;
 import cz.muni.fi.pa165.pokemon.entity.Badge;
@@ -49,13 +50,14 @@ public class BadgeServiceTest extends AbstractTransactionalTestNGSpringContextTe
 
     private static Trainer trainer;
     private static Trainer anotherTrainer;
+    private static Trainer trainerLeader;
     private static Stadium stadium;
 
     @BeforeClass
     public void setUp() throws ServiceException {
         MockitoAnnotations.initMocks(this);
 
-        Trainer trainerLeader = new Trainer();
+        trainerLeader = new Trainer();
         trainerLeader.setId(1L);
         trainerLeader.setName("Prd");
         trainerLeader.setSurname("Makovy");
@@ -78,6 +80,7 @@ public class BadgeServiceTest extends AbstractTransactionalTestNGSpringContextTe
         stadium.setCity("Ostrava");
         stadium.setType(PokemonType.NORMAL);
         stadium.setLeader(trainerLeader);
+        trainerLeader.setStadium(stadium);
 
         anotherBadge = new Badge();
         anotherBadge.setId(888L);
@@ -124,10 +127,18 @@ public class BadgeServiceTest extends AbstractTransactionalTestNGSpringContextTe
         assertSame(badge, foundBadge, "Failed to find badge");
     }
 
+    @Test(expectedExceptions = PokemonServiceException.class)
+    public void testCreateBadgeToLeader() throws Exception {
+        Badge wrongBadge = new Badge();
+        wrongBadge.setTrainer(trainerLeader);
+        wrongBadge.setStadium(stadium);
+        badgeService.createBadge(wrongBadge);
+    }
+
     @Test
     public void testCreateBadge() throws Exception {
         badgeService.createBadge(badge);
-//        assertNotNull(badge.getId(), "Badge id is null");
+        assertNotNull(badge.getId(), "Badge id is null");
         assertSame(badge, createdBadge, "Badges are different");
     }
 

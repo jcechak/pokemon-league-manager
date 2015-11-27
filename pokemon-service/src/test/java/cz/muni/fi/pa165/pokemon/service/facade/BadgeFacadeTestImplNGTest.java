@@ -95,6 +95,7 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
         stadium.setCity("Ostrava");
         stadium.setType(PokemonType.NORMAL);
         stadium.setLeader(trainerLeader);
+        trainerLeader.setStadium(stadium);
 
         stadiumDTO = TestUtils.createStadiumDTO(stadium);
 
@@ -126,7 +127,6 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
         badges.add(anotherBadge);
         badges.add(badge);
 
-
         badgeDTO = TestUtils.createBadgeDTO(badge);
 
         doAnswer(invocation -> {
@@ -135,16 +135,16 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
             return null;
         }).when(badgeService).createBadge(badge);
 
+        doAnswer(invocation -> {
+            updatedBadge = badge;
+            return null;
+        }).when(badgeService).updateBadge(badge);
+
         when(badgeService.findBadgeById(badge.getId())).thenReturn(badge);
         when(badgeService.getAllBadges()).thenReturn(badges);
         when(badgeService.getBadgesWithTrainer(anotherTrainer)).thenReturn(badgesTrainer);
         when(badgeService.getBadgesWithStadium(stadium)).thenReturn(badgesStadium);
         when(badgeService.findBadgeByTrainerAndStadium(anotherTrainer, stadium)).thenReturn(anotherBadge);
-
-        doAnswer(invocation -> {
-            updatedBadge = badge;
-            return null;
-        }).when(badgeService).updateBadge(badge);
 
         when(mappingService.map(badges, BadgeDTO.class)).thenReturn(badgesDTO);
         when(mappingService.map(badgesTrainer, BadgeDTO.class)).thenReturn(TestUtils.createBadgeDTOList(badgesTrainer));
@@ -152,7 +152,6 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
 
         when(mappingService.map(badgeDTO, Badge.class)).thenReturn(badge);
         when(mappingService.map(badge, BadgeDTO.class)).thenReturn(badgeDTO);
-
         when(mappingService.map(anotherBadge, BadgeDTO.class)).thenReturn(TestUtils.createBadgeDTO(anotherBadge));
 
         when(mappingService.map(anotherTrainerDTO, Trainer.class)).thenReturn(anotherTrainer);
@@ -203,21 +202,21 @@ public class BadgeFacadeTestImplNGTest extends AbstractTestNGSpringContextTests 
     public void testGetBadgesWithTrainer() throws Exception {
         List<BadgeDTO> badgeList = badgeFacade.getBadgesWithTrainer(anotherTrainerDTO);
         assertTrue(badgeList.size() == badgesTrainer.size(), "List does not contain expected number of badges, found: " + badgeList.size());
-        assertEquals(badgeList, TestUtils.createBadgeDTOList(badgesTrainer), "Returned list does not contain expected badges.");
+        assertEquals(badgeList, mappingService.map(badgesTrainer, BadgeDTO.class), "Returned list does not contain expected badges.");
     }
 
     @Test
     public void testGetBadgesWithStadium() throws Exception {
         List<BadgeDTO> badgeList = badgeFacade.getBadgesWithStadium(stadiumDTO);
         assertTrue(badgeList.size() == badgesStadium.size(), "List does not contain expected number of badges, found: " + badgeList.size());
-        assertEquals(badgeList, TestUtils.createBadgeDTOList(badgesStadium), "Returned list does not contain expected badges.");
+        assertEquals(badgeList, mappingService.map(badgesStadium, BadgeDTO.class), "Returned list does not contain expected badges.");
     }
 
     @Test
     public void testFindBadgeWithTrainerAndStadium() throws Exception {
         BadgeDTO badgeDTO = badgeFacade.findBadgeWithTrainerAndStadium(TestUtils.createTrainerDTO(anotherTrainer),
                 TestUtils.createStadiumDTO(stadium));
-        assertEquals(badgeDTO, TestUtils.createBadgeDTO(anotherBadge), "Badge are not the same.");
+        assertEquals(badgeDTO, mappingService.map(anotherBadge, BadgeDTO.class), "Badge are not the same.");
     }
 
 }
