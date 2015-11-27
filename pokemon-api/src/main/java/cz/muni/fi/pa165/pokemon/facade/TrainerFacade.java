@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.pokemon.facade;
 import cz.muni.fi.pa165.pokemon.dto.BadgeDTO;
 import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
 import cz.muni.fi.pa165.pokemon.dto.StadiumDTO;
+import cz.muni.fi.pa165.pokemon.dto.TournamentDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
 import java.util.Collection;
 
@@ -33,10 +34,19 @@ public interface TrainerFacade {
     
     /**
      * Checks whether the trainer is leader at given stadium
+     * @param trainerDTO the trainer to check if is leader
      * @param stadiumDTO the stadium we check the leader at
      * @return true if the trainer is leader of given stadium, false otherwise
      */
     boolean isLeaderOfTheStadium(TrainerDTO trainerDTO, StadiumDTO stadiumDTO);
+    
+    /**
+     * Checks whether trainer may enroll in tournament
+     * @param trainerDTO trainer to enroll tournament
+     * @param tournamentDTO the tournament to enroll in
+     * @return true if trainer may enroll, false otherwise
+     */
+    boolean mayEnrollInTournament(TrainerDTO trainerDTO, TournamentDTO tournamentDTO);
     
     /**
      * Adds the pokemon to the trainer
