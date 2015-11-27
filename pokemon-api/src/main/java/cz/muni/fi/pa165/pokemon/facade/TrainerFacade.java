@@ -63,6 +63,7 @@ public interface TrainerFacade {
     
     /**
      * Adds the badge to the trainer
+     * @param trainerDTO the trainet to add badge to
      * @param badgeDTO the badge to be added
      */
     void addBadge(TrainerDTO trainerDTO, BadgeDTO badgeDTO);
@@ -79,7 +80,20 @@ public interface TrainerFacade {
      * @return collection of all trainers
      */
     Collection<TrainerDTO> findAllTrainers();
-
+           
+    /**
+     * Finds all trainer who own given pokemon
+     * @param pokemonDTO the pokemon we use as filter
+     * @return collection of trainers who own given pokemon
+     */
+    Collection<TrainerDTO> findAllTrainersWithPokemon(PokemonDTO pokemonDTO);
+    
+    /**
+     * Finds all trainer who own given badge
+     * @param badgeDTO the badge we use as filter
+     * @return collection of trainers who own given badge
+     */
+    Collection<TrainerDTO> findAllTrainersWithBadge(BadgeDTO badgeDTO);
     
     /**
      * Finds all trainers with given name

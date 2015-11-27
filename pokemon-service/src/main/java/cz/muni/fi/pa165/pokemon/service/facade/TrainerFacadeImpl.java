@@ -100,6 +100,15 @@ public class TrainerFacadeImpl implements TrainerFacade {
         return (trainers == null) ? null : beanMappingService.map(trainers, TrainerDTO.class);
     }
 
+    @Override
+    public Collection<TrainerDTO> findAllTrainersWithPokemon(PokemonDTO pokemonDTO) {
+        return beanMappingService.map(trainerService.findAllTrainersWithPokemon(beanMappingService.map(pokemonDTO, Pokemon.class)), TrainerDTO.class);
+    }
+
+    @Override
+    public Collection<TrainerDTO> findAllTrainersWithBadge(BadgeDTO badgeDTO) {
+        return beanMappingService.map(trainerService.findAllTrainersWithBadge(beanMappingService.map(badgeDTO, Badge.class)), TrainerDTO.class);
+    }
     
     
 }
