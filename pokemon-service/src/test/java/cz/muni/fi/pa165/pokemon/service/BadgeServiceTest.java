@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -25,6 +24,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import static org.testng.Assert.*;
 
 /**
@@ -32,7 +32,7 @@ import static org.testng.Assert.*;
  * @author Marek Sabo
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
-public class BadgeServiceTest extends AbstractTransactionalTestNGSpringContextTests {
+public class BadgeServiceTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private BadgeDao badgeDao;
