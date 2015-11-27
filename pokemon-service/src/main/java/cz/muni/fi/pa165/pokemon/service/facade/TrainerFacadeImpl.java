@@ -35,7 +35,7 @@ public class TrainerFacadeImpl implements TrainerFacade {
     public void createTrainer(TrainerDTO trainerDTO) {
         Trainer trainerEntity = beanMappingService.map(trainerDTO, Trainer.class);
         trainerService.createTrainer(trainerEntity);
-        trainerDTO.setId(trainerEntity.getId());
+        //trainerDTO.setId(trainerEntity.getId());
     }
 
     @Override
