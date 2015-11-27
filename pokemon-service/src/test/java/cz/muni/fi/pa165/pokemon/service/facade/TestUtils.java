@@ -1,9 +1,11 @@
 package cz.muni.fi.pa165.pokemon.service.facade;
 
 import cz.muni.fi.pa165.pokemon.dto.BadgeDTO;
+import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
 import cz.muni.fi.pa165.pokemon.dto.StadiumDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
 import cz.muni.fi.pa165.pokemon.entity.Badge;
+import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 
@@ -50,5 +52,14 @@ public class TestUtils {
         stadiumDTO.setType(stadium.getType());
         stadiumDTO.setStadiumLeaderId(stadium.getLeader().getId());
         return stadiumDTO;
+    }
+    
+    public static PokemonDTO createPokemonDTO(Pokemon pokemon) {
+        PokemonDTO pokemonDTO = new PokemonDTO();
+        pokemonDTO.setName(pokemon.getName());
+        pokemonDTO.setNickname(pokemon.getNickname());
+        pokemonDTO.setSkillLevel(pokemon.getSkillLevel());
+        pokemonDTO.setType(pokemon.getType());
+        return pokemonDTO;
     }
 }

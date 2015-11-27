@@ -3,10 +3,12 @@ package cz.muni.fi.pa165.pokemon.service.facade;
 import cz.muni.fi.pa165.pokemon.dto.BadgeDTO;
 import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
 import cz.muni.fi.pa165.pokemon.dto.StadiumDTO;
+import cz.muni.fi.pa165.pokemon.dto.TournamentDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
 import cz.muni.fi.pa165.pokemon.entity.Badge;
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
+import cz.muni.fi.pa165.pokemon.entity.Tournament;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
 import cz.muni.fi.pa165.pokemon.facade.TrainerFacade;
 import cz.muni.fi.pa165.pokemon.service.MappingService;
@@ -54,6 +56,11 @@ public class TrainerFacadeImpl implements TrainerFacade {
         return trainerService.isLeaderOfTheStadium(beanMappingService.map(trainerDTO, Trainer.class), beanMappingService.map(stadiumDTO, Stadium.class));
     }
 
+    @Override
+    public boolean mayEnrollInTournament(TrainerDTO trainerDTO, TournamentDTO tournamentDTO) {
+        return trainerService.mayEnrollInTournament(beanMappingService.map(trainerDTO, Trainer.class), beanMappingService.map(tournamentDTO, Tournament.class));
+    }
+    
     @Override
     public void addPokemon(TrainerDTO trainerDTO, PokemonDTO pokemonDTO) {
         trainerService.addPokemon(beanMappingService.map(trainerDTO, Trainer.class), beanMappingService.map(pokemonDTO, Pokemon.class));
