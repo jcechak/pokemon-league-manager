@@ -1,7 +1,5 @@
 package cz.muni.fi.pa165.pokemon.mapping;
 
-import cz.muni.fi.pa165.pokemon.dto.PokemonCreateDTO;
-import cz.muni.fi.pa165.pokemon.dto.StadiumCreateDTO;
 import cz.muni.fi.pa165.pokemon.entity.Badge;
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
@@ -46,10 +44,8 @@ public class EntityIdCustomConverterNGTest {
 
     private static Trainer trainer;
     private static Pokemon pokemon;
-    private static PokemonCreateDTO pokemonCreateDTO;
     private static Badge badge;
     private static Stadium stadium;
-    private static StadiumCreateDTO stadiumCreateDTO;
 
     public EntityIdCustomConverterNGTest() {
     }
@@ -185,17 +181,6 @@ public class EntityIdCustomConverterNGTest {
      */
     @Test
     public void testConvertStadiumId() {
-        Object result = converter.convert(null, stadium.getId(), Stadium.class, Long.class);
-
-        assertEquals(result.getClass(), Stadium.class, "Converted object is not of a Stadium class.");
-        assertSame(result, stadium, "Converted object is not the one expected.");
-    }
-    
-    /**
-     * Test of convert method, of class EntityIdCustomConverter.
-     */
-    @Test
-    public void testConvertPokemonCreateDTO() {
         Object result = converter.convert(null, stadium.getId(), Stadium.class, Long.class);
 
         assertEquals(result.getClass(), Stadium.class, "Converted object is not of a Stadium class.");

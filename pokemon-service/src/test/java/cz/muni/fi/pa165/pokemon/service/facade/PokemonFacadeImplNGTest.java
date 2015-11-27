@@ -14,8 +14,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.*;
 
 import java.sql.Date;
@@ -32,8 +30,7 @@ import static org.testng.Assert.*;
  *
  * @author Jaroslav Cechak
  */
-@ContextConfiguration(classes = {cz.muni.fi.pa165.pokemon.context.ServiceConfiguration.class})
-public class PokemonFacadeImplNGTest extends AbstractTestNGSpringContextTests {
+public class PokemonFacadeImplNGTest {
 
     @Mock
     private MappingService mappingService;

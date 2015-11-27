@@ -147,7 +147,7 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
     
     /**
      * Tests creation of trainer
-     */
+     */    
     @Test
     public void testCreateTrainer() {
         trainerFacade.createTrainer(trainerDTO);
