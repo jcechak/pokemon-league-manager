@@ -194,6 +194,11 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         assertEquals(result, true, trainerDTO.toString() + " is not the leader and should be");
     }
     
+    @Test
+    public void testMayEnrollInTournament() {
+        
+    }
+    
     /**
      * Test adding pokemon to trainer
      */
