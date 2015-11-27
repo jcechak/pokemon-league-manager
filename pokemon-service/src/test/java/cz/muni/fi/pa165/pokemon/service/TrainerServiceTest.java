@@ -88,9 +88,6 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
         badge = new Badge();
         badge.setTrainer(setUpTrainer);
         badge.setStadium(stadium);
-        List<Badge> badges = new ArrayList<>(); // TODO: badges are never used,
-                                                // Please add unmodifiableList if you want to use it
-        badges.add(badge);
         
         setUpTrainer.addBadge(badge);
 

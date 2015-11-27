@@ -79,7 +79,6 @@ public class TrainerFacadeImpl implements TrainerFacade {
         return beanMappingService.map(trainerService.findAllTrainers(), TrainerDTO.class);
     }
 
-    //TODO spravne?
     @Override
     public Collection<TrainerDTO> findAllTrainersWithPokemon(PokemonDTO pokemonDTO) {
         return beanMappingService.map(trainerService.findAllTrainersWithPokemon(beanMappingService.map(pokemonDTO, Pokemon.class)), TrainerDTO.class);
