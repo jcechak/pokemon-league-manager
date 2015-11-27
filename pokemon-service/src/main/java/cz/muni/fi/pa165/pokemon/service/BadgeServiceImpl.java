@@ -28,6 +28,7 @@ public class BadgeServiceImpl implements BadgeService {
             throw new PokemonServiceException("Badge assign to leader of the stadium.");
         }
         badgeDao.create(badge);
+        badge.getTrainer().addBadge(badge);
     }
 
     @Override

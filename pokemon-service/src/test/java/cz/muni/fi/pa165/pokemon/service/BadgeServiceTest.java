@@ -84,20 +84,20 @@ public class BadgeServiceTest extends AbstractTransactionalTestNGSpringContextTe
         anotherBadge.setTrainer(anotherTrainer);
         anotherBadge.setStadium(stadium);
 
-        badges.add(anotherBadge);
-    }
-
-    @BeforeMethod
-    public void beforeMethod() throws Exception {
-
         badge = new Badge();
         badge.setId(456L);
         badge.setTrainer(trainer);
         badge.setStadium(stadium);
 
         badges.add(badge);
+        badges.add(anotherBadge);
+    }
 
-        when(badgeDao.findById(456L)).thenReturn(badge);
+    @BeforeMethod
+    public void beforeMethod() throws Exception {
+
+
+        when(badgeDao.findById(badge.getId())).thenReturn(badge);
         when(badgeDao.findAll()).thenReturn(Collections.unmodifiableList(badges));
         when(badgeDao.findAllWithStadium(stadium)).thenReturn(Collections.unmodifiableList(badges));
         when(badgeDao.findByTrainerAndStadium(trainer, stadium)).thenReturn(badge);
@@ -109,7 +109,6 @@ public class BadgeServiceTest extends AbstractTransactionalTestNGSpringContextTe
 
         doAnswer(invocation -> {
             createdBadge = badge;
-            createdBadge.setId(111L);
             return null;
         }).when(badgeDao).create(badge);
 
@@ -121,14 +120,14 @@ public class BadgeServiceTest extends AbstractTransactionalTestNGSpringContextTe
 
     @Test
     public void testFindBadgeById() throws Exception {
-        Badge foundBadge = badgeService.findBadgeById(456L);
+        Badge foundBadge = badgeService.findBadgeById(badge.getId());
         assertSame(badge, foundBadge, "Failed to find badge");
     }
 
     @Test
     public void testCreateBadge() throws Exception {
         badgeService.createBadge(badge);
-        assertNotNull(badge.getId(), "Badge id is null");
+//        assertNotNull(badge.getId(), "Badge id is null");
         assertSame(badge, createdBadge, "Badges are different");
     }
 
@@ -167,7 +166,7 @@ public class BadgeServiceTest extends AbstractTransactionalTestNGSpringContextTe
     public void testGetAllBadges() throws Exception {
         List<Badge> resultList = badgeService.getAllBadges();
         assertTrue(resultList.size() == badges.size(), "Found incorrect number of badges: " + resultList.size());
-        assertSame(resultList, badges, "Lists are not same");
+        assertEquals(resultList, badges, "Lists are not same");
     }
 
     @Test
@@ -181,7 +180,7 @@ public class BadgeServiceTest extends AbstractTransactionalTestNGSpringContextTe
     public void testGetBadgesWithStadium() throws Exception {
         List<Badge> resultList = badgeService.getBadgesWithStadium(stadium);
         assertTrue(resultList.size() == badges.size(), "Found incorrect number of badges: " + resultList.size());
-        assertSame(resultList, badges, "Lists are not same");
+        assertEquals(resultList, badges, "Lists are not same");
     }
 
     @Test

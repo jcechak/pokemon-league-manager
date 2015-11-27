@@ -38,7 +38,7 @@ public class StadiumFacadeImplNGTest extends AbstractTestNGSpringContextTests {
     private StadiumService stadiumService;
 
     @Inject
-    TrainerService trainerService;
+    private TrainerService trainerService;
 
     @Inject
     private MappingService beanMappingService;

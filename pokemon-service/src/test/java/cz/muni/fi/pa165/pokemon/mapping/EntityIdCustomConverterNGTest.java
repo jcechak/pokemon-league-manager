@@ -11,17 +11,16 @@ import cz.muni.fi.pa165.pokemon.service.BadgeService;
 import cz.muni.fi.pa165.pokemon.service.PokemonService;
 import cz.muni.fi.pa165.pokemon.service.StadiumService;
 import cz.muni.fi.pa165.pokemon.service.TrainerService;
-import java.sql.Date;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
-import static org.testng.Assert.*;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+
+import java.sql.Date;
+
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertSame;
 
 /**
  * Test of proper id to entity and vice verca conversion.
@@ -43,7 +42,7 @@ public class EntityIdCustomConverterNGTest {
     private StadiumService stadiumService;
 
     @InjectMocks
-    private EntityIdCustomConverter convertor;
+    private EntityIdCustomConverter converter;
 
     private static Trainer trainer;
     private static Pokemon pokemon;
@@ -109,7 +108,7 @@ public class EntityIdCustomConverterNGTest {
      */
     @Test
     public void testConvertTrainer() {
-        Object result = convertor.convert(null, trainer, Long.class, Trainer.class);
+        Object result = converter.convert(null, trainer, Long.class, Trainer.class);
 
         assertEquals(result.getClass(), Long.class, "Converted object is not of a Long class.");
         assertSame(result, trainer.getId(), "Converted object is not the one expected.");
@@ -120,7 +119,7 @@ public class EntityIdCustomConverterNGTest {
      */
     @Test
     public void testConvertTrainerId() {
-        Object result = convertor.convert(null, trainer.getId(), Trainer.class, Long.class);
+        Object result = converter.convert(null, trainer.getId(), Trainer.class, Long.class);
 
         assertEquals(result.getClass(), Trainer.class, "Converted object is not of a Trainer class.");
         assertSame(result, trainer, "Converted object is not the one expected.");
@@ -131,7 +130,7 @@ public class EntityIdCustomConverterNGTest {
      */
     @Test
     public void testConvertPokemon() {
-        Object result = convertor.convert(null, pokemon, Long.class, Pokemon.class);
+        Object result = converter.convert(null, pokemon, Long.class, Pokemon.class);
 
         assertEquals(result.getClass(), Long.class, "Converted object is not of a Long class.");
         assertSame(result, pokemon.getId(), "Converted object is not the one expected.");
@@ -142,7 +141,7 @@ public class EntityIdCustomConverterNGTest {
      */
     @Test
     public void testConvertPokemonId() {
-        Object result = convertor.convert(null, pokemon.getId(), Pokemon.class, Long.class);
+        Object result = converter.convert(null, pokemon.getId(), Pokemon.class, Long.class);
 
         assertEquals(result.getClass(), Pokemon.class, "Converted object is not of a Pokemon class.");
         assertSame(result, pokemon, "Converted object is not the one expected.");
@@ -153,7 +152,7 @@ public class EntityIdCustomConverterNGTest {
      */
     @Test
     public void testConvertBadge() {
-        Object result = convertor.convert(null, badge,Long.class, Badge.class);
+        Object result = converter.convert(null, badge,Long.class, Badge.class);
 
         assertEquals(result.getClass(), Long.class, "Converted object is not of a Long class.");
         assertSame(result, badge.getId(), "Converted object is not the one expected.");
@@ -164,7 +163,7 @@ public class EntityIdCustomConverterNGTest {
      */
     @Test
     public void testConvertBadgeId() {
-        Object result = convertor.convert(null, badge.getId(), Badge.class, Long.class);
+        Object result = converter.convert(null, badge.getId(), Badge.class, Long.class);
 
         assertEquals(result.getClass(), Badge.class, "Converted object is not of a Badge class.");
         assertSame(result, badge, "Converted object is not the one expected.");
@@ -175,7 +174,7 @@ public class EntityIdCustomConverterNGTest {
      */
     @Test
     public void testConvertStadium() {
-        Object result = convertor.convert(null, stadium, Long.class, Stadium.class);
+        Object result = converter.convert(null, stadium, Long.class, Stadium.class);
 
         assertEquals(result.getClass(), Long.class, "Converted object is not of a Long class.");
         assertSame(result, stadium.getId(), "Converted object is not the one expected.");
@@ -186,7 +185,7 @@ public class EntityIdCustomConverterNGTest {
      */
     @Test
     public void testConvertStadiumId() {
-        Object result = convertor.convert(null, stadium.getId(), Stadium.class, Long.class);
+        Object result = converter.convert(null, stadium.getId(), Stadium.class, Long.class);
 
         assertEquals(result.getClass(), Stadium.class, "Converted object is not of a Stadium class.");
         assertSame(result, stadium, "Converted object is not the one expected.");
@@ -197,7 +196,7 @@ public class EntityIdCustomConverterNGTest {
      */
     @Test
     public void testConvertPokemonCreateDTO() {
-        Object result = convertor.convert(null, stadium.getId(), Stadium.class, Long.class);
+        Object result = converter.convert(null, stadium.getId(), Stadium.class, Long.class);
 
         assertEquals(result.getClass(), Stadium.class, "Converted object is not of a Stadium class.");
         assertSame(result, stadium, "Converted object is not the one expected.");
