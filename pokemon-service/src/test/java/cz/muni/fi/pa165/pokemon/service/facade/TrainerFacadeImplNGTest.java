@@ -77,11 +77,7 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         setUpTrainer.setSurname("Brokovnice");
         setUpTrainer.setDateOfBirth(Date.valueOf("1989-10-11"));
         
-        trainerDTO = new TrainerDTO();
-        trainerDTO.setId(setUpTrainer.getId());
-        trainerDTO.setName(setUpTrainer.getName());
-        trainerDTO.setSurname(setUpTrainer.getSurname());
-        trainerDTO.setDateOfBirth(setUpTrainer.getDateOfBirth());
+        trainerDTO = TestUtils.createTrainerDTO(setUpTrainer);
         trainersList = new ArrayList<Trainer>();
         trainersDTOList = new ArrayList<TrainerDTO>();
         trainersList.add(setUpTrainer);
@@ -190,11 +186,7 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         stadium.setType(PokemonType.ROCK);
         stadium.setLeader(setUpTrainer);
         
-        stadiumDTO = new StadiumDTO();
-        stadiumDTO.setCity(stadium.getCity());
-        stadiumDTO.setStadiumLeaderId(stadium.getLeader().getId());
-        stadiumDTO.setType(stadium.getType());
-        
+        stadiumDTO = TestUtils.createStadiumDTO(stadium);
         
         setUpTrainer.setStadium(stadium);
         boolean result = trainerFacade.isLeaderOfTheStadium(trainerDTO, stadiumDTO);
