@@ -11,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.testng.annotations.*;
 
 import java.sql.Date;
@@ -21,6 +20,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -29,7 +29,7 @@ import static org.testng.Assert.assertEquals;
  * @author Milos Bartak
  */
 @ContextConfiguration(classes = {cz.muni.fi.pa165.pokemon.context.ServiceConfiguration.class})
-public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContextTests {
+public class TrainerServiceTest extends AbstractTestNGSpringContextTests {
     
     @Mock
     private TrainerDao trainerDao;
@@ -203,12 +203,22 @@ public class TrainerServiceTest extends AbstractTransactionalTestNGSpringContext
     
     @Test
     public void testAddBadge() {
-        assertEquals(leaderTrainer.getBadges().contains(badge), true, 
-                "Badge " + badge.toString() + " was not added to trainer " + leaderTrainer.toString());
+        Stadium stad = new Stadium();
+        stad.setCity("Brno");
+        stad.setType(PokemonType.ROCK);
+        stad.setLeader(setUpTrainer2);
+        
+        Badge badgeAdd = new Badge();
+        badgeAdd.setStadium(stad);
+        badgeAdd.setTrainer(leaderTrainer);
+        
+        leaderTrainer.addBadge(badgeAdd);
+        assertEquals(leaderTrainer.getBadges().contains(badgeAdd), true, 
+                "Badge " + badgeAdd.toString() + " was not added to trainer " + leaderTrainer.toString());
     }
     
     @Test(expectedExceptions = PokemonServiceException.class)
-    public void testtAddPokemonTwice() {
+    public void testAddPokemonTwice() {
         pokemon2 = new Pokemon();
         pokemon2.setName("Squirtle");
         pokemon2.setNickname("Splash");
