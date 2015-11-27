@@ -84,9 +84,12 @@ public class TrainerServiceImpl implements TrainerService {
                     " already has " + badge.toString());
         }
         
-        if(!(this.isLeaderOfTheStadium(trainer, badge.getStadium()))) {
-            trainer.addBadge(badge);
+        if(this.isLeaderOfTheStadium(trainer, badge.getStadium())) {
+            throw new PokemonServiceException(trainer.toString() + 
+                    " is leader of the stadium with " + badge.toString());
         }
+        
+        trainer.addBadge(badge);
     }
 
     @Override
