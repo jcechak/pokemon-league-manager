@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
@@ -35,17 +37,18 @@ public class StadiumServiceTest extends AbstractTransactionalTestNGSpringContext
     @Mock
     private StadiumDao stadiumDao;
 
-    @Mock
+
     private Stadium stadium1;
 
-    @Mock
+
     private Stadium stadium2;
 
-    @Mock
+
     private Trainer trainer1;
 
-    @Mock
+
     private Trainer trainer2;
+    private boolean called = false;
 
     @Autowired
     @InjectMocks
@@ -94,13 +97,42 @@ public class StadiumServiceTest extends AbstractTransactionalTestNGSpringContext
         when(stadiumDao.findAll()).thenReturn(Collections.unmodifiableList(stadiums));
         when(stadiumDao.findByPokemonType(PokemonType.ELECTRIC)).thenReturn(Collections.unmodifiableList(electricStadiums));
         when(stadiumDao.findByStadiumLeader(trainer1)).thenReturn(stadium1);
+        doAnswer(invocation -> {
+            called = true;
+            return null;
+        }).when(stadiumDao).create(stadium1);
+        doAnswer(invocation -> {
+            called = true;
+            return null;
+        }).when(stadiumDao).delete(stadium1);
     }
+
+    @AfterMethod
+    public void afterMethod(){
+        called = false;
+    }
+
+    @Test
+    public void testCreateStadium(){
+        stadiumService.createStadium(stadium1);
+
+        assertEquals(called, true, "TEST createStadium - No dao method called.");
+    }
+
+    @Test
+    public void testDeleteStadium(){
+        stadiumService.deleteStadium(stadium1);
+
+        assertEquals(called, true, "TEST deleteStadium - No dao method called.");
+    }
+
+
 
     @Test
     public void testGetStadiumById(){
         Stadium tempStadium = stadiumDao.findById(13L);
 
-        assertEquals(stadium1, tempStadium, "Failed to find stadium by ID.");
+        assertEquals(tempStadium, stadium1, "Found stadium does not match.");
     }
 
     @Test
