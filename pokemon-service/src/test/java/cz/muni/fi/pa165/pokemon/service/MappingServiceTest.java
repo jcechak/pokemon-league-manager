@@ -8,11 +8,7 @@ import org.dozer.Mapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.*;
-
-import javax.inject.Inject;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -27,11 +23,9 @@ import static org.testng.Assert.*;
  *
  * @author Jaroslav Cechak
  */
-@ContextConfiguration(classes = {cz.muni.fi.pa165.pokemon.context.ServiceConfiguration.class})
-public class MappingServiceTest extends AbstractTestNGSpringContextTests {
+public class MappingServiceTest {
 
     @InjectMocks
-    @Inject
     private MappingServiceImpl mappingService;
 
     @Mock
