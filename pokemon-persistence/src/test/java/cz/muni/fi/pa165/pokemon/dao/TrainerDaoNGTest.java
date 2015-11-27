@@ -67,7 +67,6 @@ public class TrainerDaoNGTest extends AbstractTransactionalTestNGSpringContextTe
         t2.setName("Garry");
         t2.setSurname("Oak");
         t2.setDateOfBirth(Date.valueOf("1990-10-11"));
-        System.out.println(t2);
     }
 
     /**

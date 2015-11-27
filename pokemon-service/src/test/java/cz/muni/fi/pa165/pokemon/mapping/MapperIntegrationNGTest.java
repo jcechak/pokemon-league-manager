@@ -175,9 +175,7 @@ public class MapperIntegrationNGTest {
     @Test
     public void testMapPokemonDTOToPokemon() {
         Pokemon result = mapper.map(pokemonDTO, Pokemon.class);
-
-        System.out.println(result);
-        System.out.println(pokemon);
+        
         assertNotNull(result, "Mapped object should not be null.");
         assertEquals(result, pokemon, "Mapped object has some mismapped fields.");
         assertEquals(result.getId(), pokemon.getId(), "Mapped object has some mismapped fields.");
