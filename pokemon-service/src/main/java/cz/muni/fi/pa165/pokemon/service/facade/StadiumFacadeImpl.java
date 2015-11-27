@@ -30,6 +30,9 @@ public class StadiumFacadeImpl implements StadiumFacade {
 
     @Override
     public void createStadium(StadiumDTO stadiumDTO){
+        if(stadiumDTO == null){
+            throw new IllegalArgumentException("stadiumDTO is null.");
+        }
         Stadium stadiumEntity = mappingService.map(stadiumDTO,Stadium.class);
         stadiumService.createStadium(stadiumEntity);
         stadiumDTO.setId(stadiumEntity.getId());
