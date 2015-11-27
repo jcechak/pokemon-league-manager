@@ -31,16 +31,16 @@ import static org.testng.Assert.assertEquals;
 public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
     
     @Inject
-    TrainerFacade trainerFacade;
+    private TrainerFacade trainerFacade;
     
     @Inject
-    TrainerService trainerService;
+    private TrainerService trainerService;
     
     @Inject
-    PokemonService pokemonService;
+    private PokemonService pokemonService;
 
     @Inject
-    StadiumService stadiumService;
+    private StadiumService stadiumService;
     
     @Inject
     private MappingService beanMappingService;
@@ -57,8 +57,6 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         setUpTrainer.setSurname("Brokovnice");
         setUpTrainer.setDateOfBirth(Date.valueOf("1989-10-11"));
         trainerService.createTrainer(setUpTrainer);
-        
-        beanMappingService.map(setUpTrainer, TrainerDTO.class);
     }
     
     @AfterMethod
@@ -90,6 +88,13 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
     @Test
     public void testUpdateTrainer() {
         setUpTrainer.setName("Brockbrock");
+        System.out.println("\n\n\n\n");
+        System.out.println(setUpTrainer.toString());
+        System.out.println(setUpTrainer.getId());
+        System.out.println("\n\n\n\n");
+        System.out.println(beanMappingService.map(setUpTrainer, TrainerDTO.class).toString());
+        System.out.println(beanMappingService.map(setUpTrainer, TrainerDTO.class).getId());
+        System.out.println("\n\n\n\nkonec vypisu");
         trainerFacade.updateTrainer(beanMappingService.map(setUpTrainer, TrainerDTO.class));
         assertEquals(setUpTrainer.getName(), trainerService.findTrainerById(setUpTrainer.getId()).getName());
     }
@@ -125,7 +130,14 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         trainerFacade.removePokemon(beanMappingService.map(setUpTrainer, TrainerDTO.class), beanMappingService.map(pokemon, PokemonDTO.class));
         pokemonService.deletePokemon(pokemon);
     }*/
+    
+    /*@Test
+    public void testRemovePokemon() {
+    }*/
    
+    /*@Test
+    public void testAddBadge() {
+    }*/
     
     @Test
     public void testFindTrainerById() {
@@ -171,4 +183,12 @@ public class TrainerFacadeImplNGTest extends AbstractTestNGSpringContextTests{
         
         assertEquals(trainerFacade.findAllTrainersWithSurname("Brokovnice").size(), 2);
     }
+    
+    /*@Test
+    public void testFindAllTrainersWithPokemon() {
+    }*/
+    
+    /*@Test
+    public void testFindAllTrainersWithBadge() {
+    }*/
 }
