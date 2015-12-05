@@ -11,5 +11,6 @@
         <module>pokemon-persistence</module>
         <module>pokemon-service</module>
         <module>pokemon-api</module>
+        <module>pokemon-web</module>
     </modules>
 </project>
