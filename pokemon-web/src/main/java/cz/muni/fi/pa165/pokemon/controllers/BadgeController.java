@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.controllers;
+package cz.muni.fi.pa165.pokemon.controllers;
 
 import cz.muni.fi.pa165.pokemon.dto.BadgeDTO;
 import cz.muni.fi.pa165.pokemon.facade.BadgeFacade;

@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.controllers;
+package cz.muni.fi.pa165.pokemon.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

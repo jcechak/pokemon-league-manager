@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.config;
+package cz.muni.fi.pa165.pokemon.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 

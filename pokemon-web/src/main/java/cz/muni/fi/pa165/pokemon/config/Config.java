@@ -1,8 +1,9 @@
-package cz.muni.fi.pa165.config;
+package cz.muni.fi.pa165.pokemon.config;
 
 import org.springframework.context.annotation.Bean;  
 import org.springframework.context.annotation.ComponentScan;  
 import org.springframework.context.annotation.Configuration;  
+import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;  
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -15,7 +16,8 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
  * @author Milos Bartak
  */
 @Configuration
-@ComponentScan("cz.muni.fi.pa165.controllers")
+@Import(value = cz.muni.fi.pa165.pokemon.context.ServiceConfiguration.class)
+@ComponentScan("cz.muni.fi.pa165.pokemon.controllers")
 @EnableWebMvc  
 public class Config extends WebMvcConfigurerAdapter {  
       
