@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
  * @author Milos Bartak
  */
 @Configuration
-@ComponentScan("cz.muni.fi.pa165")
+@ComponentScan("cz.muni.fi.pa165.controllers")
 @EnableWebMvc  
 public class Config extends WebMvcConfigurerAdapter {  
       
