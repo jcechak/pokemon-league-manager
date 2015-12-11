@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.pokemon.config;
 
+import cz.muni.fi.pa165.pokemon.loader.DataLoader;
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;  
 import org.springframework.context.annotation.ComponentScan;  
 import org.springframework.context.annotation.Configuration;  
@@ -17,10 +20,13 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
  */
 @Configuration
 @Import(value = cz.muni.fi.pa165.pokemon.context.ServiceConfiguration.class)
-@ComponentScan("cz.muni.fi.pa165.pokemon.controllers")
+@ComponentScan("cz.muni.fi.pa165.pokemon")
 @EnableWebMvc  
 public class Config extends WebMvcConfigurerAdapter {  
-      
+    
+    @Autowired
+    private DataLoader dataLoader;
+    
     @Bean  
     public UrlBasedViewResolver setupViewResolver() {  
         UrlBasedViewResolver resolver = new UrlBasedViewResolver();  
@@ -33,5 +39,10 @@ public class Config extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/resources/");
+    }
+    
+    @PostConstruct
+    public void load() {
+        dataLoader.loadData();
     }
 }  
