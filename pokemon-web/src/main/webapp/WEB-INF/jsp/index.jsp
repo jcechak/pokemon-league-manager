@@ -30,6 +30,7 @@
                 <td><jsp:include page="login.jsp"></jsp:include></td>
             </tr>
         </table>
+            <a href="menu/menu">Temporal acces to menu</a>
     </div>
 </body>
 </html>
