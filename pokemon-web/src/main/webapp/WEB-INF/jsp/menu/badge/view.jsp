@@ -14,6 +14,7 @@
         <link rel="stylesheet" type="text/css" href="/pa165/resources/css/TableCSSCode.css" />
     </head>
     <body>
+        <jsp:include page="../../navigator.jsp"></jsp:include>
         <h1>Badge detail</h1>
         <table class="CSSTableGenerator">
         <thead>

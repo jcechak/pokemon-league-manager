@@ -15,6 +15,7 @@
         <title>Add Badge</title>
     </head>
     <body>
+        <jsp:include page="../../navigator.jsp"></jsp:include>
         <h1>Create new badge</h1>
         <form:form method="post" action="${pageContext.request.contextPath}/menu/badge/create"
                    modelAttribute="newBadge">

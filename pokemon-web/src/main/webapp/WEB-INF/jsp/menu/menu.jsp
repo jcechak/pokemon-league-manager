@@ -13,6 +13,7 @@
         <link rel="stylesheet" type="text/css" href="../resources/css/site.css" />
     </head>
     <body>
+        <jsp:include page="../navigator.jsp"></jsp:include>
         <div class="myDiv" align="center">
         <table style="width:40%; text-align:center">
             <tr>
