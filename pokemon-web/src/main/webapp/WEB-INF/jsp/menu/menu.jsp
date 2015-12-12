@@ -22,7 +22,7 @@
                     </div>
                 </td>
                 <td style="width:50%">
-                    <a href="badgeList">
+                    <a href="badge/badgeList">
                         <img src="../resources/images/menu/badges.png" alt="badges" style="max-width:100%; max-height:100%">
                     </a>
                 </td>
