@@ -11,6 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manager Menu</title>
         <link rel="stylesheet" type="text/css" href="../resources/css/site.css" />
+        <link rel="shortcut icon" href="/pa165/resources/images/favicon.ico" type="image/x-icon">
     </head>
     <body>
         <jsp:include page="../navigator.jsp"></jsp:include>

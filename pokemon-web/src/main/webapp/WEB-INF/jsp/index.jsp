@@ -14,6 +14,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Pokemon league</title>
     <link rel="stylesheet" type="text/css" href="resources/css/site.css" />
+    <link rel="shortcut icon" href="/pa165/resources/images/favicon.ico" type="image/x-icon">
     <script src="resources/js/js.js"></script>
 </head>
 <body>

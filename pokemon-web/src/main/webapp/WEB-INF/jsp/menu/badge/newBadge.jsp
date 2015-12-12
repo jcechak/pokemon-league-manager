@@ -13,6 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Add Badge</title>
+        <link rel="shortcut icon" href="/pa165/resources/images/favicon.ico" type="image/x-icon">
     </head>
     <body>
         <jsp:include page="../../navigator.jsp"></jsp:include>
