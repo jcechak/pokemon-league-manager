@@ -16,8 +16,9 @@ public interface BadgeFacade {
     /**
      * Saves the badge into the system.
      * @param badgeDto badge object to be created
+     * @return id of created Badge
      */
-    void assignBadge(BadgeDTO badgeDto);
+    Long assignBadge(BadgeDTO badgeDto);
 
     /**
      * Removes the badge from the system.
