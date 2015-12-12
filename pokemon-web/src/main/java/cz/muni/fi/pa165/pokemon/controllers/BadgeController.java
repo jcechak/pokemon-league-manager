@@ -90,5 +90,14 @@ public class BadgeController {
         model.addAttribute("stadium", stadium);
         return "/menu/badge/view";
     }
+    
+    @RequestMapping(value = "/badge/delete/{id}", method = RequestMethod.POST)
+    public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
+        BadgeDTO badge = badgeFacade.findBadgeById(id);
+        badgeFacade.removeBadge(badge);
+        redirectAttributes.addFlashAttribute("alert_success", "Badge was deleted.");
+        return "redirect:" + uriBuilder.path("/menu/badge/badgeList").toUriString();
+    }
+    
         
 }
