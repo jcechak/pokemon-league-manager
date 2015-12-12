@@ -14,6 +14,8 @@
         <link rel="stylesheet" type="text/css" href="/pa165/resources/css/TableCSSCode.css" />
     </head>
     <body>
+        <jsp:include page="../../navigator.jsp"></jsp:include>
+        <br>
         <h1>Badges</h1>
         <c:set var="badges" value="${badges}"></c:set>
         <c:set var="stadiumsMap" value="${stadiumsMap}"></c:set>
@@ -48,7 +50,9 @@
                         <button class="editButton">Edit</button>
                     </td>
                     <td>
-                        <button class="deleteButton">Delete</button>
+                        <form method="post" action="${pageContext.request.contextPath}/menu/badge/delete/${badge.id}">
+                            <button type="submit" class="deleteButton">Delete</button>
+                        </form>
                     </td>
                 </tr>
             </c:forEach>
