@@ -31,10 +31,11 @@ public class BadgeFacadeImpl implements BadgeFacade {
     private MappingService mappingService;
 
     @Override
-    public void assignBadge(BadgeDTO badgeDto) {
+    public Long assignBadge(BadgeDTO badgeDto) {
         Badge badgeEntity = mappingService.map(badgeDto, Badge.class);
         badgeService.createBadge(badgeEntity);
         badgeDto.setId(badgeEntity.getId());
+        return badgeDto.getId();
     }
 
     @Override
