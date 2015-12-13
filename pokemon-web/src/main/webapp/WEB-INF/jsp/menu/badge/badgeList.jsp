@@ -13,6 +13,7 @@
         <title>Badges manager</title>
         <link rel="stylesheet" type="text/css" href="/pa165/resources/css/TableCSSCode.css" />
         <link rel="shortcut icon" href="/pa165/resources/images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="/pa165/resources/css/site.css" />
     </head>
     <body>
         <jsp:include page="../../navigator.jsp"></jsp:include>

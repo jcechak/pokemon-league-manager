@@ -15,7 +15,7 @@
     </head>
     <body>
         <jsp:include page="../navigator.jsp"></jsp:include>
-        <div class="myDiv" align="center">
+        <div class="myDiv" align="center" style='position:absolute'>
         <table style="width:40%; text-align:center">
             <tr>
                 <td style="width:50%">
