@@ -2,6 +2,8 @@ package cz.muni.fi.pa165.pokemon.dto;
 
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import java.util.Objects;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 /**
  * Data transfer object used for holding data from form or something similar.
@@ -13,27 +15,32 @@ public class PokemonCreateDTO {
     /**
      * Name of a pokemon (e.g. Pikachu)
      */
+    @NotNull
     private String name;
 
     /**
      * Nickname of a pokemon (e.g. Karel)
      */
+    @NotNull
     private String nickname;
 
     /**
      * Type of a pokemon, this determines his abilities and effectiveness
      * against other pokemons.
      */
+    @NotNull
     private PokemonType type;
 
     /**
      * The level of pokemon's skills, this determines his strength.
      */
+    @DecimalMin(value = "0")
     private int skillLevel;
 
     /**
      * Id of a trainer (owner) of a pokemon
      */
+    @NotNull
     private Long trainerId;
 
     public String getName() {
