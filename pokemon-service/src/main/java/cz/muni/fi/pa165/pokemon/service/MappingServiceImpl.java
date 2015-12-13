@@ -21,6 +21,9 @@ public class MappingServiceImpl implements MappingService {
 
     @Override
     public <T> List<T> map(Collection<?> sourceCollection, Class<T> destinationClass) {
+        if (sourceCollection == null) {
+            return null;
+        }
         List<T> destinationList = new LinkedList<>();
         for (Object o : sourceCollection) {
             destinationList.add(mapper.map(o, destinationClass));
@@ -31,6 +34,9 @@ public class MappingServiceImpl implements MappingService {
 
     @Override
     public <T> T map(Object sourceObject, Class<T> destinationClass) {
+        if (sourceObject == null) {
+            return null;
+        }
         return mapper.map(sourceObject, destinationClass);
     }
 
