@@ -30,7 +30,10 @@ thead tr:last-child th {border-bottom: 3px solid #ddd;}
 
 tbody tr:hover {background-color: #ffeeff;}
 tbody tr:last-child td {border: none;}
-tbody td {border-bottom: 1px solid #ddd;}
+tbody td {border-bottom: 1px solid #ddd;
+          background-color: white;
+}
+
 
 td:last-child {
   text-align: right;
