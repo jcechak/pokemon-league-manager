@@ -34,7 +34,8 @@ public class Config extends WebMvcConfigurerAdapter {
         resolver.setSuffix(".jsp");  
         resolver.setViewClass(JstlView.class);  
         return resolver;  
-    }  
+    }
+
     
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
