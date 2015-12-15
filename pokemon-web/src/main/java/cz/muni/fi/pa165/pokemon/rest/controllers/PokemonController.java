@@ -52,7 +52,7 @@ public class PokemonController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public PokemonDTO updatePokemon(@PathVariable("id") Long id, @RequestBody int newSkill) {
+    public PokemonDTO changeSkill(@PathVariable("id") Long id, @RequestBody int newSkill) {
         try {
             pokemonFacade.changeSkill(id, newSkill);
             return pokemonFacade.getPokemonById(id);
@@ -82,16 +82,15 @@ public class PokemonController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public boolean tradePokemons(@RequestBody List<Long> pokemonsIds) {
+    public void tradePokemons(@RequestBody List<Long> pokemonsIds) {
         pokemonFacade.tradePokemon(pokemonsIds.get(0), pokemonsIds.get(1));
-        return true;
     }
 
     @RequestMapping(
             value = "/{id}",
             method = RequestMethod.DELETE
     )
-    public void deltePokemon(@PathVariable("id") Long id) {
+    public void deletePokemon(@PathVariable("id") Long id) {
         try {
             pokemonFacade.deletePokemon(id);
         } catch (Exception ex) {
@@ -113,11 +112,11 @@ public class PokemonController {
     }
 
     @RequestMapping(
-            value = "/",
+            value = "",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Collection<PokemonDTO> getPokemon() {
+    public Collection<PokemonDTO> getAllPokemons() {
         try {
             return pokemonFacade.getAllPokemons();
         } catch (Exception ex) {
