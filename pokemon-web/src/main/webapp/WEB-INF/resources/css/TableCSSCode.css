@@ -15,6 +15,7 @@ table {
   border: 2px solid #3860DA;
   width: 500px;
   margin: 50px auto;
+  white-space: nowrap;
 }
 
 thead tr:first-child {

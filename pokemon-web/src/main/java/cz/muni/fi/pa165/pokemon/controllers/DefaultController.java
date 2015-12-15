@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 /**
- *
+ * Controller for login page.
  * @author Milos Bartak
  */
 @Controller

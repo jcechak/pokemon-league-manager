@@ -20,7 +20,9 @@
             <tr>
                 <td style="width:50%">
                     <div>
-                        <img src="../resources/images/menu/trainers.jpg" alt="trainers" style="max-width:100%; max-height:100%" class="menuImage">
+                        <a href="trainer/trainerList">
+                            <img src="../resources/images/menu/trainers.jpg" alt="trainers" style="max-width:100%; max-height:100%" class="menuImage">
+                        </a>
                     </div>
                 </td>
                 <td style="width:50%">

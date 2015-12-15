@@ -17,7 +17,7 @@
                 <li><a href='/pa165/menu/menu'><span>Home</span></a></li>
                 <li class='active has-sub'><a href='#'><span>Manage</span></a>
                     <ul>
-                        <li class='has-sub'><a href='#'><span>Trainers</span></a>
+                        <li class='has-sub'><a href='/pa165/menu/trainer/trainerList'><span>Trainers</span></a>
                         </li>
                         <li class='has-sub'><a href='/pa165/menu/badge/badgeList'><span>Badges</span></a>
                         </li>
