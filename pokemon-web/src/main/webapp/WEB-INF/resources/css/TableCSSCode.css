@@ -33,12 +33,15 @@ tbody tr:hover {background-color: #ffeeff;}
 tbody tr:last-child td {border: none;}
 tbody td {border-bottom: 1px solid #ddd;
           background-color: white;
+          padding-left: 5px;
+          padding-right: 5px;
 }
 
 
 td:last-child {
   text-align: right;
   padding-right: 10px;
+
 }
 
 .button {
