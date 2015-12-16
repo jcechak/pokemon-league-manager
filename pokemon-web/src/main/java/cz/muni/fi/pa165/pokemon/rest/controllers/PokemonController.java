@@ -12,6 +12,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import org.springframework.http.MediaType;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +38,11 @@ public class PokemonController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public PokemonDTO createPokemon(@Valid @RequestBody PokemonCreateDTO pokemon) {
+    public PokemonDTO createPokemon(@Valid @RequestBody PokemonCreateDTO pokemon, BindingResult bindingResult) {
         try {
+            if (bindingResult.hasErrors()) {
+                throw new InvalidParameterException();
+            }
             Long id = pokemonFacade.createPokemon(pokemon);
             return pokemonFacade.getPokemonById(id);
         } catch (Exception ex) {
