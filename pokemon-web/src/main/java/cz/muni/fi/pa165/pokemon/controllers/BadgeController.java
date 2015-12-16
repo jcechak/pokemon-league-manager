@@ -56,7 +56,7 @@ public class BadgeController {
     }
     
     @RequestMapping(value = "/badge/new", method = RequestMethod.GET)
-    public String newProduct(Model model) {
+    public String newBadge(Model model) {
         model.addAttribute("newBadge", new BadgeDTO());
         System.out.println("DEBUG badge new called");
         return "/menu/badge/newBadge";

@@ -4,7 +4,7 @@
   Date: 15.12.2015
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -55,7 +55,7 @@
             <td><c:out value="${formattedDate}"/></td>
             <td><c:out value="${trainers.stadium.city}"/></td>
             <td>
-                <button class="editButton" onclick="location = 'trainerList'">View</button>
+                <button class="editButton" onclick="location = 'view/${trainers.id}'">View</button>
             </td>
             <td>
                 <button class="editButton">Edit</button>
