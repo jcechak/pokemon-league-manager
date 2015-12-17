@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.pokemon.controllers;
 
+import cz.muni.fi.pa165.pokemon.dto.BadgeDTO;
 import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
 import cz.muni.fi.pa165.pokemon.dto.StadiumDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
@@ -21,9 +22,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
-import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Controller for trainer administration.
@@ -104,8 +107,14 @@ public class TrainerController {
 
     @RequestMapping(value = "/trainer/view/{id}", method = RequestMethod.GET)
     public String view(@PathVariable long id, Model model) {
-        System.out.println("DEBUG " + id + ' ' + model);
-        model.addAttribute("trainer", trainerFacade.findTrainerById(id));
+      System.out.println("DEBUG " + id + ' ' + model);
+      Map<Long, StadiumDTO> badgesAndStadiums = new HashMap<>();
+      for(BadgeDTO b : badgeFacade.getAllBadges()) {
+        System.out.println("DEBUG " + b);
+            badgesAndStadiums.put(b.getId(), stadiumFacade.findById(b.getStadiumId()));
+        }
+      model.addAttribute("trainer", trainerFacade.findTrainerById(id));
+      model.addAttribute("stadiumsMap", badgesAndStadiums);
         System.out.println("DEBUG" + trainerFacade.findTrainerById(id).toString());
         return "/menu/trainer/view";
     }

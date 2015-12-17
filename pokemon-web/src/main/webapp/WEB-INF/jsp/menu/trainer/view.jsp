@@ -15,7 +15,8 @@
         <link rel="shortcut icon" href="/pa165/resources/images/favicon.ico" type="image/x-icon">
     </head>
     <body>
-        <jsp:include page="../../navigator.jsp"></jsp:include>
+        <jsp:include page="../../navigator.jsp"/>
+        <c:set var="stadiumsMap" value="${stadiumsMap}"/>
         <h1>Trainer detail</h1>
         <table class="CSSTableGenerator">
         <thead>
@@ -49,5 +50,63 @@
                 </tr>
         </tbody>
     </table>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th colspan="5">Owned pokemons</th>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Nickname</th>
+                        <th>Type</th>
+                        <th>Skill level</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${trainer.pokemons}" var="pokemon">
+                        <tr>
+                            <td><c:out value="${pokemon.name}"/></td>
+                            <td><c:out value="${pokemon.nickname}"/></td>
+                            <td><c:out value="${pokemon.type}"/></td>
+                            <td><c:out value="${pokemon.skillLevel}"/></td>
+                            <td></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th colspan="4">Awarded badges at stadiums</th>
+                    </tr>
+                    <tr>
+                        <th>Stadium ID</th>
+                        <th>Stadium city</th>
+                        <th>Stadium type</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${trainer.badges}" var="badge">
+                        <tr>
+                            <td><c:out value="${badge.stadiumId}"/></td>
+                            <c:set var="stadium" value="${stadiumsMap[badge.id]}"/>
+                            <td><c:out value="${stadium.city}"/></td>
+                            <td><c:out value="${stadium.type}"/></td>
+                            <td></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </body>
 </html>
