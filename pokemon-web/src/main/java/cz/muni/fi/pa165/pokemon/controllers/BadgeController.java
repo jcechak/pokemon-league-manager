@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,7 +74,7 @@ public class BadgeController {
     }
     
     @RequestMapping(value = "/badge/create", method = RequestMethod.POST)
-    public String create(@ModelAttribute("newBadge") BadgeDTO formBean, BindingResult bindingResult,
+    public String create(@Valid @ModelAttribute("newBadge") BadgeDTO formBean, BindingResult bindingResult,
                          Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         Long id = badgeFacade.assignBadge(formBean);
         System.out.println("DEBUG " + formBean.getId() + " " + formBean.getStadiumId());

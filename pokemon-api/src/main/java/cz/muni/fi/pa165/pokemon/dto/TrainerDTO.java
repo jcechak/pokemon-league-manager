@@ -1,5 +1,9 @@
 package cz.muni.fi.pa165.pokemon.dto;
 
+import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,17 +12,23 @@ import java.util.Objects;
 
 /**
  * Data transfer object used for transferring information about trainer.
- * 
+ *
  * @author Milos Bartak
  */
 public class TrainerDTO {
 
     private Long id;
 
+    @NotNull
+    @Size(min = 3, max = 50)
     private String name;
 
+    @NotNull
+    @Size(min = 2, max = 50)
     private String surname;
-    
+
+    @Past
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateOfBirth;
 
     private final List<PokemonDTO> pokemons = new ArrayList<PokemonDTO>();
@@ -70,7 +80,7 @@ public class TrainerDTO {
     public void addPokemon(PokemonDTO pokemon) {
         pokemons.add(pokemon);
     }
-    
+
     public void removePokemon(PokemonDTO pokemon) {
         pokemons.remove(pokemon);
     }
@@ -116,7 +126,7 @@ public class TrainerDTO {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "Trainer{"

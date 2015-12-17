@@ -40,21 +40,21 @@
         <div class="form-group ${name_error?'has-error':''}">
             <form:label path="name">Name</form:label>
             <div class="col-sm-10">
-                <form:input path="name"/>
+                <form:input path="name" required="true" />
                 <form:errors path="name"/>
             </div>
         </div>
         <div class="form-group ${surname_error?'has-error':''}">
             <form:label path="surname" >Surname</form:label>
             <div class="col-sm-10">
-                <form:input path="surname"/>
+                <form:input path="surname" required="true" />
                 <form:errors path="surname"/>
             </div>
         </div>
         <div class="form-group ${dateOfBirth_error?'has-error':''}">
             <form:label path="dateOfBirth" >Date of birth</form:label>
             <div class="col-sm-10">
-                <form:input path="dateOfBirth" type="date" />
+                <form:input path="dateOfBirth" type="date" value="1993-12-08" required="true" />
                 <form:errors path="dateOfBirth"/>
             </div>
         </div>
