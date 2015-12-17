@@ -29,13 +29,14 @@ public class StadiumFacadeImpl implements StadiumFacade {
     private MappingService mappingService;
 
     @Override
-    public void createStadium(StadiumDTO stadiumDTO){
+    public Long createStadium(StadiumDTO stadiumDTO){
         if(stadiumDTO == null){
             throw new IllegalArgumentException("stadiumDTO is null.");
         }
         Stadium stadiumEntity = mappingService.map(stadiumDTO,Stadium.class);
         stadiumService.createStadium(stadiumEntity);
         stadiumDTO.setId(stadiumEntity.getId());
+        return stadiumDTO.getId();
     }
 
     @Override
