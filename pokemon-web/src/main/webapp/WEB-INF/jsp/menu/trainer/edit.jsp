@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Add Trainer</title>
+    <title>Edit Trainer</title>
     <link rel="shortcut icon" href="/pa165/resources/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="/pa165/resources/css/site.css" />
 </head>

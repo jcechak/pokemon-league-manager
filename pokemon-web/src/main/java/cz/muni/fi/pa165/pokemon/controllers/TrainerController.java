@@ -8,8 +8,6 @@ import cz.muni.fi.pa165.pokemon.facade.BadgeFacade;
 import cz.muni.fi.pa165.pokemon.facade.PokemonFacade;
 import cz.muni.fi.pa165.pokemon.facade.StadiumFacade;
 import cz.muni.fi.pa165.pokemon.facade.TrainerFacade;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,8 +36,6 @@ import java.util.Map;
 @RequestMapping("/menu")
 public class TrainerController {
 
-    public static final Logger log = LoggerFactory.getLogger(TrainerController.class);
-
     @Inject
     private TrainerFacade trainerFacade;
 
@@ -61,7 +57,7 @@ public class TrainerController {
 
 
     @RequestMapping(value = "/trainer/list")
-    public String showList(Model model) {
+    public String showList(@ModelAttribute("alert_success") String alertSuccess, Model model) {
         Collection<TrainerDTO> trainerDTOs = trainerFacade.findAllTrainers();
         model.addAttribute("trainers", trainerDTOs);
         return "/menu/trainer/list";
@@ -70,7 +66,6 @@ public class TrainerController {
     @RequestMapping(value = "/trainer/new", method = RequestMethod.GET)
     public String newTrainer(Model model) {
         model.addAttribute("new", new TrainerDTO());
-        log.debug("trainer NEW called");
         return "/menu/trainer/new";
     }
 
@@ -102,7 +97,7 @@ public class TrainerController {
         trainerFacade.createTrainer(formBean);
         Long id = formBean.getId();
         System.out.println("create trainer " + formBean.toString());
-        redirectAttributes.addFlashAttribute("alert_success", "Trainer was created");
+        redirectAttributes.addFlashAttribute("alert_success", "Trainer was created successfully.");
         return "redirect:" + uriBuilder.path("/menu/trainer/view/{id}").buildAndExpand(id).encode().toUriString();
     }
 
@@ -145,7 +140,7 @@ public class TrainerController {
         }
         trainerFacade.updateTrainer(formBean);
         System.out.println("update trainer " + formBean.toString());
-        redirectAttributes.addFlashAttribute("alert_success", "Trainer was updated");
+        redirectAttributes.addFlashAttribute("alert_success", "Trainer was updated successfully.");
         return "redirect:" + uriBuilder.path("/menu/trainer/list").toUriString();
     }
 

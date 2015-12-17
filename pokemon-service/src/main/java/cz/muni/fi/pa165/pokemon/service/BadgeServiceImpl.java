@@ -27,6 +27,11 @@ public class BadgeServiceImpl implements BadgeService {
         if (badge.getStadium().getLeader().equals(badge.getTrainer())) {
             throw new PokemonServiceException("Badge assign to leader of the stadium.");
         }
+        for( Badge b : badge.getTrainer().getBadges()) {
+            if (b.getStadium().equals(badge.getStadium())) {
+                throw new PokemonServiceException("Badge already assigned.");
+            }
+        }
         badgeDao.create(badge);
         badge.getTrainer().addBadge(badge);
     }

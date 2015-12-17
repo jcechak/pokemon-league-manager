@@ -7,7 +7,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +20,11 @@
 <jsp:include page="../../navigator.jsp"/>
 <br>
 <h1>Trainers</h1>
+
+<c:if test="${alert_success != null}">
+    <div id="status_message" style="color:green">${alert_success}</div>
+</c:if>
+
 <c:set var="trainers" value="${trainers}"/>
 
 <table class="CSSTableGenerator">
