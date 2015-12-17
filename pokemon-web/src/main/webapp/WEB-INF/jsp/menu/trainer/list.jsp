@@ -46,19 +46,19 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${trainers}" var="trainers">
+    <c:forEach items="${trainers}" var="trainer">
         <tr>
-            <td><c:out value="${trainers.id}"/></td>
-            <td><c:out value="${trainers.name}"/></td>
-            <td><c:out value="${trainers.surname}"/></td>
-            <fmt:formatDate value="${trainers.dateOfBirth}" var="formattedDate" type="date" pattern="dd.MM.yyyy" />
+            <td><c:out value="${trainer.id}"/></td>
+            <td><c:out value="${trainer.name}"/></td>
+            <td><c:out value="${trainer.surname}"/></td>
+            <fmt:formatDate value="${trainer.dateOfBirth}" var="formattedDate" type="date" pattern="dd.MM.yyyy" />
             <td><c:out value="${formattedDate}"/></td>
-            <td><c:out value="${trainers.stadium.city}"/></td>
+            <td><c:out value="${trainer.stadium.city}"/></td>
             <td>
-                <button class="editButton" onclick="location = 'view/${trainers.id}'">View</button>
+                <button class="editButton" onclick="location = 'view/${trainer.id}'">View</button>
             </td>
             <td>
-                <button class="editButton">Edit</button>
+                <button class="editButton" onclick="location = 'edit/${trainer.id}'">Edit</button>
             </td>
             <td>
                 <form method="post" action="${pageContext.request.contextPath}/menu/trainer/delete/${trainer.id}">

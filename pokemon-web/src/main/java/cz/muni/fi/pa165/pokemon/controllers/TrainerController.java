@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -86,7 +87,7 @@ public class TrainerController {
 
 
     @RequestMapping(value = "/trainer/create", method = RequestMethod.POST)
-    public String create(@ModelAttribute("new") TrainerDTO formBean, BindingResult bindingResult,
+    public String create(@Valid @ModelAttribute("new") TrainerDTO formBean, BindingResult bindingResult,
                          Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
@@ -96,7 +97,7 @@ public class TrainerController {
                 model.addAttribute(fe.getField() + "_error", true);
                 System.out.println("FieldError: {}" + fe);
             }
-            return "/trainer/new";
+            return "/menu/trainer/new";
         }
         trainerFacade.createTrainer(formBean);
         Long id = formBean.getId();
@@ -107,16 +108,54 @@ public class TrainerController {
 
     @RequestMapping(value = "/trainer/view/{id}", method = RequestMethod.GET)
     public String view(@PathVariable long id, Model model) {
-      System.out.println("DEBUG " + id + ' ' + model);
-      Map<Long, StadiumDTO> badgesAndStadiums = new HashMap<>();
-      for(BadgeDTO b : badgeFacade.getAllBadges()) {
-        System.out.println("DEBUG " + b);
+        System.out.println("DEBUG " + id + ' ' + model);
+        Map<Long, StadiumDTO> badgesAndStadiums = new HashMap<>();
+        for(BadgeDTO b : badgeFacade.getAllBadges()) {
+            System.out.println("DEBUG " + b);
             badgesAndStadiums.put(b.getId(), stadiumFacade.findById(b.getStadiumId()));
         }
-      model.addAttribute("trainer", trainerFacade.findTrainerById(id));
-      model.addAttribute("stadiumsMap", badgesAndStadiums);
+        model.addAttribute("trainer", trainerFacade.findTrainerById(id));
+        model.addAttribute("stadiumsMap", badgesAndStadiums);
         System.out.println("DEBUG" + trainerFacade.findTrainerById(id).toString());
         return "/menu/trainer/view";
+    }
+
+    @RequestMapping(value = "/trainer/edit/{id}", method = RequestMethod.GET)
+    public String edit(@PathVariable long id, Model model) {
+        System.out.println("DEBUG " + id + ' ' + model);
+
+        model.addAttribute("trainer", trainerFacade.findTrainerById(id));
+        System.out.println("DEBUG" + trainerFacade.findTrainerById(id).toString());
+        return "/menu/trainer/edit";
+    }
+
+    @RequestMapping(value = "/trainer/update", method = RequestMethod.POST)
+    public String edit(@Valid @ModelAttribute("update") TrainerDTO formBean, BindingResult bindingResult,
+                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                System.out.println("ObjectError: {}" + ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+                System.out.println("FieldError: {}" + fe);
+            }
+            model.addAttribute("trainer", trainerFacade.findTrainerById(formBean.getId()));
+            return "/menu/trainer/edit";
+        }
+        trainerFacade.updateTrainer(formBean);
+        System.out.println("update trainer " + formBean.toString());
+        redirectAttributes.addFlashAttribute("alert_success", "Trainer was updated");
+        return "redirect:" + uriBuilder.path("/menu/trainer/list").toUriString();
+    }
+
+
+    @RequestMapping(value = "/trainer/delete/{id}", method = RequestMethod.POST)
+    public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
+        TrainerDTO trainerDTO = trainerFacade.findTrainerById(id);
+        trainerFacade.deleteTrainer(trainerDTO);
+        redirectAttributes.addFlashAttribute("alert_success", "Trainer was deleted successfully.");
+        return "redirect:" + uriBuilder.path("/menu/trainer/list").toUriString();
     }
 
 }
