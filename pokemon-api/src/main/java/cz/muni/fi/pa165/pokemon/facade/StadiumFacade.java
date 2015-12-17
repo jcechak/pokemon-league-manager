@@ -15,8 +15,9 @@ public interface StadiumFacade {
     /**
      * Saves the stadium to the system
      * @param stadium the stadium to be saved
+     * @return staidum id
      */
-    void createStadium(StadiumDTO stadium);
+    Long createStadium(StadiumDTO stadium);
 
     /**
      * updates the stadium in the system

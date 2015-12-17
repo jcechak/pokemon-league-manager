@@ -19,7 +19,7 @@
         <table class="CSSTableGenerator">
             <thead>
                 <tr>
-                    <th colspan="6">List of stadiums</th>
+                    <th colspan="5">List of stadiums</th>
                     <th>
                         <a href="new">
                             <button class="addButton">Add Stadium</button>
@@ -32,7 +32,7 @@
                     <th>Type </th>
                     <th>Leader ID </th>
                     <th></th>
-                    <th></th>
+
 
                 </tr>
             </thead>
@@ -44,7 +44,6 @@
                     <td><c:out value="${stadium.type}"/> </td>
                     <td><c:out value="${stadium.stadiumLeaderId}"/> </td>
                     <c:set var="trainer" value="${trainersMap[stadium.id]}"/>
-                    <td><button class="editButton">View</button></td>
                     <td><button class="editButton">Edit</button></td>
                     <td>
                         <form method="post" action="${pageContext.request.contextPath}/menu/stadium/delete/${stadium.id}">
