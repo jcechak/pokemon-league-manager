@@ -13,8 +13,10 @@
         <jsp:include page="../../navigator.jsp"></jsp:include>
         <br>
         <h1>Stadiums</h1>
+
         <c:set var="stadiums" value="${stadiums}"></c:set>
         <c:set var="trainersMap" value="${trainersMap}"></c:set>
+
 
         <table class="CSSTableGenerator">
             <thead>

@@ -1,10 +1,12 @@
 package cz.muni.fi.pa165.pokemon.controllers;
 
+import cz.muni.fi.pa165.pokemon.dto.BadgeDTO;
 import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
 import cz.muni.fi.pa165.pokemon.dto.StadiumDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
+import cz.muni.fi.pa165.pokemon.facade.BadgeFacade;
 import cz.muni.fi.pa165.pokemon.facade.PokemonFacade;
 import cz.muni.fi.pa165.pokemon.facade.StadiumFacade;
 import cz.muni.fi.pa165.pokemon.facade.TrainerFacade;
@@ -40,6 +42,9 @@ public class StadiumController {
 
     @Autowired
     private TrainerFacade trainerFacade;
+
+    @Autowired
+    private BadgeFacade badgeFacade;
 
     private Map<Long, TrainerDTO> stadiumsAndTrainers;
 
@@ -181,6 +186,12 @@ public class StadiumController {
         StadiumDTO tempStadium = stadiumFacade.findById(id);
         TrainerDTO tempTrainer = trainerFacade.findTrainerById(tempStadium.getStadiumLeaderId());
         tempTrainer.setStadium(null);
+        Collection<BadgeDTO> badges = badgeFacade.getAllBadges();
+        for(BadgeDTO b : badges) {
+            if(b.getStadiumId().equals(tempStadium.getId())) {
+                badgeFacade.removeBadge(b);
+            }
+        }
 
         stadiumFacade.deleteStadium(tempStadium);
         redirectAttributes.addFlashAttribute("alert_success", "Stadium was deleted.");
