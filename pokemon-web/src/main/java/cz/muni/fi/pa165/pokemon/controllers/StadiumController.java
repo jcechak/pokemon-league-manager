@@ -9,6 +9,8 @@ import cz.muni.fi.pa165.pokemon.facade.PokemonFacade;
 import cz.muni.fi.pa165.pokemon.facade.StadiumFacade;
 import cz.muni.fi.pa165.pokemon.facade.TrainerFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.*;
 
 
@@ -123,8 +126,6 @@ public class StadiumController {
 
     }
 
-
-
     @RequestMapping(value = "/stadium/viewStadium/{id}", method = RequestMethod.GET)
     public String view(@PathVariable long id, Model model){
         //System.out.println("DEBUG " + id + ' ' + model);
@@ -133,8 +134,46 @@ public class StadiumController {
 
     }
 
+    @RequestMapping(value = "/stadium/editStadium/{id}", method = RequestMethod.GET)
+    public String edit(@PathVariable long id, Model model){
+        Collection<PokemonType> typeList = new ArrayList<>();
+        for(PokemonType type : PokemonType.values()){
+            typeList.add(type);
+        }
+
+        Collection<TrainerDTO> trainersWithoutStadium = new ArrayList<>();
+        for(TrainerDTO t:trainers()){
+            /*System.out.println("DEBUG trainer: " + t);
+            System.out.println("DEBUG stadium: " + t.getStadium());*/
+            if(t.getStadium()==null){
+                trainersWithoutStadium.add(t);
+            }
+        }
+        trainersWithoutStadium.add(trainerFacade.findTrainerById(stadiumFacade.findById(id).getStadiumLeaderId()));
+        model.addAttribute("trainersWithoutStadium", trainersWithoutStadium);
+        model.addAttribute("typeList", typeList);
+        System.out.println("DEBUG " + id + ' ' + model);
+        model.addAttribute("stadium", stadiumFacade.findById(id));
+        System.out.println("DEBUG " + stadiumFacade.findById(id).toString());
+        return "/menu/stadium/editStadium";
+    }
+
+    @RequestMapping(value = "/stadium/update", method = RequestMethod.POST)
+    public String edit(@Valid @ModelAttribute("update") StadiumDTO formBean, BindingResult bindingResult,
+                       Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriComponentBuilder){
+        stadiumFacade.updateStadium(formBean);
+        System.out.println("update stadium" + formBean.toString());
+        redirectAttributes.addFlashAttribute("alert_success", "Stadium was updated successfully.");
+        return "redirect:"+uriComponentBuilder.path("/menu/stadium/stadiumList").toUriString();
+    }
 
 
+    @ModelAttribute("userName")
+    public String userName() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        return name;
+    }
 
 
 }

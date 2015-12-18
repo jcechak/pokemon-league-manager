@@ -44,7 +44,7 @@
                     <td><c:out value="${stadium.type}"/> </td>
                     <td><c:out value="${stadium.stadiumLeaderId}"/> </td>
                     <c:set var="trainer" value="${trainersMap[stadium.id]}"/>
-                    <td><button class="editButton">Edit</button></td>
+                    <td><button class="editButton" onclick="location = 'editStadium/${stadium.id}'">Edit</button>
                     <td>
                         <form method="post" action="${pageContext.request.contextPath}/menu/stadium/delete/${stadium.id}">
                             <button type="submit" class="deleteButton">Delete</button>

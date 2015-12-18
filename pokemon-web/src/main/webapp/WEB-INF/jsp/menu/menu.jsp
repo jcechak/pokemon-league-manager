@@ -40,7 +40,8 @@
                     <img src="../resources/images/menu/pokemons.jpg" alt="pokemons" style="max-width:100%; max-height:100%">
                 </td>
                 <td style="width:50%">
-                    <img src="../resources/images/menu/stadiums.jpg" alt="stadiums" style="max-width:100%; max-height:100%">
+                    <a href="stadium/stadiumList">
+                        <img src="../resources/images/menu/stadiums.jpg" alt="stadiums" style="max-width:100%; max-height:100%">
                     
                 </td>
             </tr>
