@@ -22,6 +22,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Controller for badge administration.
@@ -109,6 +111,13 @@ public class BadgeController {
         badgeFacade.removeBadge(badge);
         redirectAttributes.addFlashAttribute("alert_success", "Badge was deleted.");
         return "redirect:" + uriBuilder.path("/menu/badge/badgeList").toUriString();
+    }
+    
+    @ModelAttribute("userName")
+    public String userName() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        return name;
     }
     
         
