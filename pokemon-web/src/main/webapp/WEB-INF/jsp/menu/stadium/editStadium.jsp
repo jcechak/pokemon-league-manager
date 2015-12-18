@@ -1,3 +1,9 @@
+<%--
+    Document   : editStadium
+    Created on : 18.12.2015,
+    Author     : Dominika Talianova
+--%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -17,10 +23,11 @@
         <form:form method="post" action="${pageContext.request.contextPath}/menu/stadium/update"
                                 modelAttribute="stadium">
             <form:hidden path="id" value="${stadium.id}"/>
-            <div>
+            <div class="form-group ${city_error?'has-error':''}">
                 <form:label path="city">City </form:label>
                 <div>
-                    <form:input path="city"/>
+                    <form:input path="city" required="true"/>
+                    <form:errors path="city"/>
                 </div>
             </div>
             <div>

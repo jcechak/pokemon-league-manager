@@ -37,7 +37,9 @@
             </tr>
             <tr>
                 <td style="width:50%">
+                    <a href="pokemon/list">
                     <img src="../resources/images/menu/pokemons.jpg" alt="pokemons" style="max-width:100%; max-height:100%">
+                    </a>
                 </td>
                 <td style="width:50%">
                     <a href="stadium/stadiumList">

@@ -22,7 +22,7 @@
                         </li>
                         <li class='has-sub'><a href='/pa165/menu/badge/badgeList'><span>Badges</span></a>
                         </li>
-                        <li class='has-sub'><a href='#'><span>Pokemons</span></a>
+                        <li class='has-sub'><a href='/pa165/menu/pokemon/list'><span>Pokemons</span></a>
                         </li>
                         <li class='has-sub'><a href='/pa165/menu/stadium/stadiumList'><span>Stadiums</span></a>
                         </li>
