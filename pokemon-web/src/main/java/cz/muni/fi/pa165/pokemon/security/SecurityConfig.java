@@ -1,11 +1,14 @@
 package cz.muni.fi.pa165.pokemon.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 /**
@@ -18,9 +21,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("bill").password("abc123").roles("USER");
-        auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
-        auth.inMemoryAuthentication().withUser("dba").password("root123").roles("ADMIN","DBA");
+        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser("admin")
+                .password("$2a$10$op4BpvQGIwznk6m.Iy2XJ.WjT2B6vLB3gfRTctwwXg9M5Ev051FUy").roles("ADMIN");
+        
+        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser("user")
+                .password("$2a$10$Rx88swAmqtrJ0glEdiulLuLESZE3UmP2OZZXvbfxMA.Eq6Fjxny7K").roles("USER");
     }
     
     @Override
@@ -37,5 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.logout()                                   
 			.logoutSuccessUrl("/logout")
 			.invalidateHttpSession(true);
+    }
+    
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
