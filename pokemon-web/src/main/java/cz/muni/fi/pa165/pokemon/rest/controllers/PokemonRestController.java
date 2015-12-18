@@ -115,6 +115,12 @@ public class PokemonRestController {
         }
     }
 
+    /**
+     * Gets all pokemons in the system.
+     * curl -i -X GET http://localhost:8080/pa165/rest/pokemons
+     * 
+     * @return all pokemons in the system
+     */
     @RequestMapping(
             value = "",
             method = RequestMethod.GET,

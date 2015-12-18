@@ -95,14 +95,14 @@ public class PokemonController {
         Long id;
         try {
             id = pokemonFacade.createPokemon(formBean);
-            model.addAttribute("id", id);
+            redirectAttributes.addAttribute("id", id);
         } catch (Exception ex) {
             System.err.println("chyba na service" + ex.getMessage());
             model.addAttribute("alert_danger", "Unable to create pokemon. There has been an error in the system.");
             return NEW_FORM_URI;
         }
 
-        redirectAttributes.addFlashAttribute("alert_success", "Pokemon has been successfully created.");
+        redirectAttributes.addFlashAttribute("alert_success", "Pokemon has been successfully created.");        
         return "redirect:" + VIEW_URI + "/{id}";
     }
 
