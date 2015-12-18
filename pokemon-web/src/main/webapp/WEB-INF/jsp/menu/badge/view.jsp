@@ -13,19 +13,24 @@
         <title>Badge</title>
         <link rel="stylesheet" type="text/css" href="/pa165/resources/css/TableCSSCode.css" />
         <link rel="shortcut icon" href="/pa165/resources/images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="/pa165/resources/css/site.css" />
     </head>
     <body>
         <jsp:include page="../../navigator.jsp"></jsp:include>
         <h1>Badge detail</h1>
+        <div align="center">
+            <p style="color:green">${alert_success}</p>
+        </div>
         <table class="CSSTableGenerator">
         <thead>
             <tr>
                 <th colspan="3">Badge</th>
                 
                 <th>
-                    <a href="delete">
-                        <button class="deleteButton">Delete Badge</button>
-                    </a>
+                    <form method="post" action="${pageContext.request.contextPath}/menu/badge/delete/${badge.id}">
+                            <button type="submit" class="deleteButton">Delete</button>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        </form>
                 </th>
             </tr>
             <tr>
@@ -37,7 +42,7 @@
         </thead>
         <tbody>
                 <tr>
-                    <td><c:out value="${badge.id}"/></td>
+                    <td><c:out value=""/></td>
                     <td><c:out value="${stadium.id}"/></td>
                     <td><c:out value="${stadium.city}"/></td>
                     <td></td>

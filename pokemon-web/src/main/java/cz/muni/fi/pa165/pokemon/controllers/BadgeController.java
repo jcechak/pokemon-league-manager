@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.pokemon.controllers;
 
+import cz.muni.fi.pa165.exceptions.PokemonServiceException;
 import cz.muni.fi.pa165.pokemon.dto.BadgeDTO;
 import cz.muni.fi.pa165.pokemon.dto.StadiumDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
@@ -72,7 +73,7 @@ public class BadgeController {
     }
     
     @RequestMapping(value = "/badge/new", method = RequestMethod.GET)
-    public String newBadge(Model model) {
+    public String newBadge(Model model, RedirectAttributes redirectAttrs) {
         model.addAttribute("newBadge", new BadgeDTO());
         System.out.println("DEBUG badge new called");
         return "/menu/badge/newBadge";
@@ -91,9 +92,15 @@ public class BadgeController {
     @RequestMapping(value = "/badge/create", method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("newBadge") BadgeDTO formBean, BindingResult bindingResult,
                          Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
-        Long id = badgeFacade.assignBadge(formBean);
-        System.out.println("DEBUG " + formBean.getId() + " " + formBean.getStadiumId());
-        redirectAttributes.addFlashAttribute("alert_success", "Badge " + id + " was created");
+        Long id;
+        try{
+            id = badgeFacade.assignBadge(formBean);
+            System.out.println("DEBUG " + formBean.getId() + " " + formBean.getStadiumId());
+            redirectAttributes.addFlashAttribute("alert_success", "Badge " + id + " was created");
+        }catch(PokemonServiceException p) {
+            redirectAttributes.addFlashAttribute("errorMessage", p.getMessage());
+            return "redirect:/menu/badge/new";
+        }
         return "redirect:" + uriBuilder.path("/menu/badge/view/{id}").buildAndExpand(id).encode().toUriString();
     }
     

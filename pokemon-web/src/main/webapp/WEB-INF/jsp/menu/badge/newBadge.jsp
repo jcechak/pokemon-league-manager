@@ -18,12 +18,12 @@
     </head>
     <body>
         <jsp:include page="../../navigator.jsp"></jsp:include>
-        <h1>Create new badge</h1>
+            <h1>Create new badge</h1>
         <form:form method="post" action="${pageContext.request.contextPath}/menu/badge/create"
                    modelAttribute="newBadge">
             <div>
                 <label>Stadium</label>
-                    <div>
+                <div>
                     <form:select path="stadiumId">
                         <c:forEach items="${stadiums}" var="s">
                             <form:option value="${s.id}">${s.city}</form:option>
@@ -34,7 +34,7 @@
 
             <div>
                 <label>Trainer</label>
-                    <div>
+                <div>
                     <form:select path="trainerId">
                         <c:forEach items="${trainers}" var="t">
                             <form:option value="${t.id}">${t.name} ${t.surname}</form:option>
@@ -42,7 +42,8 @@
                     </form:select>
                 </div>
             </div>
-                <button type="submit">Create badge</button>
+            <button type="submit">Create badge</button>
         </form:form>
+        <p style="color:red">${errorMessage}</p>
     </body>
 </html>

@@ -21,7 +21,9 @@
         <h1>Badges</h1>
         <c:set var="badges" value="${badges}"></c:set>
         <c:set var="stadiumsMap" value="${stadiumsMap}"></c:set>
-
+        <div align="center">
+            <p style="color:green">${alert_success}</p>
+        </div>
     <table class="CSSTableGenerator">
         <thead>
             <tr>
