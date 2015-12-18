@@ -35,7 +35,7 @@ public class DefaultController {
         if (auth != null){    
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return "redirect:/login?logout";
+        return "redirect:/login";
    }
 
    @RequestMapping(value = "/", method = RequestMethod.GET)
