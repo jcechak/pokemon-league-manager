@@ -48,6 +48,7 @@
                     <td>
                         <form method="post" action="${pageContext.request.contextPath}/menu/stadium/delete/${stadium.id}">
                             <button type="submit" class="deleteButton">Delete</button>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </form>
                     </td>
                 </tr>

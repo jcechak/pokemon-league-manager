@@ -175,5 +175,17 @@ public class StadiumController {
         return name;
     }
 
+    @RequestMapping(value = "/stadium/delete/{id}", method = RequestMethod.POST)
+    public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriComponentsBuilder,
+                         RedirectAttributes redirectAttributes){
+        StadiumDTO tempStadium = stadiumFacade.findById(id);
+        TrainerDTO tempTrainer = trainerFacade.findTrainerById(tempStadium.getStadiumLeaderId());
+        tempTrainer.setStadium(null);
+
+        stadiumFacade.deleteStadium(tempStadium);
+        redirectAttributes.addFlashAttribute("alert_success", "Stadium was deleted.");
+        return "redirect:"+uriComponentsBuilder.path("/menu/stadium/stadiumList").toUriString();
+    }
+
 
 }
