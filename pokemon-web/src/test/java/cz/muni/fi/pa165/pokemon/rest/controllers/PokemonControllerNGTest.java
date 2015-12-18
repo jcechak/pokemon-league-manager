@@ -21,6 +21,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -45,7 +46,7 @@ public class PokemonControllerNGTest {
     private PokemonFacade pokemonFacade;
 
     @InjectMocks
-    private PokemonController pokemonController;
+    private PokemonRestController pokemonController;
 
     private MockMvc mockMvc;
 
@@ -122,7 +123,7 @@ public class PokemonControllerNGTest {
     }
 
     /**
-     * Test of createPokemon method, of class PokemonController.
+     * Test of createPokemon method, of class PokemonRestController.
      */
     @Test
     public void testCreatePokemon() throws Exception {
@@ -136,9 +137,24 @@ public class PokemonControllerNGTest {
                 .andExpect(content().json(convertObjectToJsonBytes(p1)));
 
     }
+    
+    @Test
+    public void testCreateNonValid() throws Exception {
+        PokemonCreateDTO wrong = new PokemonCreateDTO();
+        
+        // in reality, facade would throw an exception
+        doReturn(1234l).when(pokemonFacade).createPokemon(wrong);
+
+        mockMvc.perform(
+                post("/rest/pokemons/create")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(convertObjectToJsonBytes(wrong)))
+                .andExpect(status().isNotAcceptable())
+                .andExpect(status().reason("Invalid parameters."));
+    }
 
     /**
-     * Test of changeSkill method, of class PokemonController.
+     * Test of changeSkill method, of class PokemonRestController.
      */
     @Test
     public void testChangeSkill() throws Exception {
@@ -158,7 +174,7 @@ public class PokemonControllerNGTest {
     }
 
     /**
-     * Test of changeTrainer method, of class PokemonController.
+     * Test of changeTrainer method, of class PokemonRestController.
      */
     @Test
     public void testChangeTrainer() throws Exception {
@@ -178,7 +194,7 @@ public class PokemonControllerNGTest {
     }
 
     /**
-     * Test of tradePokemons method, of class PokemonController.
+     * Test of tradePokemons method, of class PokemonRestController.
      */
     @Test
     public void testTradePokemons() throws Exception {
@@ -201,7 +217,7 @@ public class PokemonControllerNGTest {
     }
 
     /**
-     * Test of deletePokemon method, of class PokemonController.
+     * Test of deletePokemon method, of class PokemonRestController.
      */
     @Test
     public void testDeletePokemon() throws Exception {
@@ -220,7 +236,7 @@ public class PokemonControllerNGTest {
     }
 
     /**
-     * Test of getAllPokemons method, of class PokemonController.
+     * Test of getAllPokemons method, of class PokemonRestController.
      */
     @Test
     public void testGetAllPokemons() throws Exception {
@@ -231,7 +247,7 @@ public class PokemonControllerNGTest {
     }
 
     /**
-     * Test of getPokemonOfTrainer method, of class PokemonController.
+     * Test of getPokemonOfTrainer method, of class PokemonRestController.
      */
     @Test
     public void testGetPokemonOfTrainer() throws Exception {
@@ -244,7 +260,7 @@ public class PokemonControllerNGTest {
     }
 
     /**
-     * Test of getPokemonWithName method, of class PokemonController.
+     * Test of getPokemonWithName method, of class PokemonRestController.
      */
     @Test
     public void testGetPokemonWithName() throws Exception {
@@ -257,7 +273,7 @@ public class PokemonControllerNGTest {
     }
 
     /**
-     * Test of getPokemonWithType method, of class PokemonController.
+     * Test of getPokemonWithType method, of class PokemonRestController.
      */
     @Test
     public void testGetPokemonWithType() throws Exception {
@@ -270,7 +286,7 @@ public class PokemonControllerNGTest {
     }
 
     /**
-     * Test of getPokemon method, of class PokemonController.
+     * Test of getPokemon method, of class PokemonRestController.
      */
     @Test
     public void testGetPokemon() throws Exception {

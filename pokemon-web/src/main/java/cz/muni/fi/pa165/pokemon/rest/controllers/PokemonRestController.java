@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(path = RestApiUris.POKEMON_URI)
-public class PokemonController {
+public class PokemonRestController {
 
     @Inject
     private PokemonFacade pokemonFacade;
