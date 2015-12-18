@@ -49,11 +49,11 @@
                     <c:set var="stadium" value="${stadiumsMap[badge.id]}"/>
                     <td><c:out value="${stadium.city}"/></td>
                     <td>
-                        <button class="editButton">Edit</button>
                     </td>
                     <td>
                         <form method="post" action="${pageContext.request.contextPath}/menu/badge/delete/${badge.id}">
                             <button type="submit" class="deleteButton">Delete</button>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </form>
                     </td>
                 </tr>
