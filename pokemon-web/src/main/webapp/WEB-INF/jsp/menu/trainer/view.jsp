@@ -83,10 +83,9 @@
                     <td><c:out value="${pokemon.type}"/></td>
                     <td><c:out value="${pokemon.skillLevel}"/></td>
                     <td>
-                        <form method="post" action="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}">
-                            <button type="submit" class="deleteButton">Delete</button>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        </form>
+
+                        <button class="deleteButton"
+                                onclick="location = '${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}'">Delete</button>
                     </td>
                 </tr>
             </c:forEach>
