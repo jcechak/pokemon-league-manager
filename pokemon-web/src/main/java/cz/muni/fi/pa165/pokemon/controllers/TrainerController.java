@@ -22,10 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Controller for trainer administration.
@@ -55,12 +52,39 @@ public class TrainerController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
 
-
+    /**
+     * Attribute 'availableStadiums' contains trainers with stadiums where they can still get badge.
+     * Not sure where the logic of retrieving all stadiums should be.
+     */
     @RequestMapping(value = "/trainer/list")
     public String showList(@ModelAttribute("alert_success") String alertSuccess, Model model) {
         Collection<TrainerDTO> trainerDTOs = trainerFacade.findAllTrainers();
+        Map<Long,Collection<StadiumDTO>> mapTrainerStadiums = new HashMap<>();
+        Collection<StadiumDTO> incorrectStadiumDTOs;
+        for (TrainerDTO t : trainerDTOs) {
+            incorrectStadiumDTOs = new HashSet<>();
+            for (BadgeDTO b : t.getBadges()) {
+                incorrectStadiumDTOs.add(stadiumFacade.findById(b.getStadiumId()));
+            }
+            if (t.getStadium() != null) {
+                incorrectStadiumDTOs.add(t.getStadium());
+            }
+            Collection<StadiumDTO> dtos = stadiumFacade.findAll();
+            dtos.removeAll(incorrectStadiumDTOs);
+            mapTrainerStadiums.put(t.getId(), dtos);
+        }
         model.addAttribute("trainers", trainerDTOs);
+        model.addAttribute("availableStadiums", mapTrainerStadiums);
+        model.addAttribute("badgesCount", badgesCount());
         return "/menu/trainer/list";
+    }
+
+    private Map<Long, Integer> badgesCount() {
+        Map<Long, Integer> map = new HashMap<>();
+        for (TrainerDTO t : trainerFacade.findAllTrainers()) {
+            map.put(t.getId(), t.getBadges().size());
+        }
+        return map;
     }
 
     @RequestMapping(value = "/trainer/new", method = RequestMethod.GET)

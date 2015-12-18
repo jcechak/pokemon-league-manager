@@ -6,6 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html>
@@ -30,7 +31,7 @@
 <table class="CSSTableGenerator">
     <thead>
     <tr>
-        <th colspan="7">Trainer list</th>
+        <th colspan="9">Trainer list</th>
 
         <th>
             <a href="new">
@@ -44,7 +45,7 @@
         <th>Surname</th>
         <th>Date of birth</th>
         <th>Leader of stadium</th>
-        <th></th>
+        <th>Badges count</th>
         <th></th>
         <th></th>
     </tr>
@@ -58,6 +59,19 @@
             <fmt:formatDate value="${trainer.dateOfBirth}" var="formattedDate" type="date" pattern="dd.MM.yyyy" />
             <td><c:out value="${formattedDate}"/></td>
             <td><c:out value="${trainer.stadium.city}"/></td>
+            <td><c:out value="${badgesCount[trainer.id]}"/></td>
+            <td>
+                <c:if test="${!availableStadiums[trainer.id].isEmpty()}">
+
+                    <select id="stadiumId" name="stadiumId" >
+                        <c:forEach items="${availableStadiums[trainer.id]}" var="s">
+                            <option value="${s.id}">${s.city}</option>
+                        </c:forEach>
+                    </select>
+                    <button class="addButton" onclick="location =
+                                '${pageContext.request.contextPath}/menu/badge/new'">Assign badge</button>
+                </c:if>
+            </td>
             <td>
                 <button class="editButton" onclick="location = 'view/${trainer.id}'">View</button>
             </td>
