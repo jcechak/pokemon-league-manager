@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -53,8 +54,21 @@ public class StadiumController {
     }
 
     @RequestMapping(value = "/stadium/stadiumList")
-    public String showList(Model model){
-        Collection<StadiumDTO> stadiumsDTO = stadiumFacade.findAll();
+    public String showList(Model model, HttpServletRequest request){
+        Collection<StadiumDTO> stadiumsDTO = new ArrayList<>();
+        String filter = request.getParameter("filterTrainer");
+        if(filter == null) {
+            stadiumsDTO = stadiumFacade.findAll();
+        }else{
+            Collection<TrainerDTO> leaders = trainerFacade.findAllTrainersWithName(filter);
+            if(leaders.size() == 0){
+                stadiumsDTO = stadiumFacade.findAll();
+            }else{
+                for(TrainerDTO t: leaders) {
+                    stadiumsDTO.add(stadiumFacade.findStadiumByLeader(t));
+                }
+            }
+        }
         stadiumsAndTrainers = new HashMap<>();
         for(StadiumDTO s:stadiumsDTO){
             System.out.println("DEBUG "+s);
@@ -65,6 +79,7 @@ public class StadiumController {
         return "/menu/stadium/stadiumList";
     }
 
+
     @RequestMapping(value = "/stadium/new", method = RequestMethod.GET)
     public String newProduct(Model model){
         Collection<PokemonType> typeList = new ArrayList<>();
@@ -72,18 +87,8 @@ public class StadiumController {
             typeList.add(type);
         }
 
-        /*Collection<TrainerDTO> trainersWithoutStadium = new ArrayList<>();
-        for(StadiumDTO s:stadiums()){
-            for (TrainerDTO t:trainers()){
-                if(!(s.getStadiumLeaderId().equals(t.getId()))){
-                    trainersWithoutStadium.add(t);
-                }
-            }
-        }*/
         Collection<TrainerDTO> trainersWithoutStadium = new ArrayList<>();
         for(TrainerDTO t:trainers()){
-            /*System.out.println("DEBUG trainer: " + t);
-            System.out.println("DEBUG stadium: " + t.getStadium());*/
             if(t.getStadium()==null){
                 trainersWithoutStadium.add(t);
             }
@@ -109,7 +114,7 @@ public class StadiumController {
     @RequestMapping(value = "/stadium/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("newStadium") StadiumDTO formBean,BindingResult bindingResult, Model model,
                          RedirectAttributes redirectAttributes, UriComponentsBuilder uriComponentsBuilder){
-        /*if(bindingResult.hasErrors()) {
+        if(bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
                 System.out.println("ObjectError: {}" + ge);
             }
@@ -118,11 +123,7 @@ public class StadiumController {
                 System.out.println("FieldError: {}" + fe);
             }
             return "/stadium/newStadium";
-            Long id = badgeFacade.assignBadge(formBean);
-            System.out.println("DEBUG " + formBean.getId() + " " + formBean.getStadiumId());
-            redirectAttributes.addFlashAttribute("alert_success", "Product " + id + " was created");
-            return "redirect:" + uriBuilder.path("/menu/badge/view/{id}").buildAndExpand(id).encode().toUriString();
-        }*/
+        }
 
         Long id = stadiumFacade.createStadium(formBean);
         System.out.println("create stadium " + formBean.toString());
@@ -133,7 +134,7 @@ public class StadiumController {
 
     @RequestMapping(value = "/stadium/viewStadium/{id}", method = RequestMethod.GET)
     public String view(@PathVariable long id, Model model){
-        //System.out.println("DEBUG " + id + ' ' + model);
+        System.out.println("DEBUG " + id + ' ' + model);
         model.addAttribute("stadium", stadiumFacade.findById(id));
         return "/menu/stadium/viewStadium";
 
@@ -141,6 +142,7 @@ public class StadiumController {
 
     @RequestMapping(value = "/stadium/editStadium/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable long id, Model model){
+
         Collection<PokemonType> typeList = new ArrayList<>();
         for(PokemonType type : PokemonType.values()){
             typeList.add(type);
@@ -148,8 +150,7 @@ public class StadiumController {
 
         Collection<TrainerDTO> trainersWithoutStadium = new ArrayList<>();
         for(TrainerDTO t:trainers()){
-            /*System.out.println("DEBUG trainer: " + t);
-            System.out.println("DEBUG stadium: " + t.getStadium());*/
+
             if(t.getStadium()==null){
                 trainersWithoutStadium.add(t);
             }
@@ -166,6 +167,18 @@ public class StadiumController {
     @RequestMapping(value = "/stadium/update", method = RequestMethod.POST)
     public String edit(@Valid @ModelAttribute("update") StadiumDTO formBean, BindingResult bindingResult,
                        Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriComponentBuilder){
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                System.out.println("ObjectError: {}" + ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+                System.out.println("FieldError: {}" + fe);
+            }
+            model.addAttribute("stadium", stadiumFacade.findById(formBean.getId()));
+            return "/menu/stadium/editStadium";
+        }
+
         stadiumFacade.updateStadium(formBean);
         System.out.println("update stadium" + formBean.toString());
         redirectAttributes.addFlashAttribute("alert_success", "Stadium was updated successfully.");
@@ -197,6 +210,5 @@ public class StadiumController {
         redirectAttributes.addFlashAttribute("alert_success", "Stadium was deleted.");
         return "redirect:"+uriComponentsBuilder.path("/menu/stadium/stadiumList").toUriString();
     }
-
 
 }

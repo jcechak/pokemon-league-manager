@@ -1,5 +1,12 @@
+<%--
+    Document   : editStadium
+    Created on : 16.12.2015,
+    Author     : Dominika Talianova
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,6 +23,15 @@
 
         <c:set var="stadiums" value="${stadiums}"></c:set>
         <c:set var="trainersMap" value="${trainersMap}"></c:set>
+
+        <div align="center">
+            <form:form method="post" action="${pageContext.request.contextPath}/menu/stadium/stadiumList">
+                        Search by name of the leader:
+                        <input type="text" name="filterTrainer" />
+                        <button type="submit">Filter</button>
+                    </form:form>
+        </div>
+
 
 
         <table class="CSSTableGenerator">
