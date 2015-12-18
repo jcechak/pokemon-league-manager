@@ -18,16 +18,16 @@
         <div class="myDiv" align="center" style='position:absolute'>
         <table style="width:40%; text-align:center">
             <tr>
-                <td style="width:50%">
+                <td style="width:500%">
                     <div>
                         <a href="trainer/list">
-                            <img src="../resources/images/menu/trainers.jpg" alt="trainers" style="max-width:100%; max-height:100%" class="menuImage">
+                            <img src="../resources/images/menu/trainers.jpg" alt="trainers" width="300" height="185" class="menuImage">
                         </a>
                     </div>
                 </td>
-                <td style="width:50%">
+                <td style="width:500%">
                     <a href="badge/badgeList">
-                        <img src="../resources/images/menu/badges.png" alt="badges" style="max-width:100%; max-height:100%">
+                        <img src="../resources/images/menu/badges.png" alt="badges" width="300" height="185">
                     </a>
                 </td>
             </tr>
@@ -36,14 +36,14 @@
                 <td><p>Manage badges</td>
             </tr>
             <tr>
-                <td style="width:50%">
+                <td style="width:500%">
                     <a href="pokemon/list">
-                    <img src="../resources/images/menu/pokemons.jpg" alt="pokemons" style="max-width:100%; max-height:100%">
+                    <img src="../resources/images/menu/pokemons.jpg" alt="pokemons" width="300" height="185">
                     </a>
                 </td>
-                <td style="width:50%">
+                <td style="width:500%">
                     <a href="stadium/stadiumList">
-                        <img src="../resources/images/menu/stadiums.jpg" alt="stadiums" style="max-width:100%; max-height:100%">
+                        <img src="../resources/images/menu/stadiums.jpg" alt="stadiums" width="300" height="185">
                     
                 </td>
             </tr>

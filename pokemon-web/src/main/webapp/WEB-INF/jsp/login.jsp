@@ -41,7 +41,6 @@
                     </td>
                 </tr>
             </table>
-                                <strong style="color:red">PLZ do not open in Firefox</strong>
         </div>
     </body>
 </html>
