@@ -21,6 +21,7 @@ import javax.validation.Valid;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Controller for badge administration.
@@ -44,7 +45,7 @@ public class BadgeController {
     }
     
     @RequestMapping(value = "/badge/badgeList")
-    public String showList(Model model) {
+    public String showList(Model model, HttpServletRequest request) {
         Collection<BadgeDTO> badges = badgeFacade.getAllBadges();
         Map<Long, StadiumDTO> badgesAndStadiums = new HashMap<>();
         for(BadgeDTO b:badges) {
@@ -53,7 +54,19 @@ public class BadgeController {
         }
         model.addAttribute("badges", badges);
         model.addAttribute("stadiumsMap", badgesAndStadiums);
-        return "/menu/badge/badgeList";
+        
+        if(request.isUserInRole("ROLE_ADMIN")) {
+            return "/menu/badge/badgeList";
+        }
+        
+        Map<StadiumDTO, TrainerDTO> stadiumsAndTrainers = new HashMap<>();
+        
+        for(BadgeDTO b: badges) {
+            StadiumDTO stad = stadiumFacade.findById(b.getStadiumId());
+            stadiumsAndTrainers.put(stad, trainerFacade.findTrainerById(stad.getStadiumLeaderId()));
+        }
+        model.addAttribute("stadiumsAndTrainers", stadiumsAndTrainers);
+        return "/menu/badge/userBadgeList";
     }
     
     @RequestMapping(value = "/badge/new", method = RequestMethod.GET)
