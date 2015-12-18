@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,8 +28,8 @@
                         </li>
                     </ul>
                 </li>
-                <li><a href='#'><span>About</span></a></li>
-                <li class='last'><a href='#'><span>Contact</span></a></li>
+                <li><a href='#'><span>Loged as: ${userName}</span></a></li>
+                <li class='last'><a href="<c:url value="/logout" />"><span>Logout</span></a></li>
             </ul>
         </div>
     </body>
