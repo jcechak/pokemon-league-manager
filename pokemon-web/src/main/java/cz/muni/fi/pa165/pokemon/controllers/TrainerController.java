@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.pokemon.controllers;
 
+import cz.muni.fi.pa165.exceptions.PokemonServiceException;
 import cz.muni.fi.pa165.pokemon.dto.BadgeDTO;
 import cz.muni.fi.pa165.pokemon.dto.PokemonDTO;
 import cz.muni.fi.pa165.pokemon.dto.StadiumDTO;
@@ -9,6 +10,9 @@ import cz.muni.fi.pa165.pokemon.facade.PokemonFacade;
 import cz.muni.fi.pa165.pokemon.facade.StadiumFacade;
 import cz.muni.fi.pa165.pokemon.facade.TrainerFacade;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -116,6 +120,7 @@ public class TrainerController {
                 model.addAttribute(fe.getField() + "_error", true);
                 System.out.println("FieldError: {}" + fe);
             }
+            redirectAttributes.addFlashAttribute("alert_error", "Trainer was not created.");
             return "/menu/trainer/new";
         }
         trainerFacade.createTrainer(formBean);
@@ -160,21 +165,46 @@ public class TrainerController {
                 System.out.println("FieldError: {}" + fe);
             }
             model.addAttribute("trainer", trainerFacade.findTrainerById(formBean.getId()));
-            return "/menu/trainer/edit";
+            redirectAttributes.addFlashAttribute("alert_error", "There was a problem with updating trainer.");
+            return "redirect:/menu/trainer/edit/" + formBean.getId();
         }
-        trainerFacade.updateTrainer(formBean);
-        System.out.println("update trainer " + formBean.toString());
+        try {
+            trainerFacade.updateTrainer(formBean);
+        } catch (PokemonServiceException | DataIntegrityViolationException | IllegalArgumentException ex) {
+            redirectAttributes.addFlashAttribute("alert_error", "There was a problem with updating trainer: " + ex.getMessage());
+            return "redirect:/menu/trainer/edit";
+        }
+        System.out.println("trainer updated " + formBean.toString());
         redirectAttributes.addFlashAttribute("alert_success", "Trainer was updated successfully.");
+
         return "redirect:" + uriBuilder.path("/menu/trainer/list").toUriString();
     }
-
 
     @RequestMapping(value = "/trainer/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         TrainerDTO trainerDTO = trainerFacade.findTrainerById(id);
-        trainerFacade.deleteTrainer(trainerDTO);
+        try {
+            Collection<PokemonDTO> pokemons = pokemonFacade.getAllPokemonsOfTrainerWithId(id);
+            for (PokemonDTO pokemonDTO : pokemons) {
+                pokemonFacade.deletePokemon(pokemonDTO.getId());
+            }
+            Collection<BadgeDTO> badges = badgeFacade.getBadgesWithTrainer(trainerDTO);
+            for(BadgeDTO b : badges) {
+                    badgeFacade.removeBadge(b);
+            }
+            trainerFacade.deleteTrainer(trainerDTO);
+        } catch (PokemonServiceException | DataIntegrityViolationException | IllegalArgumentException ex) {
+            redirectAttributes.addFlashAttribute("alert_error", "Trainer not deleted: " + ex.getMessage());
+            return "redirect:/menu/trainer/list";
+        }
         redirectAttributes.addFlashAttribute("alert_success", "Trainer was deleted successfully.");
         return "redirect:" + uriBuilder.path("/menu/trainer/list").toUriString();
+    }
+
+    @ModelAttribute("userName")
+    public String userName() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
     }
 
 }

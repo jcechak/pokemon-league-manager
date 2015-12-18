@@ -19,6 +19,9 @@
 <body>
 <jsp:include page="../../navigator.jsp"/>
 <h1>Edit trainer</h1>
+<div id="status_message" style="color:green">${alert_success}</div>
+<div id="status_message" style="color:red">${alert_error}</div>
+
 <form:form method="post" action="${pageContext.request.contextPath}/menu/trainer/update"
            modelAttribute="trainer">
     <form:hidden path="id" value="${trainer.id}"/>

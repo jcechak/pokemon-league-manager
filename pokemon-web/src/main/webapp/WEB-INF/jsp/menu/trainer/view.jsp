@@ -21,9 +21,8 @@
 <br>
 <h1>Trainer detail</h1>
 <c:set var="stadiumsMap" value="${stadiumsMap}"/>
-<c:if test="${alert_success != null}">
-    <div id="status_message" style="color:green">${alert_success}</div>
-</c:if>
+<div id="status_message" style="color:green">${alert_success}</div>
+<div id="status_message" style="color:red">${alert_error}</div>
 <table class="CSSTableGenerator">
     <thead>
     <tr>
@@ -32,6 +31,7 @@
         <th>
             <form method="post" action="${pageContext.request.contextPath}/menu/trainer/delete/${trainer.id}">
                 <button type="submit" class="deleteButton">Delete</button>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
         </th>
     </tr>
@@ -83,9 +83,9 @@
                     <td><c:out value="${pokemon.type}"/></td>
                     <td><c:out value="${pokemon.skillLevel}"/></td>
                     <td>
-                        <form method="post" action="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}">
-                            <button type="submit" class="deleteButton">Delete</button>
-                        </form>
+
+                        <button class="deleteButton"
+                                onclick="location = '${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}'">Delete</button>
                     </td>
                 </tr>
             </c:forEach>
@@ -121,6 +121,7 @@
                     <td>
                         <form method="post" action="${pageContext.request.contextPath}/menu/badge/delete/${badge.id}">
                             <button type="submit" class="deleteButton">Delete</button>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </form>
                     </td>
                 </tr>
