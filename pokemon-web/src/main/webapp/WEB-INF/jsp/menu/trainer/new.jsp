@@ -13,30 +13,20 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Add Trainer</title>
+        <link rel="stylesheet" type="text/css" href="/pa165/resources/css/TableCSSCode.css" />
         <link rel="shortcut icon" href="/pa165/resources/images/favicon.ico" type="image/x-icon">
         <link rel="stylesheet" type="text/css" href="/pa165/resources/css/site.css" />
-        <title>jQuery UI Datepicker - Default functionality</title>
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        <link rel="stylesheet" href="/resources/demos/style.css">
-        <script type="text/javascript">
-            $(function() {
-                $("#birthpicker" ).datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    yearRange: '1920:2015',
-                    dateFormat : 'dd.mm.yy',
-                    defaultDate: new Date(1993, 11, 9)
-                });
-            });
-        </script>
     </head>
     <body>
     <jsp:include page="../../navigator.jsp"/>
     <h1>Create new trainer</h1>
+
+    <div id="status_message" style="color:green">${alert_success}</div>
+    <div id="status_message" style="color:red">${alert_error}</div>
+
     <form:form method="post" action="${pageContext.request.contextPath}/menu/trainer/create"
                modelAttribute="new">
+
         <div class="form-group ${name_error?'has-error':''}">
             <form:label path="name">Name</form:label>
             <div class="col-sm-10">

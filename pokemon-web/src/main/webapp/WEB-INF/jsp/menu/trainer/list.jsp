@@ -22,9 +22,8 @@
 <br>
 <h1>Trainers</h1>
 
-<c:if test="${alert_success != null}">
-    <div id="status_message" style="color:green">${alert_success}</div>
-</c:if>
+<div id="status_message" style="color:green">${alert_success}</div>
+<div id="status_message" style="color:red">${alert_error}</div>
 
 <c:set var="trainers" value="${trainers}"/>
 
@@ -69,7 +68,7 @@
                         </c:forEach>
                     </select>
                     <button class="addButton" onclick="location =
-                                '${pageContext.request.contextPath}/menu/badge/new'">Assign badge</button>
+                            '${pageContext.request.contextPath}/menu/badge/new'">Assign badge</button>
                 </c:if>
             </td>
             <td>
@@ -81,6 +80,7 @@
             <td>
                 <form method="post" action="${pageContext.request.contextPath}/menu/trainer/delete/${trainer.id}">
                     <button type="submit" class="deleteButton">Delete</button>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </form>
             </td>
         </tr>
