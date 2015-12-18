@@ -8,6 +8,8 @@ import cz.muni.fi.pa165.pokemon.facade.TrainerFacade;
 import java.util.Collection;
 import javax.inject.Inject;
 import javax.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -60,6 +62,11 @@ public class PokemonController {
         return new PokemonCreateDTO();
     }
 
+    @ModelAttribute("authenticatedUser")
+    public Authentication authenticatedUser() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
     @RequestMapping(value = WebApiUris.POKEMON_URI, method = RequestMethod.GET)
     public String defaultPage() {
         return "redirect:" + LIST_URI;
@@ -94,7 +101,7 @@ public class PokemonController {
             model.addAttribute("alert_danger", "Unable to create pokemon. There has been an error in the system.");
             return NEW_FORM_URI;
         }
-        
+
         redirectAttributes.addFlashAttribute("alert_success", "Pokemon has been successfully created.");
         return "redirect:" + VIEW_URI + "/{id}";
     }
@@ -213,13 +220,13 @@ public class PokemonController {
             redirectAttributes.addFlashAttribute("alert_danger", "Unable to trade pokemons. The given pokemon is invalid.");
             return "redirect:" + VIEW_URI + "/{id1}";
         }
-        
+
         if (id1.equals(id2)) {
             System.err.println("same ids");
             redirectAttributes.addFlashAttribute("alert_danger", "Unable to trade pokemons. The given pokemons are the same.");
             return "redirect:" + VIEW_URI + "/{id1}";
         }
-  
+
         try {
             pokemonFacade.tradePokemon(id1, id2);
         } catch (Exception ex) {
@@ -320,7 +327,6 @@ public class PokemonController {
             @ModelAttribute("pokemonWrapper") PokemonCreateDTO pokemonWrapper,
             Model model,
             RedirectAttributes redirectAttributes
-            
     ) {
         if (pokemonWrapper == null || pokemonWrapper.getType() == null) {
             System.err.println("type is null");

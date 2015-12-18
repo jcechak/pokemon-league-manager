@@ -8,6 +8,7 @@
 <%@taglib tagdir="/WEB-INF/tags" prefix="tpl"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <tpl:template title="Pokemon">
     <jsp:attribute name="body">
@@ -53,42 +54,45 @@
                     </a>
                 </div>
             </div>
+                        
+            <!-- Only admin can manipulate with data -->
+            <sec:authorize access="hasRole('ADMIN')">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Operations with pokemon</div>
+                    <div class="panel-body">
+                        <div class="row text-center">
+                            <div class="col-sm-3">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeSkill">
+                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"/>
+                                    Change skill
+                                </button>
+                            </div>
+                            <div class="col-sm-3">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeTrainer">
+                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"/>
+                                    Change trainer
+                                </button>
+                            </div>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">Operations with pokemon</div>
-                <div class="panel-body">
-                    <div class="row text-center">
-                        <div class="col-sm-3">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeSkill">
-                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"/>
-                                Change skill
-                            </button>
-                        </div>
-                        <div class="col-sm-3">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeTrainer">
-                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"/>
-                                Change trainer
-                            </button>
-                        </div>
+                            <div class="col-sm-3">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#trade">
+                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"/>
+                                    Trade pokemon
+                                </button>
+                            </div>
 
-                        <div class="col-sm-3">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#trade">
-                                <span class="glyphicon glyphicon-refresh" aria-hidden="true"/>
-                                Trade pokemon
-                            </button>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <form method="get" action="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}">
-                                <a href="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}" class="btn btn-primary btn-danger">
-                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                    Remove pokemon
-                                </a>
-                            </form>
+                            <div class="col-sm-3">
+                                <form method="get" action="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}">
+                                    <a href="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}" class="btn btn-primary btn-danger">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                        Remove pokemon
+                                    </a>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </sec:authorize>
 
         </div>
 

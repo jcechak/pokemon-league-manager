@@ -8,17 +8,22 @@
 <%@taglib tagdir="/WEB-INF/tags" prefix="tpl"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <tpl:template title="Pokemons">
     <jsp:attribute name="body">
 
         <div class="row">
-            <div class="col-lg-2">
-                <a href="${pageContext.request.contextPath}/menu/pokemon/newform" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    New pokemon
-                </a>
-            </div>
+            <!-- Only admin can manipulate with data -->
+            <sec:authorize access="hasRole('ADMIN')">
+                <div class="col-lg-2">
+                    <a href="${pageContext.request.contextPath}/menu/pokemon/newform" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        New pokemon
+                    </a>
+                </div>
+            </sec:authorize>
+
             <div class="col-lg-5">
                 <div class="input-group">
                     <form:form method="post" action="${pageContext.request.contextPath}/menu/pokemon/withtype" modelAttribute="pokemonWrapper">
@@ -91,14 +96,18 @@
                             </a>
                         </td>
                         <td>
-                            <form method="get" action="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}">
-                                  <a href="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}" class="btn btn-primary btn-danger">
-                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                    Remove pokemon
-                                </a>
-                            </form>
+                            <!-- Only admin can manipulate with data -->
+                            <sec:authorize access="hasRole('ADMIN')">
+                                <form method="get" action="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}">
+                                    <a href="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}" class="btn btn-primary btn-danger">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                        Remove pokemon
+                                    </a>
+                                </form>
+                            </sec:authorize>
                         </td>
-                    </c:forEach>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
 

@@ -30,7 +30,7 @@
         <nav class="navbar navbar-inverse navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -69,7 +69,11 @@
                                 <li><a href="${pageContext.request.contextPath}/menu/stadium/new">Add new stadium</a></li>
                             </ul>
                         </li>
-                    </ul>                
+                    </ul>     
+                    <div class="navbar-right">
+                        <p class="navbar-text">Logged in as <c:out value="${authenticatedUser.getName()}"/></p>
+                        <a href="${pageContext.request.contextPath}/logout" class="btn btn-danger navbar-btn">Log out</a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -82,22 +86,6 @@
                     <h1><c:out value="${title}"/></h1>
                 </div>
             </c:if>
-
-            <!-- authenticated user info -->
-            <!--
-            <c:if test="${not empty authenticatedUser}">
-                <div class="row">
-                    <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10"></div>
-                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                <c:out value="${authenticatedUser.givenName} ${authenticatedUser.surname}"/>
-            </div>
-        </div>
-    </div>
-</div>
-            </c:if>
-            -->
 
             <!-- alerts -->
             <c:if test="${not empty alert_danger}">
