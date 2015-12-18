@@ -7,6 +7,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -33,9 +34,11 @@
         <th colspan="9">Trainer list</th>
 
         <th>
-            <a href="new">
-                <button class="addButton">Add Trainer</button>
-            </a>
+            <sec:authorize access="hasRole('ADMIN')">
+                <a href="new">
+                    <button class="addButton">Add Trainer</button>
+                </a>
+            </sec:authorize>
         </th>
     </tr>
     <tr>
@@ -59,30 +62,32 @@
             <td><c:out value="${formattedDate}"/></td>
             <td><c:out value="${trainer.stadium.city}"/></td>
             <td><c:out value="${badgesCount[trainer.id]}"/></td>
-            <td>
-                <c:if test="${!availableStadiums[trainer.id].isEmpty()}">
+            <sec:authorize access="hasRole('ADMIN')">
+                <td>
+                    <c:if test="${!availableStadiums[trainer.id].isEmpty()}">
 
-                    <select id="stadiumId" name="stadiumId" >
-                        <c:forEach items="${availableStadiums[trainer.id]}" var="s">
-                            <option value="${s.id}">${s.city}</option>
-                        </c:forEach>
-                    </select>
-                    <button class="addButton" onclick="location =
-                            '${pageContext.request.contextPath}/menu/badge/new'">Assign badge</button>
-                </c:if>
-            </td>
-            <td>
-                <button class="editButton" onclick="location = 'view/${trainer.id}'">View</button>
-            </td>
-            <td>
-                <button class="editButton" onclick="location = 'edit/${trainer.id}'">Edit</button>
-            </td>
-            <td>
-                <form method="post" action="${pageContext.request.contextPath}/menu/trainer/delete/${trainer.id}">
-                    <button type="submit" class="deleteButton">Delete</button>
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                </form>
-            </td>
+                        <select id="stadiumId" name="stadiumId" >
+                            <c:forEach items="${availableStadiums[trainer.id]}" var="s">
+                                <option value="${s.id}">${s.city}</option>
+                            </c:forEach>
+                        </select>
+                        <button class="addButton" onclick="location =
+                                '${pageContext.request.contextPath}/menu/badge/new'">Assign badge</button>
+                    </c:if>
+                </td>
+                <td>
+                    <button class="editButton" onclick="location = 'view/${trainer.id}'">View</button>
+                </td>
+                <td>
+                    <button class="editButton" onclick="location = 'edit/${trainer.id}'">Edit</button>
+                </td>
+                <td>
+                    <form method="post" action="${pageContext.request.contextPath}/menu/trainer/delete/${trainer.id}">
+                        <button type="submit" class="deleteButton">Delete</button>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                </td>
+            </sec:authorize>
         </tr>
     </c:forEach>
     </tbody>

@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.pokemon.security;
 
 import cz.muni.fi.pa165.pokemon.controllers.PokemonController;
-import cz.muni.fi.pa165.pokemon.controllers.WebApiUris;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,8 +35,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PokemonController.DELETE_URI + "/**",
                         PokemonController.CHANGE_SKILL_URI + "/**",
                         PokemonController.CHANGE_TRAINER_URI + "/**",
-                        PokemonController.CREATE_URI + "/**", 
-                        PokemonController.TRADE_URI+ "/**").hasRole("ADMIN") // only admin can change pokemons
+                        PokemonController.CREATE_URI + "/**",
+                        PokemonController.TRADE_URI + "/**").hasRole("ADMIN") // only admin can change pokemons
+                .antMatchers("/menu/trainer/delete/**",
+                        "/menu/trainer/edit/**",
+                        "/menu/trainer/update/**",
+                        "/menu/trainer/new/**",
+                        "/menu/trainer/create/**").hasRole("ADMIN") // only admin can change trainers
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

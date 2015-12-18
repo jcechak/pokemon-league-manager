@@ -64,7 +64,7 @@
             <tr>
                 <th colspan="4">Owned pokemons</th>
                 <th>
-                    <button class="addButton" onclick="location = '${pageContext.request.contextPath}/menu/pokemon/new'">Add pokemon</button>
+                    <button class="addButton" onclick="location = '${pageContext.request.contextPath}/menu/pokemon/newform'">Add pokemon</button>
                 </th>
             </tr>
             <tr>
