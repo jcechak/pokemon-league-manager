@@ -62,13 +62,17 @@
         <table class="table">
             <thead>
             <tr>
-                <th colspan="5">Owned pokemons</th>
+                <th colspan="4">Owned pokemons</th>
+                <th>
+                    <button class="addButton" onclick="location = '${pageContext.request.contextPath}/menu/pokemon/new'">Add pokemon</button>
+                </th>
             </tr>
             <tr>
                 <th>Name</th>
                 <th>Nickname</th>
                 <th>Type</th>
                 <th>Skill level</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -78,7 +82,11 @@
                     <td><c:out value="${pokemon.nickname}"/></td>
                     <td><c:out value="${pokemon.type}"/></td>
                     <td><c:out value="${pokemon.skillLevel}"/></td>
-                    <td></td>
+                    <td>
+                        <form method="post" action="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}">
+                            <button type="submit" class="deleteButton">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -91,12 +99,16 @@
         <table class="table">
             <thead>
             <tr>
-                <th colspan="4">Awarded badges at stadiums</th>
+                <th colspan="3">Awarded badges at stadiums</th>
+                <th>
+                    <button class="addButton" onclick="location = '${pageContext.request.contextPath}/menu/badge/new'">Add Badge</button>
+                </th>
             </tr>
             <tr>
                 <th>Stadium ID</th>
                 <th>Stadium city</th>
                 <th>Stadium type</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -106,7 +118,11 @@
                     <c:set var="stadium" value="${stadiumsMap[badge.id]}"/>
                     <td><c:out value="${stadium.city}"/></td>
                     <td><c:out value="${stadium.type}"/></td>
-                    <td></td>
+                    <td>
+                        <form method="post" action="${pageContext.request.contextPath}/menu/badge/delete/${badge.id}">
+                            <button type="submit" class="deleteButton">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

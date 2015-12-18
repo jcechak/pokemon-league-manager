@@ -78,7 +78,7 @@ public class BadgeController {
                          Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         Long id = badgeFacade.assignBadge(formBean);
         System.out.println("DEBUG " + formBean.getId() + " " + formBean.getStadiumId());
-        redirectAttributes.addFlashAttribute("alert_success", "Product " + id + " was created");
+        redirectAttributes.addFlashAttribute("alert_success", "Badge " + id + " was created");
         return "redirect:" + uriBuilder.path("/menu/badge/view/{id}").buildAndExpand(id).encode().toUriString();
     }
     

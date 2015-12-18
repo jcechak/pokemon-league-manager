@@ -22,7 +22,7 @@
         <form:form method="post" action="${pageContext.request.contextPath}/menu/badge/create"
                    modelAttribute="newBadge">
             <div>
-                <form:label path="stadiumId" >Stadium</form:label>
+                <label>Stadium</label>
                     <div>
                     <form:select path="stadiumId">
                         <c:forEach items="${stadiums}" var="s">
@@ -33,7 +33,7 @@
             </div>
 
             <div>
-                <form:label path="trainerId" >Trainer</form:label>
+                <label>Trainer</label>
                     <div>
                     <form:select path="trainerId">
                         <c:forEach items="${trainers}" var="t">
