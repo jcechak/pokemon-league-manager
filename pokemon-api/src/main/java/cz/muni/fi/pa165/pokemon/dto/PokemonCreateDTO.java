@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import java.util.Objects;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Data transfer object used for holding data from form or something similar.
@@ -16,12 +17,14 @@ public class PokemonCreateDTO {
      * Name of a pokemon (e.g. Pikachu)
      */
     @NotNull
+    @NotEmpty
     private String name;
 
     /**
      * Nickname of a pokemon (e.g. Karel)
      */
     @NotNull
+    @NotEmpty
     private String nickname;
 
     /**
