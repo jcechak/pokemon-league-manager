@@ -42,7 +42,7 @@
         </thead>
         <tbody>
                 <tr>
-                    <td><c:out value=""/></td>
+                    <td><c:out value="${badge.id}"/></td>
                     <td><c:out value="${stadium.id}"/></td>
                     <td><c:out value="${stadium.city}"/></td>
                     <td></td>
