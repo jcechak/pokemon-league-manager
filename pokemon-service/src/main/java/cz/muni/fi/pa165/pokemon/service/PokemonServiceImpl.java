@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,7 +31,6 @@ public class PokemonServiceImpl implements PokemonService {
             throw new IllegalArgumentException("Pokemon cannot be null.");
         }
         pokemonDao.create(pokemon);
-        trainerService.addPokemon(pokemon.getTrainer(), pokemon);
         return pokemon.getId();
     }
 
@@ -65,12 +65,11 @@ public class PokemonServiceImpl implements PokemonService {
         Trainer oldTrainer = pokemon.getTrainer();
 
         oldTrainer.removePokemon(pokemon);
-        trainerService.updateTrainer(oldTrainer);
-
         newTrainer.addPokemon(pokemon);
-        trainerService.updateTrainer(newTrainer);
-
         pokemon.setTrainer(newTrainer);
+
+        trainerService.updateTrainer(newTrainer);
+        trainerService.updateTrainer(oldTrainer);
         pokemonDao.update(pokemon);
     }
 
@@ -84,8 +83,8 @@ public class PokemonServiceImpl implements PokemonService {
 
         trainer1.removePokemon(pokemon1);
         trainer2.removePokemon(pokemon2);
-        
-        trainer1.addPokemon(pokemon2);        
+
+        trainer1.addPokemon(pokemon2);
         trainer2.addPokemon(pokemon1);
 
         pokemon1.setTrainer(trainer2);
@@ -133,10 +132,12 @@ public class PokemonServiceImpl implements PokemonService {
             throw new IllegalArgumentException("Name cannot be null.");
         }
         List<Pokemon> all = this.getAllPokemons();
-        all.stream().filter((p) -> (!p.getName().equals(name))).forEach((p) -> {
-            all.remove(p);
+        List<Pokemon> keep = new LinkedList<>();
+
+        all.stream().filter((p) -> (p.getName().equals(name))).forEach((p) -> {
+            keep.add(p);
         });
-        return Collections.unmodifiableList(all);
+        return Collections.unmodifiableList(keep);
     }
 
     @Override
@@ -145,9 +146,11 @@ public class PokemonServiceImpl implements PokemonService {
             throw new IllegalArgumentException("Type cannot be null.");
         }
         List<Pokemon> all = this.getAllPokemons();
-        all.stream().filter((p) -> (!p.getType().equals(type))).forEach((p) -> {
-            all.remove(p);
+        List<Pokemon> keep = new LinkedList<>();
+
+        all.stream().filter((p) -> (p.getType().equals(type))).forEach((p) -> {
+            keep.add(p);
         });
-        return Collections.unmodifiableList(all);
+        return Collections.unmodifiableList(keep);
     }
 }
