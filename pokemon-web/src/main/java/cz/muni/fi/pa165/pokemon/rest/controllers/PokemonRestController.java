@@ -32,6 +32,16 @@ public class PokemonRestController {
     @Inject
     private PokemonFacade pokemonFacade;
 
+    /**
+     * Creates a new pokemon with the given fields. USAGE: ./rest_tester.sh
+     * http://localhost:8080/pa165/rest/pokemons/create -H "Content-Type:
+     * application/json" --data
+     * '{"name":"SomeName","nickname":"SomeNick","type":"BUG","skillLevel":"5","trainerId":"2"}'
+     *
+     * @param pokemon pokemon to be created
+     * @param bindingResult binding result of validation
+     * @return newly created pokemon with id
+     */
     @RequestMapping(
             value = "/create",
             method = RequestMethod.POST,
@@ -50,6 +60,15 @@ public class PokemonRestController {
         }
     }
 
+    /**
+     * Changes skill of a pokmeon. USAGE: ./rest_tester.sh
+     * http://localhost:8080/pa165/rest/pokemons/changeskill/2 -H "Content-Type:
+     * application/json" --data '20'
+     *
+     * @param id id of pokemon that will be changed
+     * @param newSkill new skill of pokemon
+     * @return pokemon with the changed skill
+     */
     @RequestMapping(
             value = "/changeskill/{id}",
             method = RequestMethod.POST,
@@ -65,6 +84,15 @@ public class PokemonRestController {
         }
     }
 
+    /**
+     * Changes trainer of the given pokemon. USAGE: ./rest_tester.sh
+     * http://localhost:8080/pa165/rest/pokemons/changetrainer/2 -H
+     * "Content-Type: application/json" --data '3'
+     *
+     * @param id id of pokemon that will be changed
+     * @param newTrainerId id of the new trainer
+     * @return pokemon with the changed trainer
+     */
     @RequestMapping(
             value = "/changetrainer/{id}",
             method = RequestMethod.POST,
@@ -80,6 +108,13 @@ public class PokemonRestController {
         }
     }
 
+    /**
+     * Trades the two given pokemons. USAGE: ./rest_tester.sh
+     * http://localhost:8080/pa165/rest/pokemons/trade -H "Content-Type:
+     * application/json" --data '[2,3]'
+     *
+     * @param pokemonsIds list of two pokemon ids to be traded.
+     */
     @RequestMapping(
             value = "/trade",
             method = RequestMethod.POST,
@@ -90,6 +125,12 @@ public class PokemonRestController {
         pokemonFacade.tradePokemon(pokemonsIds.get(0), pokemonsIds.get(1));
     }
 
+    /**
+     * Deletes the pokemon with given id. USAGE: ./rest_tester.sh -X DELETE
+     * http://localhost:8080/pa165/rest/pokemons/1
+     *
+     * @param id id of pokemon to be deleted
+     */
     @RequestMapping(
             value = "/{id}",
             method = RequestMethod.DELETE
@@ -102,6 +143,13 @@ public class PokemonRestController {
         }
     }
 
+    /**
+     * Returns pokemon with given id. USAGE: ./rest_tester.sh
+     * http://localhost:8080/pa165/rest/pokemons/1
+     *
+     * @param id id of pokemon
+     * @return pokemon with given id
+     */
     @RequestMapping(
             value = "/{id}",
             method = RequestMethod.GET,
@@ -109,16 +157,20 @@ public class PokemonRestController {
     )
     public PokemonDTO getPokemon(@PathVariable("id") Long id) {
         try {
-            return pokemonFacade.getPokemonById(id);
+            PokemonDTO found = pokemonFacade.getPokemonById(id);
+            if (found == null) {
+                throw new ResourceNotFound();
+            }
+            return found;
         } catch (Exception ex) {
             throw new ResourceNotFound();
         }
     }
 
     /**
-     * Gets all pokemons in the system.
-     * curl -i -X GET http://localhost:8080/pa165/rest/pokemons
-     * 
+     * Gets all pokemons in the system. USAGE: ./rest_tester.sh
+     * http://localhost:8080/pa165/rest/pokemons
+     *
      * @return all pokemons in the system
      */
     @RequestMapping(
@@ -134,6 +186,14 @@ public class PokemonRestController {
         }
     }
 
+    /**
+     * Gets pokemons with the given trainer. USAGE: ./rest_tester.sh
+     * http://localhost:8080/pa165/rest/pokemons/withtrainer -H "Content-Type:
+     * application/json" --data '3'
+     *
+     * @param trainerId id of a trainer
+     * @return pokemons that are traind by given trainer
+     */
     @RequestMapping(
             value = "/withtrainer",
             method = RequestMethod.POST,
@@ -148,6 +208,14 @@ public class PokemonRestController {
         }
     }
 
+    /**
+     * Gets pokemons with the given name. USAGE: ./rest_tester.sh
+     * http://localhost:8080/pa165/rest/pokemons/withtype -H "Content-Type:
+     * application/json" --data 'Onix'
+     *
+     * @param name name of the pokemons
+     * @return collection of pokemons with the given name
+     */
     @RequestMapping(
             value = "/withname",
             method = RequestMethod.POST,
@@ -162,6 +230,15 @@ public class PokemonRestController {
         }
     }
 
+    /**
+     * Gets pokemons with the given type. USAGE: ./rest_tester.sh
+     * http://localhost:8080/pa165/rest/pokemons/withtype -H "Content-Type:
+     * application/json" --data '"ROCK"'
+     *
+     * @param type type of the returned pokemon(s)
+     * @return collection of pokemons with given type. Might be empty but never
+     * null.
+     */
     @RequestMapping(
             value = "/withtype",
             method = RequestMethod.POST,

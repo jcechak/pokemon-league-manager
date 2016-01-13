@@ -1,6 +1,21 @@
 # Pokémon league manager
 This repository stores project data for a course PA165 taught at Faculty of Informatics, Masaryk University.
 
+## Running the web application
+To run the web application simply execute following command.
+
+        $ mvn clean install && cd pokemon-web && mvn tomcat7:run
+
+This will result in deployment of web application that is accessible at http://localhost:8080/pa165/. The application requires visitor to log in. There are two users predefined.
+
+1. username "admin" password "admin"
+2. username "user" password "user"
+
+They **do** differ in privileges and "user" **cannot** perform all of the action available in the web interface.
+
+## REST API
+The application also provides REST API for pokemon management. Deploy the application with the same command as stated above. Then you can make queries for pokemons and also change them. Because the same security rules do apply to REST API, there is a shell script located in the project's main directory to make life easier. The script really only logs in as admin and obtains CSRF token for post/delete requests. Sample command can be found in javadoc of rest controller class.
+
 ## Getting started
 
 The entire project is written in Java; therefore, you need a working Java. The project uses Maven for maintaining all the dependencies and doing the hard work during the compilations. If you have both tools up and running, you can clone this repository using the following command and start contributing.

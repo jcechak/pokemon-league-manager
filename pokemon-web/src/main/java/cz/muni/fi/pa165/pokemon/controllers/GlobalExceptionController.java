@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.pokemon.controllers;
 
 import cz.muni.fi.pa165.exceptions.PokemonServiceException;
+import cz.muni.fi.pa165.pokemon.rest.exceptions.InvalidParameterException;
+import cz.muni.fi.pa165.pokemon.rest.exceptions.ResourceNotFound;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,7 +28,7 @@ public class GlobalExceptionController {
 
     @ExceptionHandler({PokemonServiceException.class, ConstraintViolationException.class, NullPointerException.class,
     IllegalArgumentException.class, NonTransientDataAccessResourceException.class, DataIntegrityViolationException.class,
-            InvalidDataAccessApiUsageException.class})
+            InvalidDataAccessApiUsageException.class, ResourceNotFound.class, InvalidParameterException.class})
     public ModelAndView handleCustomException(Exception ex) throws Exception {
         // If the exception is annotated with @ResponseStatus rethrow it and let the framework handle it -
         // like the OrderNotFoundException example at the start of this post.

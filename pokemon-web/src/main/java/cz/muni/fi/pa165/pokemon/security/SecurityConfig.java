@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         PokemonController.CHANGE_TRAINER_URI + "/**",
                         PokemonController.CREATE_URI + "/**",
                         PokemonController.TRADE_URI + "/**").hasRole("ADMIN") // only admin can change pokemons
-                .antMatchers("/rest/**").permitAll() // open rest api for everyone
+                .antMatchers("/rest/**").hasRole("ADMIN") // allow only admin to use rest api
                 .antMatchers("/menu/trainer/delete/**",
                         "/menu/trainer/edit/**",
                         "/menu/trainer/update/**",
