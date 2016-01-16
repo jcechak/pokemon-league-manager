@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 /**
  *
@@ -53,6 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessUrl("/logout")
                 .invalidateHttpSession(true);
+        http
+                // Sets character encoding to POST parameters for correct conversion. This must be done as the first thing (before any security filters kick in) otherwise it has no effect at all.
+                .addFilterBefore(new CharacterEncodingFilter("UTF-8"), ChannelProcessingFilter.class);
     }
 
     @Bean

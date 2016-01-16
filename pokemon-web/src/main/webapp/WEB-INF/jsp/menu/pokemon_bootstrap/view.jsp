@@ -82,12 +82,12 @@
                             </div>
 
                             <div class="col-sm-3">
-                                <form:form method="post" action="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}">
-                                    <button class="btn btn-primary btn-danger">
+                                <form method="get" action="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}">
+                                    <a href="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}" class="btn btn-primary btn-danger">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         Remove pokemon
-                                    </button>
-                                </form:form>
+                                    </a>
+                                </form>
                             </div>
                         </div>
                     </div>

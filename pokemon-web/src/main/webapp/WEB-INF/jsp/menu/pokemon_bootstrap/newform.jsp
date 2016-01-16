@@ -4,7 +4,7 @@
     Author     : Jaroslav Cechak
 --%>
 
-<%@page contentType="text/html;charset=UTF-8" pageEncoding="utf-8"%>
+<%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib tagdir="/WEB-INF/tags" prefix="tpl"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -13,7 +13,7 @@
     <jsp:attribute name="body">
 
         <form:form method="post" action="${pageContext.request.contextPath}/menu/pokemon/create"
-                   modelAttribute="pokemonWrapper" cssClass="form-horizontal" acceptCharset="UTF-8">
+                   modelAttribute="pokemonWrapper" cssClass="form-horizontal">
             <div class="form-group">
                 <form:label path="trainerId" cssClass="col-sm-2 control-label">Trainer</form:label>
                     <div class="col-sm-10">

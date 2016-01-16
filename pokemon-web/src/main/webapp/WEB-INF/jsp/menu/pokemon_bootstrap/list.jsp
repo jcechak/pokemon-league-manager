@@ -57,6 +57,12 @@
             </div>
         </div>
 
+
+        <div class="container">
+
+        </div>
+
+
         <table class="table">
             <thead>
                 <tr>
@@ -92,12 +98,12 @@
                         <td>
                             <!-- Only admin can manipulate with data -->
                             <sec:authorize access="hasRole('ADMIN')">
-                                <form:form method="post" action="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}">
-                                    <button class="btn btn-primary btn-danger">
+                                <form method="get" action="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}">
+                                    <a href="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}" class="btn btn-primary btn-danger">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         Remove pokemon
-                                    </button>
-                                </form:form>
+                                    </a>
+                                </form>
                             </sec:authorize>
                         </td>
                     </tr>

@@ -79,7 +79,6 @@ public class PokemonController {
             Model model,
             RedirectAttributes redirectAttributes
     ) {
-
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
                 System.err.println("ObjectError: " + ge);
@@ -102,7 +101,7 @@ public class PokemonController {
             return NEW_FORM_URI;
         }
 
-        redirectAttributes.addFlashAttribute("alert_success", "Pokemon has been successfully created.");        
+        redirectAttributes.addFlashAttribute("alert_success", "Pokemon has been successfully created.");
         return "redirect:" + VIEW_URI + "/{id}";
     }
 
@@ -239,7 +238,7 @@ public class PokemonController {
         return "redirect:" + VIEW_URI + "/{id1}";
     }
 
-    @RequestMapping(value = DELETE_URI + "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = DELETE_URI + "/{id}", method = RequestMethod.POST)
     public String delete(
             @PathVariable Long id,
             RedirectAttributes redirectAttributes

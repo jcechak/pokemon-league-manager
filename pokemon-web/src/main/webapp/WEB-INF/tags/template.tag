@@ -23,70 +23,19 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="/pa165/resources/css/TableCSSCode.css" />
+        <link rel="shortcut icon" href="/pa165/resources/images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="/pa165/resources/css/site.css" />
     </head>
 
     <body>
         <!-- navigation bar -->
-        <nav class="navbar navbar-inverse navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="${pageContext.request.contextPath}">Pokemon management</a>
-                </div>
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pokemon management<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="${pageContext.request.contextPath}/menu/pokemon/list">View all pokemons</a></li>
-                                <li><a href="${pageContext.request.contextPath}/menu/pokemon/newform">Add new pokemon</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Trainer management<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="${pageContext.request.contextPath}/menu/trainer/list">View all trainers</a></li>
-                                <li><a href="${pageContext.request.contextPath}/menu/trainer/new">Add new trainer</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Badge management<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="${pageContext.request.contextPath}/menu/badge/badgeList">View all badges</a></li>
-                                <li><a href="${pageContext.request.contextPath}/menu/badge/new">Add new badge</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Stadium management<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="${pageContext.request.contextPath}/menu/stadium/stadiumList">View all stadiums</a></li>
-                                <li><a href="${pageContext.request.contextPath}/menu/stadium/new">Add new stadium</a></li>
-                            </ul>
-                        </li>
-                    </ul>     
-                    <div class="navbar-right">
-                        <p class="navbar-text">Logged in as <c:out value="${authenticatedUser.getName()}"/></p>
-                        <a href="${pageContext.request.contextPath}/logout" class="btn btn-danger navbar-btn">Log out</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
+        <jsp:include page="../../navigator.jsp"></jsp:include>
+        
+        <br>
+        <h1><b><c:out value="${title}"/></b></h1>
+        
         <div class="container">
-
-            <!-- page title -->
-            <c:if test="${not empty title}">
-                <div class="page-header">
-                    <h1><c:out value="${title}"/></h1>
-                </div>
-            </c:if>
-
             <!-- alerts -->
             <c:if test="${not empty alert_danger}">
                 <div class="alert alert-danger" role="alert">
