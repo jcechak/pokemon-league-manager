@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 /**
@@ -29,13 +30,14 @@ public class DefaultController {
    }
    
    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-   public String logout(HttpServletRequest request, HttpServletResponse response) {
+   public String logout(HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
        System.out.println("default logout controller called");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){    
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return "redirect:/login";
+        redirectAttributes.addFlashAttribute("alert_success", "Logged out successfuly");
+        return "redirect:login";
    }
 
    @RequestMapping(value = "/", method = RequestMethod.GET)
