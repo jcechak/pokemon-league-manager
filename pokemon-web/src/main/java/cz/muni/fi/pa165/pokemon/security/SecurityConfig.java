@@ -1,6 +1,12 @@
 package cz.muni.fi.pa165.pokemon.security;
 
 import cz.muni.fi.pa165.pokemon.controllers.PokemonController;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,12 +28,13 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    private DataSource datasource;
+    
+    @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser("admin")
-                .password("$2a$10$op4BpvQGIwznk6m.Iy2XJ.WjT2B6vLB3gfRTctwwXg9M5Ev051FUy").roles("ADMIN");
-
-        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser("user")
-                .password("$2a$10$Rx88swAmqtrJ0glEdiulLuLESZE3UmP2OZZXvbfxMA.Eq6Fjxny7K").roles("USER");
+        auth.jdbcAuthentication().dataSource(datasource).passwordEncoder(passwordEncoder())
+                .usersByUsernameQuery("select username,password,enabled from AppUser where username=?")
+                .authoritiesByUsernameQuery("select username,role from AppUser where username=?");
     }
 
     @Override
