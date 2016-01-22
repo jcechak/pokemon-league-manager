@@ -1,9 +1,11 @@
 package cz.muni.fi.pa165.pokemon.loader;
 
+import cz.muni.fi.pa165.pokemon.dao.AppUserDao;
 import cz.muni.fi.pa165.pokemon.entity.Badge;
 import cz.muni.fi.pa165.pokemon.entity.Pokemon;
 import cz.muni.fi.pa165.pokemon.entity.Stadium;
 import cz.muni.fi.pa165.pokemon.entity.Trainer;
+import cz.muni.fi.pa165.pokemon.entity.AppUser;
 import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import cz.muni.fi.pa165.pokemon.service.BadgeService;
 import cz.muni.fi.pa165.pokemon.service.PokemonService;
@@ -48,7 +50,22 @@ public class DataLoader {
     @Autowired
     private StadiumService stadiumService;
 
+    @Autowired
+    private AppUserDao userDao;
+    
     public void loadData() {
+        AppUser admin = new AppUser();
+        admin.setUsername("admin");
+        admin.setPassword("admin");
+        admin.setRole("ROLE_ADMIN");
+        userDao.create(admin);
+        
+        AppUser user = new AppUser();
+        user.setUsername("user");
+        user.setPassword("user");
+        user.setRole("ROLE_USER");
+        userDao.create(user);
+        
         //trainer save
         trainer1 = new Trainer();
         trainer1.setDateOfBirth(Date.valueOf("1997-7-6"));
