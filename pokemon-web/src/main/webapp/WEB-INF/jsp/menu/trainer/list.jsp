@@ -62,7 +62,7 @@
             <td><c:out value="${formattedDate}"/></td>
             <td><c:out value="${trainer.stadium.city}"/></td>
             <td><c:out value="${badgesCount[trainer.id]}"/></td>
-            <sec:authorize access="hasRole('ADMIN')">
+            <sec:authorize access="hasAnyRole('STAFF','ADMIN')">
                 <td>
                     <c:if test="${!availableStadiums[trainer.id].isEmpty()}">
 
@@ -78,6 +78,7 @@
                 <td>
                     <button class="editButton" onclick="location = 'view/${trainer.id}'">View</button>
                 </td>
+                <sec:authorize access="hasRole('ADMIN')">
                 <td>
                     <button class="editButton" onclick="location = 'edit/${trainer.id}'">Edit</button>
                 </td>
@@ -87,6 +88,7 @@
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     </form>
                 </td>
+                </sec:authorize>
             </sec:authorize>
         </tr>
     </c:forEach>
