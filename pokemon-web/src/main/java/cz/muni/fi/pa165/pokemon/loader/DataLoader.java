@@ -66,6 +66,12 @@ public class DataLoader {
         user.setRole("ROLE_USER");
         userDao.create(user);
         
+        AppUser gymLeader = new AppUser();
+        gymLeader.setUsername("leader");
+        gymLeader.setPassword("leader");
+        gymLeader.setRole("ROLE_STAFF");
+        userDao.create(gymLeader);
+        
         //trainer save
         trainer1 = new Trainer();
         trainer1.setDateOfBirth(Date.valueOf("1997-7-6"));
