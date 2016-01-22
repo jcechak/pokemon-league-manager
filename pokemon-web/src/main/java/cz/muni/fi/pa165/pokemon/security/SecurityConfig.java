@@ -1,12 +1,7 @@
 package cz.muni.fi.pa165.pokemon.security;
 
 import cz.muni.fi.pa165.pokemon.controllers.PokemonController;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import javax.sql.DataSource;
+import cz.muni.fi.pa165.pokemon.controllers.TrainerController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
+
+import javax.sql.DataSource;
 
 /**
  *
@@ -41,17 +38,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/resources/**").permitAll()
-                .antMatchers(PokemonController.DELETE_URI + "/**",
+                .antMatchers(
+                        PokemonController.DELETE_URI + "/**",
                         PokemonController.CHANGE_SKILL_URI + "/**",
                         PokemonController.CHANGE_TRAINER_URI + "/**",
                         PokemonController.CREATE_URI + "/**",
                         PokemonController.TRADE_URI + "/**").hasRole("ADMIN") // only admin can change pokemons
                 .antMatchers("/rest/**").hasRole("ADMIN") // allow only admin to use rest api
-                .antMatchers("/menu/trainer/delete/**",
-                        "/menu/trainer/edit/**",
-                        "/menu/trainer/update/**",
-                        "/menu/trainer/new/**",
-                        "/menu/trainer/create/**").hasRole("ADMIN") // only admin can change trainers                
+                .antMatchers(
+                        TrainerController.TRAINER_URI + "/delete/**",
+                        TrainerController.TRAINER_URI + "/edit/**",
+                        TrainerController.TRAINER_URI + "/update/**",
+                        TrainerController.TRAINER_URI + "/new/**",
+                        TrainerController.TRAINER_URI + "/create/**").hasRole("ADMIN") // only admin can change trainers
+                .antMatchers(
+                        TrainerController.TRAINER_URI + "/view/**").hasAnyRole("ADMIN", "STAFF") // staff can view trainers
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -63,7 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/logout")
                 .invalidateHttpSession(true);
         http
-                // Sets character encoding to POST parameters for correct conversion. This must be done as the first thing (before any security filters kick in) otherwise it has no effect at all.
+                // Sets character encoding to POST parameters for correct conversion.
+                // This must be done as the first thing (before any security filters kick in) otherwise it has no effect at all.
                 .addFilterBefore(new CharacterEncodingFilter("UTF-8"), ChannelProcessingFilter.class);
     }
 

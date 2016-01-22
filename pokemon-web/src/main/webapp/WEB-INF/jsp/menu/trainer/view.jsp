@@ -6,6 +6,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -29,10 +30,12 @@
         <th colspan="5">Trainer</th>
 
         <th>
-            <form method="post" action="${pageContext.request.contextPath}/menu/trainer/delete/${trainer.id}">
-                <button type="submit" class="deleteButton">Delete</button>
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            </form>
+            <sec:authorize access="hasRole('ADMIN')">
+                <form method="post" action="${pageContext.request.contextPath}/menu/trainer/delete/${trainer.id}">
+                    <button type="submit" class="deleteButton">Delete</button>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
+            </sec:authorize>
         </th>
     </tr>
     <tr>
@@ -64,7 +67,9 @@
             <tr>
                 <th colspan="4">Owned pokemons</th>
                 <th>
-                    <button class="addButton" onclick="location = '${pageContext.request.contextPath}/menu/pokemon/newform'">Add pokemon</button>
+                    <sec:authorize access="hasRole('ADMIN')">
+                        <button class="addButton" onclick="location = '${pageContext.request.contextPath}/menu/pokemon/newform'">Add pokemon</button>
+                    </sec:authorize>
                 </th>
             </tr>
             <tr>
@@ -83,9 +88,11 @@
                     <td><c:out value="${pokemon.type}"/></td>
                     <td><c:out value="${pokemon.skillLevel}"/></td>
                     <td>
-
-                        <button class="deleteButton"
+                        <sec:authorize access="hasRole('ADMIN')">
+                            <button class="deleteButton"
                                 onclick="location = '${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}'">Delete</button>
+                        </sec:authorize>
+
                     </td>
                 </tr>
             </c:forEach>
@@ -101,7 +108,9 @@
             <tr>
                 <th colspan="3">Awarded badges at stadiums</th>
                 <th>
-                    <button class="addButton" onclick="location = '${pageContext.request.contextPath}/menu/badge/new'">Add Badge</button>
+                    <sec:authorize access="hasAnyRole('STAFF','ADMIN')">
+                        <button class="addButton" onclick="location = '${pageContext.request.contextPath}/menu/badge/new'">Add Badge</button>
+                    </sec:authorize>
                 </th>
             </tr>
             <tr>
@@ -119,10 +128,12 @@
                     <td><c:out value="${stadium.city}"/></td>
                     <td><c:out value="${stadium.type}"/></td>
                     <td>
-                        <form method="post" action="${pageContext.request.contextPath}/menu/badge/delete/${badge.id}">
-                            <button type="submit" class="deleteButton">Delete</button>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        </form>
+                        <sec:authorize access="hasAnyRole('STAFF','ADMIN')">
+                            <form method="post" action="${pageContext.request.contextPath}/menu/badge/delete/${badge.id}">
+                                <button type="submit" class="deleteButton">Delete</button>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            </form>
+                        </sec:authorize>
                     </td>
                 </tr>
             </c:forEach>

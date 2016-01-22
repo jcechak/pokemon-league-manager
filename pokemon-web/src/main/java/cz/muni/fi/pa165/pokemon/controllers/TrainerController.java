@@ -37,6 +37,8 @@ import java.util.*;
 @RequestMapping("/menu")
 public class TrainerController {
 
+    public static final String TRAINER_URI = "/menu/trainer";
+
     @Inject
     private TrainerFacade trainerFacade;
 
@@ -80,7 +82,7 @@ public class TrainerController {
         model.addAttribute("trainers", trainerDTOs);
         model.addAttribute("availableStadiums", mapTrainerStadiums);
         model.addAttribute("badgesCount", badgesCount());
-        return "/menu/trainer/list";
+        return TRAINER_URI + "/list";
     }
 
     private Map<Long, Integer> badgesCount() {
@@ -94,7 +96,7 @@ public class TrainerController {
     @RequestMapping(value = "/trainer/new", method = RequestMethod.GET)
     public String newTrainer(Model model) {
         model.addAttribute("new", new TrainerDTO());
-        return "/menu/trainer/new";
+        return TRAINER_URI + "/new";
     }
 
 
@@ -121,13 +123,13 @@ public class TrainerController {
                 System.out.println("FieldError: {}" + fe);
             }
             redirectAttributes.addFlashAttribute("alert_error", "Trainer was not created.");
-            return "/menu/trainer/new";
+            return TRAINER_URI + "/new";
         }
         trainerFacade.createTrainer(formBean);
         Long id = formBean.getId();
         System.out.println("create trainer " + formBean.toString());
         redirectAttributes.addFlashAttribute("alert_success", "Trainer was created successfully.");
-        return "redirect:" + uriBuilder.path("/menu/trainer/view/{id}").buildAndExpand(id).encode().toUriString();
+        return "redirect:" + uriBuilder.path(TRAINER_URI + "/view/{id}").buildAndExpand(id).encode().toUriString();
     }
 
     @RequestMapping(value = "/trainer/view/{id}", method = RequestMethod.GET)
@@ -141,7 +143,7 @@ public class TrainerController {
         model.addAttribute("trainer", trainerFacade.findTrainerById(id));
         model.addAttribute("stadiumsMap", badgesAndStadiums);
         System.out.println("DEBUG" + trainerFacade.findTrainerById(id).toString());
-        return "/menu/trainer/view";
+        return TRAINER_URI + "/view";
     }
 
     @RequestMapping(value = "/trainer/edit/{id}", method = RequestMethod.GET)
@@ -150,7 +152,7 @@ public class TrainerController {
 
         model.addAttribute("trainer", trainerFacade.findTrainerById(id));
         System.out.println("DEBUG" + trainerFacade.findTrainerById(id).toString());
-        return "/menu/trainer/edit";
+        return TRAINER_URI + "/edit";
     }
 
     @RequestMapping(value = "/trainer/update", method = RequestMethod.POST)
@@ -166,18 +168,18 @@ public class TrainerController {
             }
             model.addAttribute("trainer", trainerFacade.findTrainerById(formBean.getId()));
             redirectAttributes.addFlashAttribute("alert_error", "There was a problem with updating trainer.");
-            return "redirect:/menu/trainer/edit/" + formBean.getId();
+            return "redirect:" + TRAINER_URI + "/edit/" + formBean.getId();
         }
         try {
             trainerFacade.updateTrainer(formBean);
         } catch (PokemonServiceException | DataIntegrityViolationException | IllegalArgumentException ex) {
             redirectAttributes.addFlashAttribute("alert_error", "There was a problem with updating trainer: " + ex.getMessage());
-            return "redirect:/menu/trainer/edit";
+            return "redirect:" + TRAINER_URI + "/edit";
         }
         System.out.println("trainer updated " + formBean.toString());
         redirectAttributes.addFlashAttribute("alert_success", "Trainer was updated successfully.");
 
-        return "redirect:" + uriBuilder.path("/menu/trainer/list").toUriString();
+        return "redirect:" + uriBuilder.path(TRAINER_URI + "/list").toUriString();
     }
 
     @RequestMapping(value = "/trainer/delete/{id}", method = RequestMethod.POST)
@@ -195,10 +197,10 @@ public class TrainerController {
             trainerFacade.deleteTrainer(trainerDTO);
         } catch (PokemonServiceException | DataIntegrityViolationException | IllegalArgumentException ex) {
             redirectAttributes.addFlashAttribute("alert_error", "Trainer not deleted: " + ex.getMessage());
-            return "redirect:/menu/trainer/list";
+            return "redirect:" + TRAINER_URI + "/list";
         }
         redirectAttributes.addFlashAttribute("alert_success", "Trainer was deleted successfully.");
-        return "redirect:" + uriBuilder.path("/menu/trainer/list").toUriString();
+        return "redirect:" + uriBuilder.path(TRAINER_URI + "/list").toUriString();
     }
 
     @ModelAttribute("userName")
