@@ -21,6 +21,7 @@
         <div align="center">
             <img src="resources/images/Heading.png" alt="head"><br>
             <img src="resources/images/Login.png" alt="head" height="100"><br>
+            <div id="status_message" style="color:green">${alert_success}</div>
             <table>
                 <tr>
                     <td>
