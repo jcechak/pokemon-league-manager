@@ -210,7 +210,7 @@ public class PokemonRestController {
 
     /**
      * Gets pokemons with the given name. USAGE: ./rest_tester.sh
-     * http://localhost:8080/pa165/rest/pokemons/withtype -H "Content-Type:
+     * http://localhost:8080/pa165/rest/pokemons/withname -H "Content-Type:
      * application/json" --data 'Onix'
      *
      * @param name name of the pokemons
