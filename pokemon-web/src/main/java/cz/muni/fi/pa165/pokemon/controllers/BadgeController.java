@@ -2,8 +2,10 @@ package cz.muni.fi.pa165.pokemon.controllers;
 
 import cz.muni.fi.pa165.exceptions.PokemonServiceException;
 import cz.muni.fi.pa165.pokemon.dto.BadgeDTO;
+import cz.muni.fi.pa165.pokemon.dto.PokemonCreateDTO;
 import cz.muni.fi.pa165.pokemon.dto.StadiumDTO;
 import cz.muni.fi.pa165.pokemon.dto.TrainerDTO;
+import cz.muni.fi.pa165.pokemon.enums.PokemonType;
 import cz.muni.fi.pa165.pokemon.facade.BadgeFacade;
 import cz.muni.fi.pa165.pokemon.facade.StadiumFacade;
 import cz.muni.fi.pa165.pokemon.facade.TrainerFacade;
@@ -43,8 +45,19 @@ public class BadgeController {
     @Autowired
     private TrainerFacade trainerFacade;
     
+    
     public void setBadgeFacade(BadgeFacade badgeFacade) {
         this.badgeFacade = badgeFacade;
+    }
+    
+    @ModelAttribute("typez")
+    public PokemonType[] types() {
+        return PokemonType.values();
+    }
+    
+    @ModelAttribute("stadium")
+    public StadiumDTO stadiumCreate() {
+        return new StadiumDTO();
     }
     
     @RequestMapping(value = "/badge/badgeList")
@@ -127,5 +140,21 @@ public class BadgeController {
         return name;
     }
     
+    @RequestMapping(value = "/badge/withtype")
+    public String withType(@ModelAttribute("stadium") StadiumDTO stadiumDTO, Model model, UriComponentsBuilder uriBuilder) {
         
+        Collection<StadiumDTO> findByType = stadiumFacade.findByType(stadiumDTO.getType());
+        if(findByType.isEmpty()) {
+            findByType = stadiumFacade.findAll();
+        }
+        
+        Map<StadiumDTO, TrainerDTO> stadiumsAndTrainers = new HashMap<>();
+        
+        for(StadiumDTO f: findByType) {
+            stadiumsAndTrainers.put(f, trainerFacade.findTrainerById(f.getStadiumLeaderId()));
+        }
+        model.addAttribute("stadiumsAndTrainers", stadiumsAndTrainers);
+        return "/menu/badge/userBadgeList";
+    }
+    
 }
