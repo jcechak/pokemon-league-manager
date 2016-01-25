@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.pokemon.security;
 
 import cz.muni.fi.pa165.pokemon.controllers.PokemonController;
+import cz.muni.fi.pa165.pokemon.controllers.StadiumController;
 import cz.muni.fi.pa165.pokemon.controllers.TrainerController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -53,6 +54,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         TrainerController.TRAINER_URI + "/create/**").hasRole("ADMIN") // only admin can change trainers
                 .antMatchers(
                         TrainerController.TRAINER_URI + "/view/**").hasAnyRole("ADMIN", "STAFF") // staff can view trainers
+                .antMatchers(
+                        StadiumController.STADIUM_URI + "/delete/**",
+                        StadiumController.STADIUM_URI + "/edit/**",
+                        StadiumController.STADIUM_URI + "/update/**",
+                        StadiumController.STADIUM_URI + "/new/**",
+                        StadiumController.STADIUM_URI + "/create/**").hasRole("ADMIN") //only admin can manage stadiums
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

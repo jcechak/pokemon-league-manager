@@ -38,6 +38,8 @@ import java.util.*;
 @RequestMapping("/menu")
 public class StadiumController {
 
+    public static final String STADIUM_URI = "/menu/stadium";
+
     @Autowired
     private StadiumFacade stadiumFacade;
 
@@ -53,7 +55,7 @@ public class StadiumController {
         this.stadiumFacade = stadiumFacade;
     }
 
-    @RequestMapping(value = "/stadium/stadiumList")
+    @RequestMapping(value = "/stadium/list")
     public String showList(Model model, HttpServletRequest request){
         Collection<StadiumDTO> stadiumsDTO = new ArrayList<>();
         String filter = request.getParameter("filterTrainer");
@@ -69,6 +71,13 @@ public class StadiumController {
                 }
             }
         }
+
+        Map<StadiumDTO,String> trainersNamesMap = new HashMap<>();
+
+        for(StadiumDTO s: stadiumsDTO){
+            trainersNamesMap.put(s,trainerFacade.findTrainerById(s.getStadiumLeaderId()).getName());
+        }
+
         stadiumsAndTrainers = new HashMap<>();
         for(StadiumDTO s:stadiumsDTO){
             System.out.println("DEBUG "+s);
@@ -76,7 +85,8 @@ public class StadiumController {
         }
         model.addAttribute("stadiums", stadiumsDTO);
         model.addAttribute("stadiumsAndTrainers", stadiumsAndTrainers);
-        return "/menu/stadium/stadiumList";
+        model.addAttribute("trainerNamesMap", trainersNamesMap);
+        return STADIUM_URI + "/list";
     }
 
 
@@ -95,9 +105,9 @@ public class StadiumController {
         }
         model.addAttribute("trainersWithoutStadium", trainersWithoutStadium);
         model.addAttribute("typeList", typeList);
-        model.addAttribute("newStadium", new StadiumDTO());
+        model.addAttribute("new", new StadiumDTO());
         System.out.println("DEBUG stadium new called");
-        return "/menu/stadium/newStadium";
+        return STADIUM_URI + "/new";
     }
 
     @ModelAttribute("stadiums")
@@ -112,7 +122,7 @@ public class StadiumController {
 
 
     @RequestMapping(value = "/stadium/create", method = RequestMethod.POST)
-    public String create(@ModelAttribute("newStadium") StadiumDTO formBean,BindingResult bindingResult, Model model,
+    public String create(@ModelAttribute("new") StadiumDTO formBean,BindingResult bindingResult, Model model,
                          RedirectAttributes redirectAttributes, UriComponentsBuilder uriComponentsBuilder){
         if(bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
@@ -122,25 +132,26 @@ public class StadiumController {
                 model.addAttribute(fe.getField() + "_error", true);
                 System.out.println("FieldError: {}" + fe);
             }
-            return "/stadium/newStadium";
+            redirectAttributes.addFlashAttribute("alert_error", "Stadium was not created.");
+            return STADIUM_URI + "/new";
         }
 
         Long id = stadiumFacade.createStadium(formBean);
         System.out.println("create stadium " + formBean.toString());
         redirectAttributes.addFlashAttribute("alert_success", "Stadium was created");
-        return "redirect:" + uriComponentsBuilder.path("/menu/stadium/viewStadium/{id}").buildAndExpand(id).encode().toUriString();
+        return "redirect:" + uriComponentsBuilder.path("/menu/stadium/view/{id}").buildAndExpand(id).encode().toUriString();
 
     }
 
-    @RequestMapping(value = "/stadium/viewStadium/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/stadium/view/{id}", method = RequestMethod.GET)
     public String view(@PathVariable long id, Model model){
         System.out.println("DEBUG " + id + ' ' + model);
         model.addAttribute("stadium", stadiumFacade.findById(id));
-        return "/menu/stadium/viewStadium";
+        return STADIUM_URI + "/view";
 
     }
 
-    @RequestMapping(value = "/stadium/editStadium/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/stadium/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable long id, Model model){
 
         Collection<PokemonType> typeList = new ArrayList<>();
@@ -161,7 +172,7 @@ public class StadiumController {
         System.out.println("DEBUG " + id + ' ' + model);
         model.addAttribute("stadium", stadiumFacade.findById(id));
         System.out.println("DEBUG " + stadiumFacade.findById(id).toString());
-        return "/menu/stadium/editStadium";
+        return STADIUM_URI + "/edit";
     }
 
     @RequestMapping(value = "/stadium/update", method = RequestMethod.POST)
@@ -176,13 +187,13 @@ public class StadiumController {
                 System.out.println("FieldError: {}" + fe);
             }
             model.addAttribute("stadium", stadiumFacade.findById(formBean.getId()));
-            return "/menu/stadium/editStadium";
+            return STADIUM_URI + "/edit";
         }
 
         stadiumFacade.updateStadium(formBean);
         System.out.println("update stadium" + formBean.toString());
         redirectAttributes.addFlashAttribute("alert_success", "Stadium was updated successfully.");
-        return "redirect:"+uriComponentBuilder.path("/menu/stadium/stadiumList").toUriString();
+        return "redirect:"+uriComponentBuilder.path(STADIUM_URI + "/list").toUriString();
     }
 
 
@@ -208,7 +219,8 @@ public class StadiumController {
 
         stadiumFacade.deleteStadium(tempStadium);
         redirectAttributes.addFlashAttribute("alert_success", "Stadium was deleted.");
-        return "redirect:"+uriComponentsBuilder.path("/menu/stadium/stadiumList").toUriString();
+        return "redirect:"+uriComponentsBuilder.path(STADIUM_URI + "/list").toUriString();
     }
+
 
 }

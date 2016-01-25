@@ -65,7 +65,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Stadium management<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="${pageContext.request.contextPath}/menu/stadium/stadiumList">View all stadiums</a></li>
+                                <li><a href="${pageContext.request.contextPath}/menu/stadium/list">View all stadiums</a></li>
                                 <li><a href="${pageContext.request.contextPath}/menu/stadium/new">Add new stadium</a></li>
                             </ul>
                         </li>

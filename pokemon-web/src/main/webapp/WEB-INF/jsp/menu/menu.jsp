@@ -42,7 +42,7 @@
                     </a>
                 </td>
                 <td style="width:500%">
-                    <a href="stadium/stadiumList">
+                    <a href="stadium/list">
                         <img src="../resources/images/menu/stadiums.jpg" alt="stadiums" width="300" height="185">
                     
                 </td>

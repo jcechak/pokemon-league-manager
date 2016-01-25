@@ -1,5 +1,5 @@
 <%--
-    Document   : editStadium
+    Document   : new
     Created on : 17.12.2015,
     Author     : Dominika Talianova
 --%>
@@ -20,7 +20,7 @@
         <jsp:include page="../../navigator.jsp"></jsp:include>
         <h1>Create new stadium</h1>
         <form:form method="post" action="${pageContext.request.contextPath}/menu/stadium/create"
-                           modelAttribute="newStadium">
+                           modelAttribute="new">
 
             <div class="form-group ${city_error?'has-error':''}">
                 <form:label path="city">City </form:label>

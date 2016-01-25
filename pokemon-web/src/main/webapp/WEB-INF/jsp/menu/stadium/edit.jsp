@@ -1,5 +1,5 @@
 <%--
-    Document   : editStadium
+    Document   : edit
     Created on : 18.12.2015,
     Author     : Dominika Talianova
 --%>

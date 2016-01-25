@@ -1,5 +1,5 @@
 <%--
-    Document   : editStadium
+    Document   : edit
     Created on : 16.12.2015,
     Author     : Dominika Talianova
 --%>
@@ -7,6 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,9 +25,10 @@
 
         <c:set var="stadiums" value="${stadiums}"></c:set>
         <c:set var="trainersMap" value="${trainersMap}"></c:set>
+        <c:set var="trainerNamesMap" value="${trainerNamesMap}"></c:set>
 
         <div align="center">
-            <form:form method="post" action="${pageContext.request.contextPath}/menu/stadium/stadiumList">
+            <form:form method="post" action="${pageContext.request.contextPath}/menu/stadium/list">
                         Search by name of the leader:
                         <input type="text" name="filterTrainer" />
                         <button type="submit">Filter</button>
@@ -37,20 +40,22 @@
         <table class="CSSTableGenerator">
             <thead>
                 <tr>
-                    <th colspan="5">List of stadiums</th>
-                    <th>
-                        <a href="new">
-                            <button class="addButton">Add Stadium</button>
-                        </a>
+                    <th colspan="6">List of stadiums</th>
+                        <th>
+                        <sec:authorize access="hasRole('ADMIN')">
+                            <a href="new">
+                                <button class="addButton">Add Stadium</button>
+                            </a>
+                        </sec:authorize>
                     </th>
                 </tr>
                 <tr>
                     <th>Stadium ID </th>
                     <th>City </th>
                     <th>Type </th>
-                    <th>Leader ID </th>
+                    <th>Leader ID  </th>
+                    <th>Leader Name </th>
                     <th></th>
-
 
                 </tr>
             </thead>
@@ -62,13 +67,22 @@
                     <td><c:out value="${stadium.type}"/> </td>
                     <td><c:out value="${stadium.stadiumLeaderId}"/> </td>
                     <c:set var="trainer" value="${trainersMap[stadium.id]}"/>
-                    <td><button class="editButton" onclick="location = 'editStadium/${stadium.id}'">Edit</button>
-                    <td>
-                        <form method="post" action="${pageContext.request.contextPath}/menu/stadium/delete/${stadium.id}">
-                            <button type="submit" class="deleteButton">Delete</button>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        </form>
-                    </td>
+                    <td><c:out value="${trainerNamesMap[stadium]}"/> </td>
+
+                    <sec:authorize access="hasRole('ADMIN')">
+                        <td>
+                            <button class="editButton" onclick="location = 'edit/${stadium.id}'">Edit</button>
+                        </td>
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ADMIN')">
+                        <td>
+                            <form method="post" action="${pageContext.request.contextPath}/menu/stadium/delete/${stadium.id}">
+                                <button type="submit" class="deleteButton">Delete</button>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            </form>
+                        </td>
+                    </sec:authorize>
+
                 </tr>
             </c:forEach>
         </tbody>
