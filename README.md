@@ -6,12 +6,13 @@ To run the web application simply execute following command.
 
         $ mvn clean install && cd pokemon-web && mvn tomcat7:run
 
-This will result in deployment of web application that is accessible at http://localhost:8080/pa165/. The application requires visitor to log in. There are two users predefined.
+This will result in deployment of web application that is accessible at http://localhost:8080/pa165/. The application requires visitor to log in. There are three users predefined.
 
 1. username "admin" password "admin"
-2. username "user" password "user"
+2. username "leader" password "leader"
+3. username "user" password "user"
 
-They **do** differ in privileges and "user" **cannot** perform all of the action available in the web interface.
+They **do** differ in privileges. The "user" **cannot** perform much of the action available in the web interface. The "leader" has privilages to assign badges as opposted to user. Finally, the "admin" can do anything including the data manipulation.
 
 ## REST API
 The application also provides REST API for pokemon management. Deploy the application with the same command as stated above. Then you can make queries for pokemons and make changes to them as well. Because the same security rules do apply to REST API, there is a shell script located in the project's main directory to make life easier. The script really only logs in as admin and obtains CSRF token for post/delete requests. Sample command can be found in javadoc of rest controller class and below.
