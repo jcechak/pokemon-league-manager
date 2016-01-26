@@ -55,10 +55,10 @@
             <!-- page body -->
             <jsp:invoke fragment="body"/>
 
-            <!-- footer -->            
+            <!-- footer             
             <footer class="footer">
                 <p>Pokemon managment by Java Team 6</p>
-            </footer>
+            </footer-->
         </div>
 
 

@@ -65,9 +65,13 @@
                     <th>nickname</th>
                     <th>type</th>
                     <th>skill</th>
-                    <th>trainer</th>
-                    <th></th>
-                    <th></th>
+                        <sec:authorize access="hasAnyRole('ADMIN','STAFF')">
+                        <th>trainer</th>
+                        <th></th>
+                        </sec:authorize>
+                        <sec:authorize access="hasRole('ADMIN')">
+                        <th></th>
+                        </sec:authorize>
                 </tr>
             </thead>
             <tbody>
@@ -78,28 +82,32 @@
                         <td><c:out value="${pokemon.nickname}"/></td>
                         <td><c:out value="${pokemon.type}"/></td>
                         <td><c:out value="${pokemon.skillLevel}"/></td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/menu/trainer/view/${pokemon.trainerId}" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                Trainer details
-                            </a>
-                        </td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/menu/pokemon/view/${pokemon.id}" class="btn btn-primary">
-                                View pokemon details
-                            </a>
-                        </td>
-                        <td>
-                            <!-- Only admin can manipulate with data -->
-                            <sec:authorize access="hasRole('ADMIN')">
+                        <sec:authorize access="hasAnyRole('ADMIN','STAFF')">
+                            <td>
+                                <a href="${pageContext.request.contextPath}/menu/trainer/view/${pokemon.trainerId}" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                    Trainer details
+                                </a>
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/menu/pokemon/view/${pokemon.id}" class="btn btn-primary">
+                                    View pokemon details
+                                </a>
+
+                            </td>
+                        </sec:authorize>
+                        <!-- Only admin can manipulate with data -->
+                        <sec:authorize access="hasRole('ADMIN')">
+                            <td>
+
                                 <form:form method="post" action="${pageContext.request.contextPath}/menu/pokemon/delete/${pokemon.id}">
                                     <button class="btn btn-primary btn-danger">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         Remove pokemon
                                     </button>
                                 </form:form>
-                            </sec:authorize>
-                        </td>
+                            </td>
+                        </sec:authorize>
                     </tr>
                 </c:forEach>
             </tbody>
