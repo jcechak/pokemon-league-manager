@@ -33,6 +33,8 @@
             </button>
         </form:form>
 
+        <div id="status_message" style="color:orange" class="formy">${alert_warning}</div>
+        
         <table>
             <thead>
                 <tr>
