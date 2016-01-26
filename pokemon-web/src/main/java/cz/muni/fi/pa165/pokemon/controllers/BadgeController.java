@@ -141,11 +141,13 @@ public class BadgeController {
     }
     
     @RequestMapping(value = "/badge/withtype")
-    public String withType(@ModelAttribute("stadium") StadiumDTO stadiumDTO, Model model, UriComponentsBuilder uriBuilder) {
+    public String withType(@ModelAttribute("stadium") StadiumDTO stadiumDTO, Model model,
+            UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         
         Collection<StadiumDTO> findByType = stadiumFacade.findByType(stadiumDTO.getType());
         if(findByType.isEmpty()) {
             findByType = stadiumFacade.findAll();
+            model.addAttribute("alert_warning", "Nothing found, showing all records.");
         }
         
         Map<StadiumDTO, TrainerDTO> stadiumsAndTrainers = new HashMap<>();
